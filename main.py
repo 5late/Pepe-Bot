@@ -5,7 +5,7 @@ import numbers
 from datetime import datetime
 import json
 import time
-
+import requests
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -13,10 +13,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-intents = discord.Intents.default()
-intents.members = True
-
-bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.', intents=intents)
+bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.')
 
 deletedMsgs = []
 deletedChnl = []
@@ -102,6 +99,24 @@ async def keyword(ctx, *, word:str):
             await ctx.send(msg.jump_url)
             time.sleep(1.2)
 
+@bot.command()
+async def cry(ctx):
+    await ctx.send("<:chriscry:758862800637657118>")
+
+
+@bot.command()
+async def val(ctx, name, tag):
+    response = requests.get(f'https://api.henrikdev.xyz/valorant/v1/mmr/na/{name}/{tag}')
+    jsonR = response.json()
+
+    def last_2_digits_at_best(n):
+        return float(str(n)[-3:]) if '.' in str(n)[-2:] else int(str(n)[-2:])
+    fElo = last_2_digits_at_best(jsonR["data"]["elo"])
+
+    embedR = discord.Embed(title=name+"#"+tag, description=jsonR["data"]["currenttierpatched"], color=0x0000ff)
+    embedR.add_field(name="Elo: ", value= str(fElo) + "/100")
+    embedR.add_field(name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"])
+    await ctx.send(embed = embedR)
 
 token = open("token.txt", "r").read()
 bot.run(token)
