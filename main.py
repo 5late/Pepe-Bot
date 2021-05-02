@@ -4,6 +4,7 @@ import logging
 import numbers
 from datetime import datetime
 import json
+import time
 
 
 logger = logging.getLogger('discord')
@@ -63,7 +64,7 @@ async def hello(message):
 @bot.command()
 async def dt (ctx):
     now = datetime.now()
-    formatTime = now.strftime("%a, %B, %Y | %H:%M")
+    formatTime = now.strftime("%a, %B %d, %Y | %H:%M")
     await ctx.reply('It is: ' + formatTime)
 
 @bot.command()
@@ -75,7 +76,7 @@ async def delete(ctx, amount):
             ctx.send('Thats too many messages for me!')
         else:
             await ctx.channel.purge(limit=amount)
-            
+
     except:
         ctx.send('An error occured.')
 
@@ -90,6 +91,16 @@ async def add(ctx, *nums):
             await ctx.send('Numbers, please!')
             break
     await ctx.send("{} = {}".format((' + '.join(map(str, list(nums)))), result))
+
+@bot.command()
+async def keyword(ctx, *, word:str):
+    # channel = bot.get_channel(ctx.channel.id)
+    messages = await ctx.channel.history(limit=200).flatten()
+
+    for msg in messages:
+        if word in msg.content:
+            await ctx.send(msg.jump_url)
+            time.sleep(1.2)
 
 
 token = open("token.txt", "r").read()
