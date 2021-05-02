@@ -106,17 +106,19 @@ async def cry(ctx):
 
 @bot.command()
 async def val(ctx, name, tag):
-    response = requests.get(f'https://api.henrikdev.xyz/valorant/v1/mmr/na/{name}/{tag}')
-    jsonR = response.json()
+    try:
+        response = requests.get(f'https://api.henrikdev.xyz/valorant/v1/mmr/na/{name}/{tag}')
+        jsonR = response.json()
 
-    def last_2_digits_at_best(n):
-        return float(str(n)[-3:]) if '.' in str(n)[-2:] else int(str(n)[-2:])
-    fElo = last_2_digits_at_best(jsonR["data"]["elo"])
+        def last_2_digits_at_best(n):
+            return float(str(n)[-3:]) if '.' in str(n)[-2:] else int(str(n)[-2:])
+        fElo = last_2_digits_at_best(jsonR["data"]["elo"])
 
-    embedR = discord.Embed(title=name+"#"+tag, description=jsonR["data"]["currenttierpatched"], color=0x0000ff)
-    embedR.add_field(name="Elo: ", value= str(fElo) + "/100")
-    embedR.add_field(name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"])
-    await ctx.send(embed = embedR)
-
+        embedR = discord.Embed(title=name+"#"+tag, description=jsonR["data"]["currenttierpatched"], color=0x0000ff)
+        embedR.add_field(name="Elo: ", value= str(fElo) + "/100")
+        embedR.add_field(name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"])
+        await ctx.send(embed = embedR)
+    except:
+        await ctx.send("I couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
 token = open("token.txt", "r").read()
 bot.run(token)
