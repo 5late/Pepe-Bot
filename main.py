@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 import time
 import requests
+import random
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -68,11 +69,13 @@ async def dt (ctx):
 async def delete(ctx, amount):
     try:
         amount = int(amount)
-
-        if amount > 100:
-            ctx.send('Thats too many messages for me!')
+        if ctx.author.id == 342874810868826112:
+            return
         else:
-            await ctx.channel.purge(limit=amount)
+            if amount > 100:
+                ctx.send('Thats too many messages for me!')
+            else:
+                await ctx.channel.purge(limit=amount)
 
     except:
         ctx.send('An error occured.')
@@ -103,6 +106,10 @@ async def keyword(ctx, *, word:str):
 async def cry(ctx):
     await ctx.send("<:chriscry:758862800637657118>")
 
+@bot.command()
+async def pog(ctx):
+    await ctx.send("<:pog:766067548520448001>")
+
 
 @bot.command()
 async def val(ctx, name, tag):
@@ -120,5 +127,19 @@ async def val(ctx, name, tag):
         await ctx.send(embed = embedR)
     except:
         await ctx.send("I couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
+
+@bot.command()
+async def ras(ctx, option=''):
+    agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
+    agentListNF = ["Astra", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
+    
+    embedN = discord.Embed(title="Random Agent Selector", description=random.choice(agentList))
+    embedNF = discord.Embed(title="Random Agent Selector", description=random.choice(agentListNF))
+
+    if option == "nf":
+        await ctx.send(embed = embedNF)
+    if not option:
+        await ctx.send(embed=embedN)
+
 token = open("token.txt", "r").read()
 bot.run(token)
