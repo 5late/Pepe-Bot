@@ -152,7 +152,7 @@ bot.command(name="ball", pass_context=True,)(randomchoice.callback)
 
 @bot.command()
 async def write(ctx, title:str, url:str):
-    if ctx.author.id == 564466359107321856:
+    if ctx.message.author.id == 564466359107321856:
         def write_json(data, filename='clips.json'):
             with open(filename, 'w') as f:
                 json.dump(data, f, indent=4)
@@ -169,7 +169,7 @@ async def write(ctx, title:str, url:str):
             
         write_json(data)
     else:
-        ctx.send('You are not authorized to use this command.')
+        await ctx.send('You are not authorized to use this command.')
 
 @bot.command()
 async def read(ctx, title=''):
