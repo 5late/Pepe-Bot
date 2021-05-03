@@ -170,22 +170,25 @@ async def write(ctx, title:str, url:str):
 
 @bot.command()
 async def read(ctx, title=''):
-    if not title:
-        titles = []
-        with open('clips.json') as f:
-            data = json.load(f)
-            dataClips = data['clips']
-        for i in dataClips:
-            titles.append(i['title'])
-        await ctx.send(f'These are the clip titles I\'ve got: ```{str(titles)}```. Run command ``=read [title]`` to watch the clip.')
-    else:        
-        with open('clips.json') as f:
-            data = json.load(f)
-            dataClips = data['clips']
+    if ctx.author.id == 564466359107321856:
+        if not title:
+            titles = []
+            with open('clips.json') as f:
+                data = json.load(f)
+                dataClips = data['clips']
+            for i in dataClips:
+                titles.append(i['title'])
+            await ctx.send(f'These are the clip titles I\'ve got: ```{str(titles)}```. Run command ``=read [title]`` to watch the clip.')
+        else:        
+            with open('clips.json') as f:
+                data = json.load(f)
+                dataClips = data['clips']
+            
+            for i in dataClips:
+                if i['title'] == title:
+                    await ctx.send(i['url'])
+    else:
+        ctx.send('You are not authorized to use this command.')
         
-        for i in dataClips:
-            if i['title'] == title:
-                await ctx.send(i['url'])
-
 token = open("token.txt", "r").read()
 bot.run(token)
