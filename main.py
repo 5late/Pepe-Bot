@@ -152,43 +152,43 @@ bot.command(name="ball", pass_context=True,)(randomchoice.callback)
 
 @bot.command()
 async def write(ctx, title:str, url:str):
-    def write_json(data, filename='clips.json'):
-        with open(filename, 'w') as f:
-            json.dump(data, f, indent=4)
+    if ctx.author.id == 564466359107321856:
+        def write_json(data, filename='clips.json'):
+            with open(filename, 'w') as f:
+                json.dump(data, f, indent=4)
 
-    with open('clips.json') as json_file:
-        data = json.load(json_file)
-        
-        temp = data['clips']
-        clips = {
-            'title': title,
-            'url': url
-        }
-        temp.append(clips)
-        
-    write_json(data)
+        with open('clips.json') as json_file:
+            data = json.load(json_file)
+            
+            temp = data['clips']
+            clips = {
+                'title': title,
+                'url': url
+            }
+            temp.append(clips)
+            
+        write_json(data)
+    else:
+        ctx.send('You are not authorized to use this command.')
 
 @bot.command()
 async def read(ctx, title=''):
-    if ctx.author.id == 564466359107321856:
-        if not title:
-            titles = []
-            with open('clips.json') as f:
-                data = json.load(f)
-                dataClips = data['clips']
-            for i in dataClips:
-                titles.append(i['title'])
-            await ctx.send(f'These are the clip titles I\'ve got: ```{str(titles)}```. Run command ``=read [title]`` to watch the clip.')
-        else:        
-            with open('clips.json') as f:
-                data = json.load(f)
-                dataClips = data['clips']
-            
-            for i in dataClips:
-                if i['title'] == title:
-                    await ctx.send(i['url'])
-    else:
-        ctx.send('You are not authorized to use this command.')
+    if not title:
+        titles = []
+        with open('clips.json') as f:
+            data = json.load(f)
+            dataClips = data['clips']
+        for i in dataClips:
+            titles.append(i['title'])
+        await ctx.send(f'These are the clip titles I\'ve got: ```{str(titles)}```. Run command ``=read [title]`` to watch the clip.')
+    else:        
+        with open('clips.json') as f:
+            data = json.load(f)
+            dataClips = data['clips']
         
+        for i in dataClips:
+            if i['title'] == title:
+                await ctx.send(i['url'])
+
 token = open("token.txt", "r").read()
 bot.run(token)
