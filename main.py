@@ -141,5 +141,13 @@ async def ras(ctx, option=''):
     if not option:
         await ctx.send(embed=embedN)
 
+@bot.command()
+async def ball(ctx, *, question):
+    randomAnswers = ["Don't bother asking", "It will certainly happen", "Only to you.", "Maybe or maybe not"]
+
+    embed8 = discord.Embed(title="The Magic 8ball", description=random.choice(randomAnswers))
+
+    await ctx.send(embed = embed8)
+
 token = open("token.txt", "r").read()
 bot.run(token)
