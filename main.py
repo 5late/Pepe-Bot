@@ -190,5 +190,12 @@ async def read(ctx, title=''):
             if i['title'] == title:
                 await ctx.send(i['url'])
 
+@bot.command()
+async def kissme(ctx):
+    if ctx.message.author.id == 543866993602723843 or ctx.message.author.id == 564466359107321856:
+       await ctx.send('This is a test')
+    else:
+       await ctx.send('Ew, no.') 
+
 token = open("token.txt", "r").read()
 bot.run(token)
