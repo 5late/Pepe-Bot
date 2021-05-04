@@ -7,6 +7,7 @@ import json
 import time
 import requests
 import random
+import asyncio
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -192,10 +193,48 @@ async def read(ctx, title=''):
 
 @bot.command()
 async def kissme(ctx):
-    if ctx.message.author.id == 543866993602723843 or ctx.message.author.id == 564466359107321856:
+    if ctx.message.author.id == 543866993602723843 or ctx.message.author.id == 564466359107321856 or ctx.message.author.id == 564562239739396098:
        await ctx.send('Ok <:happier:821406857678946394> , nht.')
     else:
        await ctx.send('Ew, no.') 
+
+@bot.command()
+async def vote(ctx):
+    voteMsg = await ctx.channel.send('This is a test message for reactions.')
+    await voteMsg.add_reaction('✅')
+    await voteMsg.add_reaction('❎')
+    await asyncio.sleep(30)
+    voteMsg = await voteMsg.channel.fetch_message(voteMsg.id)
+    positive = 0
+    negative = 0
+
+    for reaction in voteMsg.reactions:
+        if reaction.emoji == '✅':
+            positive = reaction.count - 1
+        if reaction.emoji == '❎':
+            negative = reaction.count - 1
+    
+    print(f'Vote Result: {positive} postiive and {negative} negative reactions.')
+
+@bot.command()
+async def quiz(ctx):
+    voteMsg = await ctx.channel.send('Check mark or X mark?')
+    await voteMsg.add_reaction('✅')
+    await voteMsg.add_reaction('❎')
+    await asyncio.sleep(10)
+    voteMsg = await voteMsg.channel.fetch_message(voteMsg.id)
+    positive = 0
+    negative = 0
+    randomC = random.choice(['✅', '❎'])
+
+    try:
+        for reaction in voteMsg.reactions:
+            if reaction.emoji == '✅':
+                positive = reaction.count - 1
+            if reaction.emoji == '❎':
+                negative = reaction.count - 1
+    except:
+        await ctx.send('An error occured.')
 
 token = open("token.txt", "r").read()
 bot.run(token)
