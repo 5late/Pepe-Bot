@@ -193,7 +193,7 @@ async def read(ctx, title=''):
 @bot.command()
 async def kissme(ctx):
     if ctx.message.author.id == 543866993602723843 or ctx.message.author.id == 564466359107321856:
-       await ctx.send('This is a test')
+       await ctx.send('Ok <:happier:821406857678946394> , nht.')
     else:
        await ctx.send('Ew, no.') 
 
