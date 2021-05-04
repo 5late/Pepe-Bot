@@ -2,9 +2,8 @@ import discord
 from discord.ext import commands
 import logging 
 import numbers
-from datetime import datetime
+from datetime import datetime, time, timedelta
 import json
-import time
 import requests
 import random
 import asyncio
@@ -236,5 +235,33 @@ async def quiz(ctx):
     except:
         await ctx.send('An error occured.')
 
-token = open("token.txt", "r").read()
-bot.run(token)
+
+WHEN = time(9, 28, 0)  # 6:00 PM
+channel_id = 801520877753597974 # Put your channel id here
+
+async def called_once_a_day():
+    await bot.wait_until_ready()
+    channel = bot.get_channel(channel_id) 
+    await channel.send(f"<@564466359107321856>, <@564562239739396098>, <@543866993602723843>, <@380761443479322624> This is an automated message to remind you all to take attendance at {WHEN}. This message was set to send to <#{channel_id}> by <@564466359107321856>.")
+
+async def background_task():
+    now = datetime.now()
+    if now.time() > WHEN:  
+        tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
+        seconds = (tomorrow - now).total_seconds()  
+        await asyncio.sleep(seconds)   
+    while True:
+        now = datetime.now() 
+        target_time = datetime.combine(now.date(), WHEN)  
+        seconds_until_target = (target_time - now).total_seconds()
+        await asyncio.sleep(seconds_until_target)  
+        await called_once_a_day()  
+        tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
+        seconds = (tomorrow - now).total_seconds()  
+        await asyncio.sleep(seconds)   
+
+
+if __name__ == "__main__":
+    bot.loop.create_task(background_task())    
+    token = open("token.txt", "r").read()
+    bot.run(token)
