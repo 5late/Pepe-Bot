@@ -1,4 +1,5 @@
 import discord
+from discord.utils import get
 from discord.ext import commands
 import logging 
 import numbers
@@ -7,6 +8,15 @@ import json
 import requests
 import random
 import asyncio
+from dotenv import load_dotenv
+import youtube_dl
+import os
+
+load_dotenv()
+
+intents = discord.Intents().all()
+
+DISCORD_TOKEN = os.getenv("discord_token")
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -14,7 +24,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.')
+bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.', intents = intents)
 
 deletedMsgs = []
 deletedChnl = []
@@ -22,6 +32,44 @@ deletedAthr = []
 editedMsgB = []
 editedMsgA = []
 editedAthr = []
+
+youtube_dl.utils.bug_reports_message = lambda: ''
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.1):
+        super().__init__(source, volume)
+        self.data = data
+        self.title = data.get('title')
+        self.url = ""
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+        filename = data['title'] if stream else ytdl.prepare_filename(data)
+        return filename
 
 @bot.event
 async def on_ready():
@@ -136,10 +184,12 @@ async def keyword(ctx, *, word:str):
 
 @bot.command()
 async def cry(ctx):
+    await ctx.message.delete()
     await ctx.send("<:chriscry:758862800637657118>")
 
 @bot.command()
 async def pog(ctx):
+    await ctx.message.delete()
     await ctx.send("<:pog:766067548520448001>")
 
 
@@ -264,6 +314,13 @@ async def quiz(ctx):
                 positive = reaction.count - 1
             if reaction.emoji == '❎':
                 negative = reaction.count - 1
+        if randomC == '✅' and positive > 0:
+            await ctx.send('You guessed correctly!')
+        elif randomC == '❎' and negative > 0:
+            await ctx.send('You guessed correctly!')
+        else:
+            await ctx.send('You did not guess correctly.')
+
     except:
         await ctx.send('An error occured.')
 
@@ -274,7 +331,7 @@ channel_id = 801520877753597974 # Put your channel id here
 async def called_once_a_day():
     await bot.wait_until_ready()
     channel = bot.get_channel(channel_id) 
-    await channel.send(f"<@564466359107321856>, <@564562239739396098>, <@543866993602723843>, <@380761443479322624> This is an automated message to remind you all to take attendance at {WHEN}. This message was set to send to <#{channel_id}> by <@564466359107321856>.")
+    await channel.send(f"<@564466359107321856>, <@564562239739396098>, <@543866993602723843>, <@380761443479322624> This is an automated message to remind you all to take attendance at {WHEN} EDT. This message was set to send to <#{channel_id}> by <@564466359107321856>.")
 
 async def background_task():
     now = datetime.now()
@@ -292,8 +349,36 @@ async def background_task():
         seconds = (tomorrow - now).total_seconds()  
         await asyncio.sleep(seconds)   
 
+@bot.command(name='join', help='Joins the voice channel.')
+async def join(ctx):
+    if not ctx.message.author.voice:
+        await ctx.send('{} is not connected to a voice channel'.format(ctx.message.author.name))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+    await channel.connect()
+
+
+@bot.command(name='leave', help='Leaves voice channel.')
+async def leave(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_connected():
+        await voice_client.disconnect()
+    else:
+        await ctx.send("The bot is not connected to a voice channel.")
+
+@bot.command(name='play', help='play a youtube URL.')
+async def play(ctx, url):
+    voice = get(bot.voice_clients, guild=ctx.guild)
+
+    async with ctx.typing():
+        filename = await YTDLSource.from_url(url, loop=bot.loop)
+        voice.play(discord.FFmpegPCMAudio(executable="/usr/bin//ffmpeg", source=filename))
+    await ctx.send('**Now playing** {}'.format(filename))
+
+
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())    
     token = open("token.txt", "r").read()
-    bot.run(token)
+    bot.run(DISCORD_TOKEN)
