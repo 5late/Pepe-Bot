@@ -19,6 +19,9 @@ bot = commands.Bot(command_prefix='=', description='A simple bot to learn python
 deletedMsgs = []
 deletedChnl = []
 deletedAthr = []
+editedMsgB = []
+editedMsgA = []
+editedAthr = []
 
 @bot.event
 async def on_ready():
@@ -42,6 +45,21 @@ async def on_message_delete(message):
     content= str(message.content)
     deletedMsgs.append(content)
 
+@bot.event
+async def on_message_edit(message_before, message_after):
+    editedMsgA.clear()
+    editedMsgB.clear()
+    editedAthr.clear()
+
+    author = message_before.author
+    editedAthr.append(author)
+
+    msgb4 = message_before.content
+    editedMsgB.append(msgb4)
+
+    msga = message_after.content
+    editedMsgA.append(msga)
+
 @bot.command()
 async def ldm(ctx):
     try:
@@ -54,6 +72,20 @@ async def ldm(ctx):
         await ctx.send(embed = embedVar)
     except:
         await ctx.send('I couldnt find any deleted messages. :(')
+
+@bot.command()
+async def lem(ctx):
+    try:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M")
+        embedVar = discord.Embed(title="👁️Message Edit Watcher👁️", description = current_time)
+        embedVar.add_field(name="Message Before: ", value=editedMsgB[0])
+        embedVar.add_field(name="Message After: ", value=editedMsgA[0])
+        embedVar.set_author(name=editedAthr[0],icon_url=editedAthr[0].avatar_url)
+
+        await ctx.send(embed = embedVar)
+    except:
+        await ctx.send('I couldnt find any edited messages. :(')
 
 @bot.command()
 async def hello(message):
