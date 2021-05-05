@@ -385,45 +385,47 @@ async def play(ctx, url):
 
 @bot.command()
 async def rmd(ctx, time, *, reason:str = ''):
-    timeLen = len(time)
-    if not len(reason):
-        newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.'
-    else: 
-        newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``'
-    if timeLen == 3:
-        lastChar = time[-1]
-        if lastChar == 'm':
-            newTime = int(60*time[:2])
-            await asyncio.sleep(newTime)
-            await ctx.send(newReason)
-        elif lastChar == 's':
-            newTime = int(time[:2])
-            await asyncio.sleep(newTime)
-            await ctx.send(newReason)
-        elif lastChar == 'h':
-            newTime = int(60*(60*time[:1]))
-            await asyncio.sleep(newTime)
-            await ctx.send(newReason)
+    try:
+        timeLen = len(time)
+        if not len(reason):
+            newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.'
+        else: 
+            newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``'
+        if timeLen == 3:
+            lastChar = time[-1]
+            if lastChar == 'm':
+                newTime = int(60*time[:2])
+                await asyncio.sleep(newTime)
+                await ctx.send(newReason)
+            elif lastChar == 's':
+                newTime = int(time[:2])
+                await asyncio.sleep(newTime)
+                await ctx.send(newReason)
+            elif lastChar == 'h':
+                newTime = int(60*(60*time[:1]))
+                await asyncio.sleep(newTime)
+                await ctx.send(newReason)
+            else:
+                await ctx.send('That amount of time is not supported!')
+        elif timeLen == 2:
+            lastChar = time[-1]
+            if lastChar == 'm':
+                newTime = int(60*time[:1])
+                await ctx.send(newReason)
+            elif lastChar == 's':
+                newTime = int(time[:1])
+                await asyncio.sleep(newTime)
+                await ctx.send(newReason)
+            elif lastChar == 'h':
+                newTime = int(60*(60*time[:1]))
+                await asyncio.sleep(newTime)
+                await ctx.send(newReason)
+            else:
+                await ctx.send('That amount of time is not supported!')
         else:
-            await ctx.send('That amount of time is not supported!')
-    elif timeLen == 2:
-        lastChar = time[-1]
-        if lastChar == 'm':
-            newTime = int(60*time[:1])
-            await ctx.send(newReason)
-        elif lastChar == 's':
-            newTime = int(time[:1])
-            await asyncio.sleep(newTime)
-            await ctx.send(newReason)
-        elif lastChar == 'h':
-            newTime = int(60*(60*time[:1]))
-            await asyncio.sleep(newTime)
-            await ctx.send(newReason)
-        else:
-            await ctx.send('That amount of time is not supported!')
-    else:
-        await ctx.send('Value ``time`` must be of length ``2``.')
-
+            await ctx.send('Value ``time`` must be of length ``2``.')
+    except:
+        await ctx.send('An error occured in the command. Check usage, then try again.')
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())    
