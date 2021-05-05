@@ -303,24 +303,27 @@ async def quiz(ctx):
     await voteMsg.add_reaction('✅')
     await voteMsg.add_reaction('❎')
     await asyncio.sleep(10)
+   
     voteMsg = await voteMsg.channel.fetch_message(voteMsg.id)
     positive = 0
     negative = 0
     randomC = random.choice(['✅', '❎'])
-
+    
     try:
-        for reaction in voteMsg.reactions:
-            if reaction.emoji == '✅':
-                positive = reaction.count - 1
-            if reaction.emoji == '❎':
-                negative = reaction.count - 1
         if randomC == '✅' and positive > 0:
             await ctx.send('You guessed correctly!')
         elif randomC == '❎' and negative > 0:
             await ctx.send('You guessed correctly!')
         else:
             await ctx.send('You did not guess correctly.')
-
+        
+        for reaction in voteMsg.reactions:
+            if reaction.emoji == '✅':
+                positive = reaction.count - 1
+            if reaction.emoji == '❎':
+                negative = reaction.count - 1
+    
+            
     except:
         await ctx.send('An error occured.')
 
