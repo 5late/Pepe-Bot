@@ -174,6 +174,26 @@ async def add(ctx, *nums):
     await ctx.send("{} = {}".format((' + '.join(map(str, list(nums)))), result))
 
 @bot.command()
+async def dv(ctx, num1, num2):
+    try:
+        await ctx.send(f'{int(num1)/int(num2)}')
+        
+    except:
+        await ctx.send('Numbers, please!')    
+
+@bot.command()
+async def mul(ctx, *nums):
+    result = 1
+    for num in nums:
+        try:
+            result *= int(num)
+        except:
+            await ctx.send('Numbers, please!')    
+            break
+    await ctx.send(f'{result}')
+
+
+@bot.command()
 async def keyword(ctx, *, word:str):
     # channel = bot.get_channel(ctx.channel.id)
     messages = await ctx.channel.history(limit=200).flatten()
@@ -394,7 +414,7 @@ async def rmd(ctx, time, *, reason:str = ''):
         if timeLen == 3:
             lastChar = time[-1]
             if lastChar == 'm':
-                newTime = int(60*time[:2])
+                newTime = int(60*int(time[:2]))
                 await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             elif lastChar == 's':
@@ -402,7 +422,7 @@ async def rmd(ctx, time, *, reason:str = ''):
                 await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             elif lastChar == 'h':
-                newTime = int(60*(60*time[:1]))
+                newTime = int(60*60*int(time[:1]))
                 await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             else:
@@ -410,14 +430,16 @@ async def rmd(ctx, time, *, reason:str = ''):
         elif timeLen == 2:
             lastChar = time[-1]
             if lastChar == 'm':
-                newTime = int(60*time[:1])
+                newTime = int(60*int(time[:1]))
+                print(f'sleeping for {newTime} seconds.')
+                await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             elif lastChar == 's':
                 newTime = int(time[:1])
                 await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             elif lastChar == 'h':
-                newTime = int(60*(60*time[:1]))
+                newTime = int(60*60*int(time[:1]))
                 await asyncio.sleep(newTime)
                 await ctx.send(newReason)
             else:
