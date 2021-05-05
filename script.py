@@ -4,6 +4,7 @@ correct_number = False
 print("*****Halftime break! You get 3 tries to guess the correct number for an extra point*****\n Rules:\n 1.The number range is 1-5\n 2.The number changes every time you guess\n")
 
 for i in range(2):
+    total = 0
     while True:
         try:
             guess = int(input("What is your guess? "))
