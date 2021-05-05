@@ -60,6 +60,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.data = data
         self.title = data.get('title')
         self.url = ""
+        self.volume = volume
 
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
@@ -372,13 +373,75 @@ async def leave(ctx):
 
 @bot.command(name='play', help='play a youtube URL.')
 async def play(ctx, url):
-    voice = get(bot.voice_clients, guild=ctx.guild)
+    if ctx.message.author.id == 564466359107321856:
+        voice = get(bot.voice_clients, guild=ctx.guild)
 
-    async with ctx.typing():
-        filename = await YTDLSource.from_url(url, loop=bot.loop)
-        voice.play(discord.FFmpegPCMAudio(executable="/usr/bin//ffmpeg", source=filename))
-    await ctx.send('**Now playing** {}'.format(filename))
+        async with ctx.typing():
+            filename = await YTDLSource.from_url(url, loop=bot.loop)
+            voice.play(discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=filename))
+        await ctx.send('**Now playing** {}'.format(filename))
+    else:
+        await ctx.send(f'{ctx.message.author} is not in the sudoers file. This instance will be reported.')
 
+@bot.command()
+async def rmd(ctx, time, *, reason:str = ''):
+    timeLen = len(time)
+    if not len(reason):
+        newReason = False
+    else: 
+        newReason = True
+    if timeLen == 3:
+        lastChar = time[-1]
+        if lastChar == 'm':
+            newTime = int(60*time[:2])
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+        elif lastChar == 's':
+            newTime = int(time[:2])
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+        elif lastChar == 'h':
+            newTime = int(60*(60*time[:1]))
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')        
+        else:
+            await ctx.send('That amount of time is not supported!')
+    elif timeLen == 2:
+        lastChar = time[-1]
+        if lastChar == 'm':
+            newTime = int(60*time[:1])
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+        elif lastChar == 's':
+            newTime = int(time[:1])
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+        elif lastChar == 'h':
+            newTime = int(60*(60*time[:1]))
+            await asyncio.sleep(newTime)
+            if newReason:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
+            else:
+                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+        else:
+            await ctx.send('That amount of time is not supported!')
+    else:
+        await ctx.send('Value ``time`` must be of length ``2``.')
 
 
 if __name__ == "__main__":
