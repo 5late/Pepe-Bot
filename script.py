@@ -1,5 +1,5 @@
 import random
-# Code playground
+# Code playground for quiz command on bot.
 correct_number = False
 print("*****Halftime break! You get 3 tries to guess the correct number for an extra point*****\n Rules:\n 1.The number range is 1-5\n 2.The number changes every time you guess\n")
 
