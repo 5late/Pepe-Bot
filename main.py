@@ -387,57 +387,38 @@ async def play(ctx, url):
 async def rmd(ctx, time, *, reason:str = ''):
     timeLen = len(time)
     if not len(reason):
-        newReason = False
+        newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.'
     else: 
-        newReason = True
+        newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``'
     if timeLen == 3:
         lastChar = time[-1]
         if lastChar == 'm':
             newTime = int(60*time[:2])
             await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+            await ctx.send(newReason)
         elif lastChar == 's':
             newTime = int(time[:2])
             await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+            await ctx.send(newReason)
         elif lastChar == 'h':
             newTime = int(60*(60*time[:1]))
             await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')        
+            await ctx.send(newReason)
         else:
             await ctx.send('That amount of time is not supported!')
     elif timeLen == 2:
         lastChar = time[-1]
         if lastChar == 'm':
             newTime = int(60*time[:1])
-            await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+            await ctx.send(newReason)
         elif lastChar == 's':
             newTime = int(time[:1])
             await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+            await ctx.send(newReason)
         elif lastChar == 'h':
             newTime = int(60*(60*time[:1]))
             await asyncio.sleep(newTime)
-            if newReason:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``')
-            else:
-                await ctx.send(f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago without a reason.')
+            await ctx.send(newReason)
         else:
             await ctx.send('That amount of time is not supported!')
     else:
