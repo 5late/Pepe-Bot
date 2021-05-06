@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 import youtube_dl
 import os
 from prsaw import RandomStuff
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
 
 load_dotenv()
 
@@ -480,8 +482,91 @@ async def rmd(ctx, time, *, reason:str = ''):
 
 
 @bot.command()
+async def whoami(ctx, user: discord.Member = None):
+    if user == None:
+        user = ctx.author
+    
+    secondFont = ImageFont.truetype("Hind-Regular.ttf", 110)
+    wanted = Image.open("background.jpg")
+
+    draw = ImageDraw.Draw(wanted)
+
+    asset = user.avatar_url_as(size=128)
+    data = BytesIO(await asset.read())
+    pfp = Image.open(data)
+
+    pfp = pfp.resize((450, 450))
+    secondText = f'{user.name}#{user.discriminator}'
+
+    draw.text((150, 1075), secondText, (255, 255, 255), font=secondFont)
+
+    wanted.paste(pfp, (250, 500))
+
+    wanted.save("profile.jpg")
+    
+    await ctx.send(file = discord.File("profile.jpg"))
+
+@bot.command()
+async def braindead(ctx, user: discord.Member = None):
+    if user == None:
+        user = ctx.author
+
+    braindead = Image.open("./imgs/braindead.jpg")
+    
+    asset = user.avatar_url_as(size=128)
+    data = BytesIO(await asset.read())
+    pfp = Image.open(data)
+
+    pfp = pfp.resize((750, 750))
+
+    braindead.paste(pfp, (850, 650))
+
+    braindead.save("stupid.jpg")
+
+    await ctx.send(file = discord.File("stupid.jpg"))
+
+
+@bot.command()
+async def gigachad(ctx, user: discord.Member = None):
+    if user == None:
+        user = ctx.author
+
+    gigachad = Image.open("./imgs/gigachad.jpg")
+    
+    asset = user.avatar_url_as(size=128)
+    data = BytesIO(await asset.read())
+    pfp = Image.open(data)
+
+    pfp = pfp.resize((250, 250))
+
+    gigachad.paste(pfp, (250, 35))
+
+    gigachad.save("chad.jpg")
+
+    await ctx.send(file = discord.File("chad.jpg"))
+
+@bot.command()
+async def soyjak(ctx, user: discord.Member = None):
+    if user == None:
+        user = ctx.author
+
+    soyjak = Image.open("./imgs/soyjak.jpg")
+    
+    asset = user.avatar_url_as(size=128)
+    data = BytesIO(await asset.read())
+    pfp = Image.open(data)
+
+    pfp = pfp.resize((300, 300))
+
+    soyjak.paste(pfp, (160, 190))
+
+    soyjak.save("soy.jpg")
+
+    await ctx.send(file = discord.File("soy.jpg"))
+
+
+@bot.command()
 async def talk(ctx, *, args):
-    api_key = AI_API_KEY
     rs = RandomStuff(api_key= AI_API_KEY)
     response = rs.get_ai_response(args)
     await ctx.send(response)
