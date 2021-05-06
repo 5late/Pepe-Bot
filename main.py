@@ -11,12 +11,14 @@ import asyncio
 from dotenv import load_dotenv
 import youtube_dl
 import os
+from prsaw import RandomStuff
 
 load_dotenv()
 
 intents = discord.Intents().all()
 
 DISCORD_TOKEN = os.getenv("discord_token")
+AI_API_KEY = os.getenv('ai_api_key')
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -135,6 +137,33 @@ async def lem(ctx):
         await ctx.send(embed = embedVar)
     except:
         await ctx.send('I couldnt find any edited messages. :(')
+
+sudoPriv = None
+sudoers = open('sudoers.txt', 'r').read()
+sudos = open('sudo.txt', 'r+')
+sudosContent = sudos.read()
+sudos.seek(0)
+sudos.truncate()
+sudos.write('False')
+
+@bot.command()
+async def sudo(message):
+    print(sudoers)
+    if str(message.author.id) in sudoers:
+        sudos = open('sudo.txt', 'r+')
+        sudos.seek(0)
+        sudos.truncate()
+        sudos.write('True')
+        sudos.close()
+        print(sudosContent)
+        await message.channel.send('200')
+    if not str(message.author.id) in sudoers:
+        await message.channel.send(f'<@{message.author.id}> is not in the sudoers file. This incident will be reported.')
+        sudos.seek(0)
+        sudos.truncate()
+        sudos.write('False')
+        sudos.close()
+        print(sudosContent)
 
 @bot.command()
 async def hello(message):
@@ -255,7 +284,7 @@ bot.command(name="ball", pass_context=True,)(randomchoice.callback)
 
 @bot.command()
 async def write(ctx, title:str, url:str):
-    if ctx.message.author.id == 564466359107321856:
+    if ctx.message.author.id == 564466359107321856 and sudoPriv:
         def write_json(data, filename='clips.json'):
             with open(filename, 'w') as f:
                 json.dump(data, f, indent=4)
@@ -393,7 +422,7 @@ async def leave(ctx):
 
 @bot.command(name='play', help='play a youtube URL.')
 async def play(ctx, url):
-    if ctx.message.author.id == 564466359107321856:
+    if str(ctx.message.author.id) in sudoers and sudosContent == 'True':
         voice = get(bot.voice_clients, guild=ctx.guild)
 
         async with ctx.typing():
@@ -449,7 +478,21 @@ async def rmd(ctx, time, *, reason:str = ''):
     except:
         await ctx.send('An error occured in the command. Check usage, then try again.')
 
+
+@bot.command()
+async def talk(ctx, *, args):
+    api_key = AI_API_KEY
+    rs = RandomStuff(api_key= AI_API_KEY)
+    response = rs.get_ai_response(args)
+    await ctx.send(response)
+    rs.close()
+
+@bot.command()
+async def test(ctx):
+    print(sudosContent)
+    if sudosContent == 'True' and str(ctx.author.id) in sudoers:
+        await ctx.send('sudo works')
+    
 if __name__ == "__main__":
-    bot.loop.create_task(background_task())    
-    token = open("token.txt", "r").read()
+    bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
