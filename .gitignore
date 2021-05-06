@@ -4,3 +4,7 @@ clips.json
 Audio_Crime*
 sudoers.txt
 sudo.txt
+*.ttf
+!Hind-Regular.ttf
+*.jpg
+!imgs/*.jpg
