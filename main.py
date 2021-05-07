@@ -238,11 +238,13 @@ async def keyword(ctx, *, word:str):
 async def cry(ctx):
     await ctx.message.delete()
     await ctx.send("<:chriscry:758862800637657118>")
+    await ctx.send(f'~~Called by {ctx.author.nick}~~')
 
 @bot.command()
 async def pog(ctx):
     await ctx.message.delete()
     await ctx.send("<:pog:766067548520448001>")
+    await ctx.send(f'~~Called by {ctx.author.nick}~~')
 
 
 @bot.command()
@@ -590,6 +592,22 @@ async def bj(ctx):
     dealerCard = []
     randomCard = random.choice(cards)
     shownCard = random.choice(cards)
+    cdc1 = []
+    cpc1 = []
+
+    def calcCard(card, cpc):
+        if card in faceCards:
+            cpc += 10
+        elif int(cpc) <= 10 and card == 'A':
+            cpc += 11
+        elif int(cpc) > 10 and card == 'A':
+            cpc+= 1
+        else:
+            cpc+=int(card)
+        print(cpc)
+        cpc1.clear()
+        cpc1.append(cpc)
+        return cpc
 
     def intize(cpc, cdc):
         dealerCard.append(shownCard)
@@ -621,8 +639,18 @@ async def bj(ctx):
             else:
                 dealerCount+=int(dealerCardnow)
         print(dealerCount)
+        cpc1.clear()
+        cdc1.clear()
+        cdc1.append(dealerCount)
+        cpc1.append(playerCount)
 
     intize(0,0)
+
+    def checkGame():
+        if cpc1[0] > 21:
+            return True
+        else:
+            return False
 
     def check(author):
         def inner_check(ctx):
@@ -633,24 +661,43 @@ async def bj(ctx):
     msg = await bot.wait_for('message', check=check(ctx.author), timeout=30)
     if msg.content == 'h':
         playerCard.append(randomCard)
-        await ctx.send(f'Your new cards are: {playerCard}')
-        msg2 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
-    
-        if msg2.content == 'h':
-            playerCard.append(randomCard)
-            await ctx.send(f'Your new cards are: {playerCard}')
-            msg3 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
-            
-            if msg3.content == 'h':
+        currentC = calcCard(playerCard[2],cpc1[0])
+        ckGame = checkGame()
+        if ckGame:
+            await ctx.send(f'You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}')
+        else:
+            await ctx.send(f'You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}')
+        
+            msg2 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+        
+            if msg2.content == 'h':
                 playerCard.append(randomCard)
-                await ctx.send(f'Your new cards are: {playerCard}')
-                msg4 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
-            elif msg3.content == 's':
+                currentC = calcCard(playerCard[2],cpc1[0])
+                ckGame = checkGame()
+                if ckGame:
+                    await ctx.send(f'You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}')
+                else:
+                    await ctx.send(f'You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}')
+                    msg3 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+                    
+                    if msg3.content == 'h':
+                        playerCard.append(randomCard)
+                        currentC = calcCard(playerCard[2],cpc1[0])
+                        ckGame = checkGame()
+                        if ckGame:
+                            await ctx.send(f'You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}')
+                        else:        
+                            finalEmbed = discord.Embed(title='Black Jack', description=f'You win! You drew 5 cards without going over 21!')
+                            finalEmbed.add_field(name='Your cards', value=playerCard)
+
+                            await ctx.send(f'You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}')
+                        
+                    elif msg3.content == 's':
+                        await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
+                
+            elif msg2.content == 's':
                 await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
-        
-        elif msg2.content == 's':
-            await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
-        
+            
     elif msg.content == 's':
         await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
                 
