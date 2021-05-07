@@ -486,8 +486,8 @@ async def whoami(ctx, user: discord.Member = None):
     if user == None:
         user = ctx.author
     
-    secondFont = ImageFont.truetype("Hind-Regular.ttf", 110)
-    wanted = Image.open("background.jpg")
+    secondFont = ImageFont.truetype("./fonts/Hind-Regular.ttf", 110)
+    wanted = Image.open("./imgs/background.jpg")
 
     draw = ImageDraw.Draw(wanted)
 
@@ -578,6 +578,84 @@ async def test(ctx):
     if sudosContent == 'True' and str(ctx.author.id) in sudoers:
         await ctx.send('sudo works')
     
+@bot.command()
+async def gh(ctx):
+    await ctx.send('https://github.com/5late/Pepe-Bot')
+
+@bot.command()
+async def bj(ctx):
+    cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+    faceCards = ['J','Q','K']
+    playerCard = []
+    dealerCard = []
+    randomCard = random.choice(cards)
+    shownCard = random.choice(cards)
+
+    def intize(cpc, cdc):
+        dealerCard.append(shownCard)
+        dealerCard.append(randomCard)
+        playerCard.append(randomCard)
+        playerCard.append(randomCard)
+        print(playerCard)
+        print(shownCard)
+        print(dealerCard)
+        playerCount = int(cpc)
+        dealerCount = int(cdc)
+        for playerCardnow in playerCard:
+            if playerCardnow in faceCards:
+                playerCount += 10
+            elif int(playerCount) <= 10 and playerCardnow == 'A':
+                playerCount += 11
+            elif int(playerCount) > 10 and playerCardnow == 'A':
+                playerCount+= 1
+            else:
+                playerCount+=int(playerCardnow)
+        print(playerCount)
+        for dealerCardnow in dealerCard:
+            if dealerCardnow in faceCards:
+                dealerCount += 10
+            elif int(dealerCount) <= 10 and dealerCardnow == 'A':
+                dealerCount += 11
+            elif int(dealerCount) > 10 and dealerCardnow == 'A':
+                dealerCount+= 1
+            else:
+                dealerCount+=int(dealerCardnow)
+        print(dealerCount)
+
+    intize(0,0)
+
+    def check(author):
+        def inner_check(ctx):
+            return ctx.author == author and ctx.content == 'h' or 's'
+        return inner_check
+    await ctx.send(f'Your cards are {playerCard}. Do you want to hit or stand?')
+    
+    msg = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+    if msg.content == 'h':
+        playerCard.append(randomCard)
+        await ctx.send(f'Your new cards are: {playerCard}')
+        msg2 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+    
+        if msg2.content == 'h':
+            playerCard.append(randomCard)
+            await ctx.send(f'Your new cards are: {playerCard}')
+            msg3 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+            
+            if msg3.content == 'h':
+                playerCard.append(randomCard)
+                await ctx.send(f'Your new cards are: {playerCard}')
+                msg4 = await bot.wait_for('message', check=check(ctx.author), timeout=30)
+            elif msg3.content == 's':
+                await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
+        
+        elif msg2.content == 's':
+            await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
+        
+    elif msg.content == 's':
+        await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
+                
+
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
