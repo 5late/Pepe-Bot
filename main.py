@@ -332,7 +332,7 @@ async def val(ctx, *, arg:str):
 
 @bot.command()
 async def valm(ctx, *, arg:str):
-
+    msg = await ctx.send(f'Your message has been registered and I\'m working hard to query, read, format, and send you the last match for ``{arg}``. Hang tight!')
     def agentImg(agent):
         Astra = 'https://img.redbull.com/images/c_crop,w_1620,h_1080,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2021/3/25/wk6ik95vzmxyagx9md8e/valorant-agent-astra'
         Brimstone = 'https://res.allmacwallpaper.com/get/iMac-21-inch-5K-Retina-wallpapers/brimstone-valorant-4k-4096x2304/22319-13.jpg'
@@ -384,20 +384,20 @@ async def valm(ctx, *, arg:str):
     newArg = arg.split('#')
     name = newArg[0]
     tag = newArg[1]
+    async with ctx.typing():
+        response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+        jsonR = response.json()
 
-    response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
-    jsonR = response.json()
-
-    players = jsonR['data']['matches'][0]['players']['all_players']
-    for i in players:
-        if i['name'] == name:
-            embedM = discord.Embed(title=f'{arg}\'s last match:', description = i['currenttier_patched'])
-            embedM.add_field(name='Character: ', value=i['character'])
-            embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
-            embedM.add_field(name='Score: ', value=i['stats']['score'], inline=True)
-            embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
-            await ctx.send(embed=embedM)
-
+        players = jsonR['data']['matches'][0]['players']['all_players']
+        for i in players:
+            if i['name'] == name:
+                embedM = discord.Embed(title=f'{arg}\'s last match:', description = i['currenttier_patched'])
+                embedM.add_field(name='Character: ', value=i['character'])
+                embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
+                embedM.add_field(name='Score: ', value=i['stats']['score'], inline=True)
+                embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
+    await ctx.send(embed=embedM)
+    await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
@@ -516,7 +516,7 @@ async def quiz(ctx):
         await ctx.send('An error occured.')
 
 
-WHEN = time(1, 28, 0)  # 6:00 PM
+WHEN = time(13, 29, 0)  # 6:00 PM
 channel_id = 801520877753597974 # Put your channel id here
 
 async def called_once_a_day():
