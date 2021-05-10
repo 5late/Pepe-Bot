@@ -579,6 +579,7 @@ async def rmd(ctx, time, *, reason:str = ''):
         else: 
             newReason = f'<@{ctx.message.author.id}>, you set a reminder ``{time}`` ago with reason ``{reason}``'
         if timeLen == 3:
+            await ctx.send(f'I\'m setting a reminder for ``{time}`` with reason ``{reason}``! :smile:')
             lastChar = time[-1]
             if lastChar == 'm':
                 newTime = int(60*int(time[:2]))
@@ -595,6 +596,7 @@ async def rmd(ctx, time, *, reason:str = ''):
             else:
                 await ctx.send('That amount of time is not supported!')
         elif timeLen == 2:
+            await ctx.send(f'I\'m setting a reminder for ``{time}`` with reason ``{reason}``! :smile:')
             lastChar = time[-1]
             if lastChar == 'm':
                 newTime = int(60*int(time[:1]))
