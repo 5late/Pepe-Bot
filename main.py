@@ -332,92 +332,49 @@ async def val(ctx, *, arg:str):
 
 @bot.command()
 async def valm(ctx, *, arg:str):
-    msg = await ctx.send(f'Your message has been registered and I\'m working hard to query, read, format, and send you the last match for ``{arg}``. Hang tight!')
-    def agentImg(agent):
-        Astra = 'https://cdnportal.mobalytics.gg/production/2021/03/d5e0e6ae-astra-mobalytics-valorant-agent-card.jpg'
-        Brimstone = 'https://cdnportal.mobalytics.gg/production/2020/06/brimstone-agent-card.jpg'
-        Breach = 'https://cdnportal.mobalytics.gg/production/2020/06/breach-agent-card.jpg'
-        Cypher = 'https://cdnportal.mobalytics.gg/production/2020/06/cypher-agent-card.jpg'
-        Jett = 'https://cdnportal.mobalytics.gg/production/2021/04/8f66051f-jett-medium-difficulty-card.jpg'
-        Killjoy = 'https://cdnportal.mobalytics.gg/production/2021/04/91560edd-killjoy-easy-difficulty-card.jpg'
-        Omen = 'https://cdnportal.mobalytics.gg/production/2020/06/omen-agent-card.jpg'
-        Pheonix = 'https://cdnportal.mobalytics.gg/production/2021/04/bc1db4d9-phoenix-easy-difficulty-card.jpg'
-        Raze = 'https://cdnportal.mobalytics.gg/production/2020/06/raze-agent-card.jpg'
-        Reyna = 'https://cdnportal.mobalytics.gg/production/2021/04/36ddff98-reyna-medium-difficulty-card.jpg'
-        Sage = 'https://cdnportal.mobalytics.gg/production/2020/06/sage-agent-card.jpg'
-        Skye = 'https://cdnportal.mobalytics.gg/production/2020/10/f97be144-skye-agent-card.jpg'
-        Sova = 'https://cdnportal.mobalytics.gg/production/2020/06/sova-agent-card.jpg'
-        Viper = 'https://cdnportal.mobalytics.gg/production/2020/06/viper-agent-card.jpg'
-        Yoru = 'https://cdnportal.mobalytics.gg/production/2021/01/01ec31f2-yoru-agent-page-portal.jpg'
+    try:
+        msg = await ctx.send(f'Your message has been registered and I\'m working hard to query, read, format, and send you the last match for ``{arg}``. Hang tight!')
+        def mapImg(imap):
+            if imap == 'Haven':
+                return 'https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png/revision/latest/scale-to-width-down/1000?cb=20200620202335'
+            elif imap == 'Ascent':
+                return 'https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png/revision/latest/scale-to-width-down/1000?cb=20200607180020'
+            elif imap == 'Icebox':
+                return 'https://static.wikia.nocookie.net/valorant/images/3/34/Loading_Icebox.png/revision/latest/scale-to-width-down/1000?cb=20201015084446'
+            elif imap == 'Split':
+                return 'https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png/revision/latest/scale-to-width-down/1000?cb=20200620202349'
+            elif imap == 'Bind':
+                return 'https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png/revision/latest/scale-to-width-down/1000?cb=20200620202316'
+            
+        newArg = arg.split('#')
+        name = newArg[0]
+        tag = newArg[1]
+        async with ctx.typing():
+            response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+            jsonR = response.json()
 
-        if agent == 'Astra':
-            return Astra
-        elif agent == 'Brimstone':
-            return Brimstone
-        elif agent == 'Breach':
-            return Breach
-        elif agent == 'Cypher':
-            return Cypher
-        elif agent == 'Jett':
-            return Jett
-        elif agent == 'Killjoy':
-            return Killjoy
-        elif agent == 'Omen':
-            return Omen
-        elif agent == 'Pheonix':
-            return Pheonix
-        elif agent == 'Raze':
-            return Raze
-        elif agent == 'Reyna':
-            return Reyna
-        elif agent == 'Sage':
-            return Sage
-        elif agent == 'Skye':
-            return Skye
-        elif agent == 'Sova':
-            return Sova
-        elif agent == 'Viper':
-            return Viper
-        elif agent == 'Yoru':
-            return Yoru
-    def mapImg(imap):
-        if imap == 'Haven':
-            return 'https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png/revision/latest/scale-to-width-down/1000?cb=20200620202335'
-        elif imap == 'Ascent':
-            return 'https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png/revision/latest/scale-to-width-down/1000?cb=20200607180020'
-        elif imap == 'Icebox':
-            return 'https://static.wikia.nocookie.net/valorant/images/3/34/Loading_Icebox.png/revision/latest/scale-to-width-down/1000?cb=20201015084446'
-        elif imap == 'Split':
-            return 'https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png/revision/latest/scale-to-width-down/1000?cb=20200620202349'
-        elif imap == 'Bind':
-            return 'https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png/revision/latest/scale-to-width-down/1000?cb=20200620202316'
-        
-    newArg = arg.split('#')
-    name = newArg[0]
-    tag = newArg[1]
-    async with ctx.typing():
-        response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
-        jsonR = response.json()
-
-        players = jsonR['data']['matches'][0]['players']['all_players']
-        print(str(jsonR['data']['matches'][0]['teams']['blue']['has_won']))
-        if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
-            color = 0x10B402
-        elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
-            color = 0xDF0606
-        else:
-            color = 0x3b3d3c
-        for i in players:
-            if i['name'] == name:
-                embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
-                embedM.add_field(name='Character: ', value=i['character'])
-                embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
-                embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
-                file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
-                embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
-                embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
-    await ctx.send(file=file, embed=embedM)
-    await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
+            players = jsonR['data']['matches'][0]['players']['all_players']
+            print(str(jsonR['data']['matches'][0]['teams']['blue']['has_won']))
+            if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
+                color = 0x10B402
+            elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
+                color = 0xDF0606
+            else:
+                color = 0x3b3d3c
+            for i in players:
+                if i['name'] == name:
+                    embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
+                    embedM.add_field(name='Character: ', value=i['character'])
+                    embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
+                    embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
+                    file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
+                    embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
+                    embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
+        await ctx.send(file=file, embed=embedM)
+        await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
+    except:
+        await msg.edit(content='Error 404 :(')
+        await ctx.send('I could not find the last game for that user. :(\nSome reasons for this include:\n1. The player does not exist\n2. The player has not played any games.\n3. The player may not have played a game in a really long time, and RIOT doesnt let me reach that far :(.')
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
