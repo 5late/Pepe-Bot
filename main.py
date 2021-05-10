@@ -14,6 +14,7 @@ import os
 from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
+import time as ttime
 
 load_dotenv()
 
@@ -354,8 +355,8 @@ async def valm(ctx, *, arg:str):
             jsonR = response.json()
 
             players = jsonR['data']['matches'][0]['players']['all_players']
-            convertedTicks = datetime.now() + timedelta(microseconds = int(jsonR['data']['matches'][0]['metadata']['game_start'])/10)
-            print(convertedTicks.strftime("%a, %b %d, %Y | %H:%M"))
+            convertD = datetime.fromtimestamp(int(jsonR['data']['matches'][0]['metadata']['game_start']) / 1000.0)
+            finalT = convertD.strftime('%a, %b %d, %Y | %H:%M')
 
             if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
                 color = 0x10B402
@@ -370,7 +371,7 @@ async def valm(ctx, *, arg:str):
                     embedM.add_field(name='Character: ', value=i['character'])
                     embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                     embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
-                    embedM.add_field(name='Date:', value=jsonR['data']['matches'][0]['metadata']['game_start_patched'])
+                    embedM.add_field(name='Date:', value=finalT)
                     embedM.add_field(name='Duration:', value=f"{int((jsonR['data']['matches'][0]['metadata']['game_length'])/1000)//60} minutes")
                     file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
                     embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
