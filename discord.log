@@ -109,3 +109,7 @@
 2021-05-10 16:24:46,665:DEBUG:discord.gateway: For Shard ID None: WebSocket Event: {'t': 'PRESENCE_UPDATE', 's': 20, 'op': 0, 'd': {'user': {'id': '418577634247835648'}, 'status': 'idle', 'roles': ['757265142009561150'], 'premium_since': None, 'nick': None, 'guild_id': '754084714545152101', 'game': {'type': 4, 'state': 'You make me wanna throw a flashbang into a room full of epileptic kids', 'name': 'Custom Status', 'id': 'custom', 'created_at': 1620505643279}, 'client_status': {'desktop': 'idle'}, 'activities': [{'type': 4, 'state': 'You make me wanna throw a flashbang into a room full of epileptic kids', 'name': 'Custom Status', 'id': 'custom', 'created_at': 1620505643279}]}}
 2021-05-10 16:24:46,666:DEBUG:discord.client: Dispatching event socket_response
 2021-05-10 16:24:46,666:DEBUG:discord.client: Dispatching event member_update
+2021-05-10 16:24:55,660:DEBUG:discord.gateway: Keeping shard ID None websocket alive with sequence 20.
+2021-05-10 16:24:55,756:DEBUG:discord.client: Dispatching event socket_raw_receive
+2021-05-10 16:24:55,756:DEBUG:discord.gateway: For Shard ID None: WebSocket Event: {'t': None, 's': None, 'op': 11, 'd': None}
+2021-05-10 16:24:55,756:DEBUG:discord.client: Dispatching event socket_response
