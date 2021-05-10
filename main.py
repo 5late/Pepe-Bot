@@ -413,9 +413,10 @@ async def valm(ctx, *, arg:str):
                 embedM.add_field(name='Character: ', value=i['character'])
                 embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                 embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
-                embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
+                file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
+                embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
                 embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
-    await ctx.send(embed=embedM)
+    await ctx.send(file=file, embed=embedM)
     await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
 @bot.command()
 async def ras(ctx, option=''):
