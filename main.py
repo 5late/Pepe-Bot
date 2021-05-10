@@ -334,21 +334,21 @@ async def val(ctx, *, arg:str):
 async def valm(ctx, *, arg:str):
     msg = await ctx.send(f'Your message has been registered and I\'m working hard to query, read, format, and send you the last match for ``{arg}``. Hang tight!')
     def agentImg(agent):
-        Astra = 'https://img.redbull.com/images/c_crop,w_1620,h_1080,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2021/3/25/wk6ik95vzmxyagx9md8e/valorant-agent-astra'
-        Brimstone = 'https://res.allmacwallpaper.com/get/iMac-21-inch-5K-Retina-wallpapers/brimstone-valorant-4k-4096x2304/22319-13.jpg'
-        Breach = 'https://i.ytimg.com/vi/qNviatS6riI/maxresdefault.jpg'
-        Cypher = 'https://pbs.twimg.com/media/EVcDOuMXsAI2Y_z.jpg'
-        Jett = 'https://static.wikia.nocookie.net/valorant/images/3/35/Jett_icon.png/revision/latest/scale-to-width-down/250?cb=20201128234156'
-        Killjoy = 'https://img.redbull.com/images/c_crop,w_1080,h_720,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2020/10/30/yrn6erzpnmlqnosjeaws/valorant-operator-killjoy'
-        Omen = 'https://gamezo.co.uk/wp-content/uploads/2021/01/valorant-omen-uhdpaper.com-4K-5.2356-wp.thumbnail.jpg'
-        Pheonix = 'https://boosting-ground.com/upload/206ceecc064d01d74e708bae5a67e7568914f5c2.jpeg'
-        Raze = 'https://static.wikia.nocookie.net/valorant/images/b/b1/Suke-raze-keyart-final.jpg/revision/latest/scale-to-width-down/250?cb=20200508170424'
-        Reyna = 'https://img.redbull.com/images/c_crop,x_611,y_0,h_2160,w_2520/c_fill,w_650,h_540/q_auto,f_auto/redbullcom/2020/6/3/ypiocflf3wcbeeyjyi5x/valorant'
-        Sage = 'https://www.nme.com/wp-content/uploads/2020/06/061020-Valorant-Sage.jpeg'
-        Skye = 'https://www.nme.com/wp-content/uploads/2020/10/100920-Valorant-Skye.jpg'
-        Sova = 'https://gamezo.co.uk/wp-content/uploads/2020/11/Sova-Guide.png'
-        Viper = 'https://www.nme.com/wp-content/uploads/2020/06/062320-Valorant-Viper-Riot-Games.jpg'
-        Yoru = 'https://staticg.sportskeeda.com/editor/2021/01/f892e-16103844629156-800.jpg'
+        Astra = 'https://cdnportal.mobalytics.gg/production/2021/03/d5e0e6ae-astra-mobalytics-valorant-agent-card.jpg'
+        Brimstone = 'https://cdnportal.mobalytics.gg/production/2020/06/brimstone-agent-card.jpg'
+        Breach = 'https://cdnportal.mobalytics.gg/production/2020/06/breach-agent-card.jpg'
+        Cypher = 'https://cdnportal.mobalytics.gg/production/2020/06/cypher-agent-card.jpg'
+        Jett = 'https://cdnportal.mobalytics.gg/production/2021/04/8f66051f-jett-medium-difficulty-card.jpg'
+        Killjoy = 'https://cdnportal.mobalytics.gg/production/2021/04/91560edd-killjoy-easy-difficulty-card.jpg'
+        Omen = 'https://cdnportal.mobalytics.gg/production/2020/06/omen-agent-card.jpg'
+        Pheonix = 'https://cdnportal.mobalytics.gg/production/2021/04/bc1db4d9-phoenix-easy-difficulty-card.jpg'
+        Raze = 'https://cdnportal.mobalytics.gg/production/2020/06/raze-agent-card.jpg'
+        Reyna = 'https://cdnportal.mobalytics.gg/production/2021/04/36ddff98-reyna-medium-difficulty-card.jpg'
+        Sage = 'https://cdnportal.mobalytics.gg/production/2020/06/sage-agent-card.jpg'
+        Skye = 'https://cdnportal.mobalytics.gg/production/2020/10/f97be144-skye-agent-card.jpg'
+        Sova = 'https://cdnportal.mobalytics.gg/production/2020/06/sova-agent-card.jpg'
+        Viper = 'https://cdnportal.mobalytics.gg/production/2020/06/viper-agent-card.jpg'
+        Yoru = 'https://cdnportal.mobalytics.gg/production/2021/01/01ec31f2-yoru-agent-page-portal.jpg'
 
         if agent == 'Astra':
             return Astra
@@ -380,6 +380,17 @@ async def valm(ctx, *, arg:str):
             return Viper
         elif agent == 'Yoru':
             return Yoru
+    def mapImg(imap):
+        if imap == 'Haven':
+            return 'https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png/revision/latest/scale-to-width-down/1000?cb=20200620202335'
+        elif imap == 'Ascent':
+            return 'https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png/revision/latest/scale-to-width-down/1000?cb=20200607180020'
+        elif imap == 'Icebox':
+            return 'https://static.wikia.nocookie.net/valorant/images/3/34/Loading_Icebox.png/revision/latest/scale-to-width-down/1000?cb=20201015084446'
+        elif imap == 'Split':
+            return 'https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png/revision/latest/scale-to-width-down/1000?cb=20200620202349'
+        elif imap == 'Bind':
+            return 'https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png/revision/latest/scale-to-width-down/1000?cb=20200620202316'
         
     newArg = arg.split('#')
     name = newArg[0]
@@ -396,6 +407,7 @@ async def valm(ctx, *, arg:str):
                 embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                 embedM.add_field(name='Score: ', value=i['stats']['score'], inline=True)
                 embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
+                embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
     await ctx.send(embed=embedM)
     await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
 @bot.command()
