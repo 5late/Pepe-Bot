@@ -406,7 +406,7 @@ async def valm(ctx, *, arg:str):
         elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
             color = 0xDF0606
         else:
-            color = 0xBFC6C4
+            color = 0x3b3d3c
         for i in players:
             if i['name'] == name:
                 embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
