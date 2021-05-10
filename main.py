@@ -374,7 +374,7 @@ async def valm(ctx, *, arg:str):
         await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
     except:
         await msg.edit(content='Error 404 :(')
-        await ctx.send('I could not find the last game for that user. :(\nSome reasons for this include:\n1. The player does not exist\n2. The player has not played any games.\n3. The player may not have played a game in a really long time, and RIOT doesnt let me reach that far :(.')
+        await ctx.send('I could not find the last game for that user. :(\nSome reasons for this include:\n1. The player does not exist\n2. The player has not played any games.\n3. The game was played on Breeze. For some reason, RIOT leaves certain parts out of the API on Breeze games. There isn\'t much I can do about this, unfortunately.\n4. The player may not have played a game in a really long time, and RIOT doesnt let me reach that far :(.')
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
