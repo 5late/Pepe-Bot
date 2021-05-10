@@ -267,45 +267,45 @@ async def val(ctx, *, arg:str):
         ctp = int(jsonR['data']['elo'])
         if ctp <=100:
             image = 'https://static.wikia.nocookie.net/valorant/images/7/7f/TX_CompetitiveTier_Large_3.png/revision/latest/scale-to-width-down/185?cb=20200623203005'
-        elif ctp >100 and ctp <200:
+        elif ctp >= 100 and ctp <200:
             image = 'https://static.wikia.nocookie.net/valorant/images/2/28/TX_CompetitiveTier_Large_4.png/revision/latest/scale-to-width-down/185?cb=20200623203053'
-        elif ctp >200 and ctp <300:
+        elif ctp >= 200 and ctp <300:
             image = 'https://static.wikia.nocookie.net/valorant/images/b/b8/TX_CompetitiveTier_Large_5.png/revision/latest/scale-to-width-down/185?cb=20200623203101'
-        elif ctp > 300 and ctp < 400:
+        elif ctp >= 300 and ctp < 400:
             image = 'https://static.wikia.nocookie.net/valorant/images/a/a2/TX_CompetitiveTier_Large_6.png/revision/latest/scale-to-width-down/185?cb=20200623203119'
-        elif ctp > 400 and ctp < 500:
+        elif ctp >= 400 and ctp < 500:
             image = 'https://static.wikia.nocookie.net/valorant/images/e/e7/TX_CompetitiveTier_Large_7.png/revision/latest/scale-to-width-down/185?cb=20200623203140'
-        elif ctp > 500 and ctp < 600:
+        elif ctp >= 500 and ctp < 600:
             image = 'https://static.wikia.nocookie.net/valorant/images/a/a8/TX_CompetitiveTier_Large_8.png/revision/latest/scale-to-width-down/185?cb=20200623203313'    
-        elif ctp > 600 and ctp < 700:
+        elif ctp >= 600 and ctp < 700:
             image = 'https://static.wikia.nocookie.net/valorant/images/0/09/TX_CompetitiveTier_Large_9.png/revision/latest/scale-to-width-down/185?cb=20200623203408'
-        elif ctp > 700 and ctp < 800:
+        elif ctp >= 700 and ctp < 800:
             image = 'https://static.wikia.nocookie.net/valorant/images/c/ca/TX_CompetitiveTier_Large_10.png/revision/latest/scale-to-width-down/185?cb=20200623203410'
-        elif ctp > 800 and ctp < 900:
+        elif ctp >= 800 and ctp < 900:
             image = 'https://static.wikia.nocookie.net/valorant/images/1/1e/TX_CompetitiveTier_Large_11.png/revision/latest/scale-to-width-down/185?cb=20200623203413'
-        elif ctp > 900 and ctp < 1000:
+        elif ctp >= 900 and ctp < 1000:
             image = 'https://static.wikia.nocookie.net/valorant/images/9/91/TX_CompetitiveTier_Large_12.png/revision/latest/scale-to-width-down/185?cb=20200623203413'
-        elif ctp > 1000 and ctp < 1100:
+        elif ctp >= 1000 and ctp < 1100:
             image = 'https://static.wikia.nocookie.net/valorant/images/4/45/TX_CompetitiveTier_Large_13.png/revision/latest/scale-to-width-down/185?cb=20200623203415'
-        elif ctp > 1100 and ctp < 1200:
+        elif ctp >= 1100 and ctp < 1200:
             image = 'https://static.wikia.nocookie.net/valorant/images/c/c0/TX_CompetitiveTier_Large_14.png/revision/latest/scale-to-width-down/185?cb=20200623203417'
-        elif ctp >1200 and ctp < 1300:
+        elif ctp >= 1200 and ctp < 1300:
             image = 'https://static.wikia.nocookie.net/valorant/images/d/d3/TX_CompetitiveTier_Large_15.png/revision/latest/scale-to-width-down/185?cb=20200623203419'
-        elif ctp > 1300 and ctp < 1400:
+        elif ctp >= 1300 and ctp < 1400:
             image = 'https://static.wikia.nocookie.net/valorant/images/a/a5/TX_CompetitiveTier_Large_16.png/revision/latest/scale-to-width-down/185?cb=20200623203606'
-        elif ctp > 1400 and ctp < 1500:
+        elif ctp >= 1400 and ctp < 1500:
             image = 'https://static.wikia.nocookie.net/valorant/images/f/f2/TX_CompetitiveTier_Large_17.png/revision/latest/scale-to-width-down/185?cb=20200623203607'
-        elif ctp > 1500 and ctp < 1600:
+        elif ctp >= 1500 and ctp < 1600:
             image = 'https://static.wikia.nocookie.net/valorant/images/b/b7/TX_CompetitiveTier_Large_18.png/revision/latest/scale-to-width-down/185?cb=20200623203609'
-        elif ctp > 1600 and ctp < 1700:
+        elif ctp >= 1600 and ctp < 1700:
             image = 'https://static.wikia.nocookie.net/valorant/images/3/32/TX_CompetitiveTier_Large_19.png/revision/latest/scale-to-width-down/185?cb=20200623203610'
-        elif ctp > 1700 and ctp < 1800:
+        elif ctp >= 1700 and ctp < 1800:
             image = 'https://static.wikia.nocookie.net/valorant/images/1/11/TX_CompetitiveTier_Large_20.png/revision/latest/scale-to-width-down/185?cb=20200623203611'
-        elif ctp > 1800 and ctp < 1900:
+        elif ctp >= 1800 and ctp < 1900:
             image = 'https://static.wikia.nocookie.net/valorant/images/f/f9/TX_CompetitiveTier_Large_23.png/revision/latest/scale-to-width-down/185?cb=20200623203617'
-        elif ctp > 1900 and ctp < 2000:
+        elif ctp >= 1900 and ctp < 2000:
             image = 'https://static.wikia.nocookie.net/valorant/images/f/f9/TX_CompetitiveTier_Large_23.png/revision/latest/scale-to-width-down/185?cb=20200623203617'
-        else:
+        elif ctp >= 2000:
             image = 'https://static.wikia.nocookie.net/valorant/images/2/24/TX_CompetitiveTier_Large_24.png/revision/latest/scale-to-width-down/185?cb=20200623203621'
         
 
