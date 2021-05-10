@@ -329,6 +329,75 @@ async def val(ctx, *, arg:str):
         await msg.edit(content='Error 404 :(')
         await ctx.send("I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)")
 
+
+@bot.command()
+async def valm(ctx, *, arg:str):
+
+    def agentImg(agent):
+        Astra = 'https://img.redbull.com/images/c_crop,w_1620,h_1080,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2021/3/25/wk6ik95vzmxyagx9md8e/valorant-agent-astra'
+        Brimstone = 'https://res.allmacwallpaper.com/get/iMac-21-inch-5K-Retina-wallpapers/brimstone-valorant-4k-4096x2304/22319-13.jpg'
+        Breach = 'https://i.ytimg.com/vi/qNviatS6riI/maxresdefault.jpg'
+        Cypher = 'https://pbs.twimg.com/media/EVcDOuMXsAI2Y_z.jpg'
+        Jett = 'https://static.wikia.nocookie.net/valorant/images/3/35/Jett_icon.png/revision/latest/scale-to-width-down/250?cb=20201128234156'
+        Killjoy = 'https://img.redbull.com/images/c_crop,w_1080,h_720,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2020/10/30/yrn6erzpnmlqnosjeaws/valorant-operator-killjoy'
+        Omen = 'https://gamezo.co.uk/wp-content/uploads/2021/01/valorant-omen-uhdpaper.com-4K-5.2356-wp.thumbnail.jpg'
+        Pheonix = 'https://boosting-ground.com/upload/206ceecc064d01d74e708bae5a67e7568914f5c2.jpeg'
+        Raze = 'https://static.wikia.nocookie.net/valorant/images/b/b1/Suke-raze-keyart-final.jpg/revision/latest/scale-to-width-down/250?cb=20200508170424'
+        Reyna = 'https://img.redbull.com/images/c_crop,x_611,y_0,h_2160,w_2520/c_fill,w_650,h_540/q_auto,f_auto/redbullcom/2020/6/3/ypiocflf3wcbeeyjyi5x/valorant'
+        Sage = 'https://www.nme.com/wp-content/uploads/2020/06/061020-Valorant-Sage.jpeg'
+        Skye = 'https://www.nme.com/wp-content/uploads/2020/10/100920-Valorant-Skye.jpg'
+        Sova = 'https://gamezo.co.uk/wp-content/uploads/2020/11/Sova-Guide.png'
+        Viper = 'https://www.nme.com/wp-content/uploads/2020/06/062320-Valorant-Viper-Riot-Games.jpg'
+        Yoru = 'https://staticg.sportskeeda.com/editor/2021/01/f892e-16103844629156-800.jpg'
+
+        if agent == 'Astra':
+            return Astra
+        elif agent == 'Brimstone':
+            return Brimstone
+        elif agent == 'Breach':
+            return Breach
+        elif agent == 'Cypher':
+            return Cypher
+        elif agent == 'Jett':
+            return Jett
+        elif agent == 'Killjoy':
+            return Killjoy
+        elif agent == 'Omen':
+            return Omen
+        elif agent == 'Pheonix':
+            return Pheonix
+        elif agent == 'Raze':
+            return Raze
+        elif agent == 'Reyna':
+            return Reyna
+        elif agent == 'Sage':
+            return Sage
+        elif agent == 'Skye':
+            return Skye
+        elif agent == 'Sova':
+            return Sova
+        elif agent == 'Viper':
+            return Viper
+        elif agent == 'Yoru':
+            return Yoru
+        
+    newArg = arg.split('#')
+    name = newArg[0]
+    tag = newArg[1]
+
+    response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+    jsonR = response.json()
+
+    players = jsonR['data']['matches'][0]['players']['all_players']
+    for i in players:
+        if i['name'] == name:
+            embedM = discord.Embed(title=f'{arg}\'s last match:', description = i['currenttier_patched'])
+            embedM.add_field(name='Character: ', value=i['character'])
+            embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
+            embedM.add_field(name='Score: ', value=i['stats']['score'], inline=True)
+            embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
+            await ctx.send(embed=embedM)
+
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
@@ -447,7 +516,7 @@ async def quiz(ctx):
         await ctx.send('An error occured.')
 
 
-WHEN = time(9, 28, 0)  # 6:00 PM
+WHEN = time(1, 28, 0)  # 6:00 PM
 channel_id = 801520877753597974 # Put your channel id here
 
 async def called_once_a_day():
