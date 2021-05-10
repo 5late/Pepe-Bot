@@ -21,6 +21,7 @@ intents = discord.Intents().all()
 
 DISCORD_TOKEN = os.getenv("discord_token")
 AI_API_KEY = os.getenv('ai_api_key')
+TRN_API_KEY = os.getenv('trn_api_key')
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -311,9 +312,15 @@ async def val(ctx, *, arg:str):
         def last_2_digits_at_best(n):
             return float(str(n)[-3:]) if '.' in str(n)[-2:] else int(str(n)[-2:])
         fElo = last_2_digits_at_best(jsonR["data"]["elo"])
+        rank = jsonR['data']['currenttierpatched']
+
+        if ctp > 1800:
+            eloEnd = f'{rank} ({ctp})'
+        else:
+            eloEnd = f'{fElo}/100'
 
         embedR = discord.Embed(title=name+"#"+tag, description=jsonR["data"]["currenttierpatched"], color=0x0000ff)
-        embedR.add_field(name="Elo: ", value= str(fElo) + "/100")
+        embedR.add_field(name="Elo: ", value= eloEnd)
         embedR.add_field(name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"])
         embedR.set_thumbnail(url=image)
         await ctx.send(embed = embedR)
@@ -321,7 +328,6 @@ async def val(ctx, *, arg:str):
     except:
         await msg.edit(content='Error 404 :(')
         await ctx.send("I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)")
-
 
 @bot.command()
 async def ras(ctx, option=''):
