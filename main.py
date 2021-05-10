@@ -400,12 +400,19 @@ async def valm(ctx, *, arg:str):
         jsonR = response.json()
 
         players = jsonR['data']['matches'][0]['players']['all_players']
+        print(str(jsonR['data']['matches'][0]['teams']['blue']['has_won']))
+        if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
+            color = 0x10B402
+        elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
+            color = 0xDF0606
+        else:
+            color = 0xBFC6C4
         for i in players:
             if i['name'] == name:
-                embedM = discord.Embed(title=f'{arg}\'s last match:', description = i['currenttier_patched'])
+                embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
                 embedM.add_field(name='Character: ', value=i['character'])
                 embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
-                embedM.add_field(name='Score: ', value=i['stats']['score'], inline=True)
+                embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
                 embedM.set_thumbnail(url=str(agentImg(str(i['character']))))
                 embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
     await ctx.send(embed=embedM)
