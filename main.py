@@ -354,19 +354,24 @@ async def valm(ctx, *, arg:str):
             jsonR = response.json()
 
             players = jsonR['data']['matches'][0]['players']['all_players']
-            print(str(jsonR['data']['matches'][0]['teams']['blue']['has_won']))
+            convertedTicks = datetime.now() + timedelta(microseconds = int(jsonR['data']['matches'][0]['metadata']['game_start'])/10)
+            print(convertedTicks.strftime("%a, %b %d, %Y | %H:%M"))
+
             if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
                 color = 0x10B402
             elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
                 color = 0xDF0606
             else:
                 color = 0x3b3d3c
+
             for i in players:
                 if i['name'] == name:
                     embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
                     embedM.add_field(name='Character: ', value=i['character'])
                     embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                     embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
+                    embedM.add_field(name='Date:', value=jsonR['data']['matches'][0]['metadata']['game_start_patched'])
+                    embedM.add_field(name='Duration:', value=f"{int((jsonR['data']['matches'][0]['metadata']['game_length'])/1000)//60} minutes")
                     file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
                     embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
                     embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
