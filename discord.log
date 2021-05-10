@@ -77,3 +77,7 @@
 2021-05-10 17:13:28,693:DEBUG:discord.gateway: For Shard ID None: WebSocket Event: {'t': 'PRESENCE_UPDATE', 's': 12, 'op': 0, 'd': {'user': {'id': '418577634247835648'}, 'status': 'online', 'roles': ['757265142009561150'], 'premium_since': None, 'nick': None, 'guild_id': '754084714545152101', 'game': {'type': 4, 'state': 'You make me wanna throw a flashbang into a room full of epileptic kids', 'name': 'Custom Status', 'id': 'custom', 'created_at': 1620505643279}, 'client_status': {'desktop': 'online'}, 'activities': [{'type': 4, 'state': 'You make me wanna throw a flashbang into a room full of epileptic kids', 'name': 'Custom Status', 'id': 'custom', 'created_at': 1620505643279}]}}
 2021-05-10 17:13:28,694:DEBUG:discord.client: Dispatching event socket_response
 2021-05-10 17:13:28,694:DEBUG:discord.client: Dispatching event member_update
+2021-05-10 17:13:40,579:DEBUG:discord.client: Dispatching event socket_raw_receive
+2021-05-10 17:13:40,579:DEBUG:discord.gateway: For Shard ID None: WebSocket Event: {'t': 'PRESENCE_UPDATE', 's': 13, 'op': 0, 'd': {'user': {'id': '538461162161963008'}, 'status': 'offline', 'roles': ['831699652394483722', '826152422274629642'], 'premium_since': None, 'nick': None, 'guild_id': '754084714545152101', 'game': None, 'client_status': {}, 'activities': []}}
+2021-05-10 17:13:40,579:DEBUG:discord.client: Dispatching event socket_response
+2021-05-10 17:13:40,579:DEBUG:discord.client: Dispatching event member_update
