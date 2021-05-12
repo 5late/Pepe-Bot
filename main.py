@@ -361,6 +361,8 @@ async def valm(ctx, *, arg:str):
                 return 'https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png/revision/latest/scale-to-width-down/1000?cb=20200620202349'
             elif imap == 'Bind':
                 return 'https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png/revision/latest/scale-to-width-down/1000?cb=20200620202316'
+            elif imap == 'Breeze':
+                return 'https://www.ginx.tv/uploads2/Valorant/breeze_mapp.png'
             
         newArg = arg.split('#')
         name = newArg[0]
