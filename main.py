@@ -30,7 +30,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.', intents = intents)
+bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.', intents = intents, help_command=None)
 
 deletedMsgs = []
 deletedChnl = []
@@ -114,6 +114,14 @@ async def on_message_edit(message_before, message_after):
 
     msga = message_after.content
     editedMsgA.append(msga)
+
+@bot.command()
+async def help(ctx):
+    helpEmbed = discord.Embed(title='Help Command')
+    helpEmbed.add_field(name='See all my commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md)')
+    helpEmbed.set_footer(text='Thanks :)')
+
+    await ctx.send(embed = helpEmbed)
 
 @bot.command()
 async def ping(ctx):

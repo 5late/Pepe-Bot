@@ -1,6 +1,6 @@
 # Commands
 
-**Note: You can run the ``=help`` command to see all the commands as well**
+**Note: Some Commands might not work so great, report bugs [here](https://github.com/5late/Pepe-Bot/issues)**
 
 # Calculator
 
