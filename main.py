@@ -116,6 +116,10 @@ async def on_message_edit(message_before, message_after):
     editedMsgA.append(msga)
 
 @bot.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! {round(bot.latency, 1)}')
+
+@bot.command()
 async def ldm(ctx):
     try:
         now = datetime.now()
@@ -326,7 +330,10 @@ async def val(ctx, *, arg:str):
         embedR.set_thumbnail(url=image)
         await ctx.send(embed = embedR)
         await msg.edit(content='Stats queryied.')
-    except:
+    except json.decoder.JSONDecodeError:
+        await msg.edit(content= 'Error 504')
+        await ctx.send('The server responded badly. The API is down. This is not a problem with PepeBot, but rather with the API. Try again in a few minutes')
+    except KeyError:
         await msg.edit(content='Error 404 :(')
         await ctx.send("I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)")
 
@@ -350,6 +357,7 @@ async def valm(ctx, *, arg:str):
         newArg = arg.split('#')
         name = newArg[0]
         tag = newArg[1]
+
         async with ctx.typing():
             response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
             jsonR = response.json()
@@ -364,23 +372,43 @@ async def valm(ctx, *, arg:str):
                 color = 0xDF0606
             else:
                 color = 0x3b3d3c
+            
+            def mode():
+                try:
+                    return jsonR['data']['matches'][0]['metadata']['mode']
+                except:
+                    if KeyError:
+                        return 'Unknown'
+                
+            def map():
+                try:
+                    return mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))
+                except KeyError:
+                    return 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/200px-Question_mark_%28black%29.svg.png'
 
             for i in players:
-                if i['name'] == name:
-                    embedM = discord.Embed(title=f'{arg}\'s last match:', description = f"**{jsonR['data']['matches'][0]['metadata']['mode']}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
+                if i['name'] == name or i['name'] == name.title():
+                    global iconFile
+                    iconFile = discord.File(f"./imgs/agents/{i['character']}_icon.png")
+                    global embedM
+                    embedM = discord.Embed(title=f"{i['name']}#{i['tag']}\'s last match:", description = f"**{mode()}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
                     embedM.add_field(name='Character: ', value=i['character'])
                     embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                     embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
                     embedM.add_field(name='Date:', value=finalT)
                     embedM.add_field(name='Duration:', value=f"{int((jsonR['data']['matches'][0]['metadata']['game_length'])/1000)//60} minutes")
-                    file = discord.File(f"./imgs/agents/{i['character']}_icon.png")
                     embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
-                    embedM.set_image(url=str(mapImg(str(jsonR['data']['matches'][0]['metadata']['map']))))
-        await ctx.send(file=file, embed=embedM)
-        await msg.edit(content=f':smile: I successfully got last game stats for {arg}!')
+                    embedM.set_image(url=str(map()))
+                    if mode() == 'Unknown':
+                        embedM.set_footer(text='Wondering what happened to mode/map? Run command ``=error 1``.')
+                    else:
+                        embedM.set_footer(text='https://github.com/5late/Pepe-Bot')
+                    await asyncio.sleep(1)
+                    await ctx.send(file=iconFile, embed=embedM)
+                    await msg.edit(content=f':smile: I successfully got last game stats for {name}#{tag}!')
     except:
-        await msg.edit(content='Error 404 :(')
-        await ctx.send('I could not find the last game for that user. :(\nSome reasons for this include:\n1. The player does not exist\n2. The player has not played any games.\n3. The game was played on Breeze. For some reason, RIOT leaves certain parts out of the API on Breeze games. There isn\'t much I can do about this, unfortunately.\n4. The player may not have played a game in a really long time, and RIOT doesnt let me reach that far :(.')
+        await msg.edit(content='Error 2||Error 404 :(')
+        await ctx.send('Use command ``=error 2`` to see more information.')
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
@@ -820,7 +848,23 @@ async def bj(ctx):
     elif msg.content == 's':
         await ctx.send(f'You stood. The dealers cards were: {dealerCard}.')
                 
-
+@bot.command()
+async def error(ctx, command=''):
+    if not command:
+        ctx.send('Hey! This command provides in depth information about different errors. If you\'re looking for help, use the ``=help`` command instead!')
+    elif str(command) == '1':
+        embedvalm = discord.Embed(title='VALM Error 1', description='``=valm`` is a command that lets you see someones past match!', color=0x00CCFF)
+        embedvalm.add_field(name='Unknown Map/Gamemode', value='If you\'re wondering why your map image returned with a **?** instead of a map, it means that I could not find the map for that match. The same thing happens with the game mode. Unfortunately there is nothing I can do about this. :(', inline=False)
+        embedvalm.add_field(name='Timed out response', value= 'If you sent a request for your last match and the bot responded that it was querying it, but then did not send back the response, it means that it probably timed out. Sadly there is nothing I can do about this either. :(', inline=False)
+        embedvalm.add_field(name='How to help', value='If you know the reason for one of these errors, contact my owner ``Xurxx#7879``.')
+        embedvalm.set_footer(text='Thanks for your patience with me! <:happy:816424699906752562>')
+        await ctx.send(embed = embedvalm)
+    elif str(command) == '2':
+        embedvalm2 = discord.Embed(title='VALM Error 2 || Error 404', description='``=valm`` is a command that lets you see someones past match!', color=0x00FFCC)
+        embedvalm2.add_field(name= 'Error 2 || Error 404', value= 'Error 2 || Error 404 is returned when the server could not find the player you are looking for. Check your spelling, and/or tag. The other reason is that the player has not played in a long time, and RIOT doesnt let me query that far :(.', inline=False)
+        embedvalm2.add_field(name= 'How to help', value='If you can help, contact ``Xurxx#7879``.', inline=False)
+        embedvalm2.set_footer(text='Thanks for your patience with me! <:happy:816424699906752562>')
+        await ctx.send(embed=embedvalm2)
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())

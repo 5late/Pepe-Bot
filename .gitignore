@@ -8,3 +8,4 @@ sudo.txt
 !Hind-Regular.ttf
 *.jpg
 !imgs/*.jpg
+*.log
