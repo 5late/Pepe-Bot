@@ -417,6 +417,93 @@ async def valm(ctx, *, arg:str):
     except:
         await msg.edit(content='Error 2||Error 404 :(')
         await ctx.send('Use command ``=error 2`` to see more information.')
+
+@bot.command()
+async def vala(ctx, *, arg):
+    def listToString(l):
+        str1=''
+
+        for ele in l:
+            str1 += ele + ' '
+        return str1
+    
+    def shortenGamemode(mode):
+        if str(mode) == 'Competitive':
+            return 'Comp'
+        elif str(mode) == 'Normal':
+            return 'Unr'
+        elif str(mode) == 'Spike Rush':
+            return 'SpR'
+        elif str(mode) == 'Deathmatch':
+            return 'DM'
+        elif str(mode) == 'Replication':
+            return 'Repl'
+        else:
+            return 'Unknown'
+
+    kills = []
+    deaths = []
+    assists = []
+    agents = []
+    gamemode = []
+
+    fkills = []
+    fdeaths = []
+    fassists = []
+
+    newArg = arg.split('#')
+    name = newArg[0]
+    tag = newArg[1]
+
+    async with ctx.typing():
+        response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+        jsonR = response.json()
+
+        def mode(i):
+                try:
+                    return jsonR['data']['matches'][i]['metadata']['mode']
+                except:
+                    if KeyError:
+                        return 'Unknown'
+
+        for i in range(5):
+            players = jsonR['data']['matches'][i]['players']['all_players']
+
+            for ii in players:
+                if ii['name'] == name or ii['name'] == name.title():
+                    kills.append(ii['stats']['kills'])
+                    deaths.append(ii['stats']['deaths'])
+                    assists.append(ii['stats']['assists'])
+                    agents.append(ii['character'])
+                    gamemode.append(shortenGamemode(mode(i)))
+                    
+
+        kcounter = 0
+        dcounter = 0
+        acounter = 0
+        kcounter += sum(kills)
+        dcounter += sum(deaths)
+        acounter += sum(assists)
+
+        fkills.append(round(kcounter/5))
+        fdeaths.append(round(dcounter/5))
+        fassists.append(round(acounter/5))
+
+        finalKDA = f'{fkills[0]}/{fdeaths[0]}/{fassists[0]}'
+        newAgent = listToString(agents)
+        mostCommonAgent = max(agents, key=agents.count)
+        iconFile = discord.File(f"./imgs/agents/{mostCommonAgent}_icon.png")
+        
+
+        fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}')
+        fembed.add_field(name='Average KDA', value= finalKDA)
+        fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
+        fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
+
+        await ctx.send(file = iconFile, embed = fembed)
+
+
+
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
@@ -865,13 +952,13 @@ async def error(ctx, command=''):
         embedvalm.add_field(name='Unknown Map/Gamemode', value='If you\'re wondering why your map image returned with a **?** instead of a map, it means that I could not find the map for that match. The same thing happens with the game mode. Unfortunately there is nothing I can do about this. :(', inline=False)
         embedvalm.add_field(name='Timed out response', value= 'If you sent a request for your last match and the bot responded that it was querying it, but then did not send back the response, it means that it probably timed out. Sadly there is nothing I can do about this either. :(', inline=False)
         embedvalm.add_field(name='How to help', value='If you know the reason for one of these errors, contact my owner ``Xurxx#7879``.')
-        embedvalm.set_footer(text='Thanks for your patience with me! <:happy:816424699906752562>')
+        embedvalm.set_footer(text='Thanks for your patience with me! :)')
         await ctx.send(embed = embedvalm)
     elif str(command) == '2':
         embedvalm2 = discord.Embed(title='VALM Error 2 || Error 404', description='``=valm`` is a command that lets you see someones past match!', color=0x00FFCC)
         embedvalm2.add_field(name= 'Error 2 || Error 404', value= 'Error 2 || Error 404 is returned when the server could not find the player you are looking for. Check your spelling, and/or tag. The other reason is that the player has not played in a long time, and RIOT doesnt let me query that far :(.', inline=False)
         embedvalm2.add_field(name= 'How to help', value='If you can help, contact ``Xurxx#7879``.', inline=False)
-        embedvalm2.set_footer(text='Thanks for your patience with me! <:happy:816424699906752562>')
+        embedvalm2.set_footer(text='Thanks for your patience with me! :)')
         await ctx.send(embed=embedvalm2)
 
 if __name__ == "__main__":
