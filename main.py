@@ -557,8 +557,9 @@ async def valUpdates(ctx):
     
     firstArticle = jsonR['data'][0]
 
-    embedU = discord.Embed(title=firstArticle['title'], description=firstArticle['url'], color=0x00DDFF)
+    embedU = discord.Embed(title=firstArticle['title'], url= firstArticle['url'],color=0x00DDFF)
     embedU.add_field(name= 'Date:', value= firstArticle['date'])
+    embedU.set_footer(text='https://github.com/5late/Pepe-Bot')
     embedU.set_image(url=firstArticle['banner_url'])
 
     await ctx.send(embed=embedU)
