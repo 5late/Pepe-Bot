@@ -68,6 +68,12 @@
 
 *Returns the last game stats about a player*
 
+### VALA
+
+``=vala PLAYER#TAG``
+
+*Fetches the last 5 games for a player, then condenses it and delivers results*
+
 
 # Music
 
