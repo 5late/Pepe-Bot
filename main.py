@@ -546,6 +546,23 @@ async def vala(ctx, *, arg):
         await msg.edit('The server might be down. :pensive:')
         await ctx.send('I didn\'t receive a response from the server. Try again in about 15 - 20 minutes.')
 
+
+@bot.command()
+async def valUpdates(ctx):
+    msg = await ctx.send('I\'m fetching the latest game update, I will send the URL shortly...')
+
+    response = requests.get('https://api.henrikdev.xyz/valorant/v1/website/en-us?filter=game_updates')
+    jsonR = response.json()
+    
+    firstArticle = jsonR['data'][0]
+
+    embedU = discord.Embed(title=firstArticle['title'], description=firstArticle['url'], color=0x00DDFF)
+    embedU.add_field(name= 'Date:', value= firstArticle['date'])
+    embedU.set_image(url=firstArticle['banner_url'])
+
+    await ctx.send(embed=embedU)
+
+
 @bot.command()
 async def ras(ctx, option=''):
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
