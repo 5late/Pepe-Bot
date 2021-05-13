@@ -376,8 +376,6 @@ async def valm(ctx, *, arg:str):
             convertD = datetime.fromtimestamp(int(jsonR['data']['matches'][0]['metadata']['game_start']) / 1000.0)
             finalT = convertD.strftime('%a, %b %d, %Y | %H:%M')
 
-            
-            
             def mode():
                 try:
                     return jsonR['data']['matches'][0]['metadata']['mode']
