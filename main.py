@@ -15,6 +15,7 @@ from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import time as ttime
+import urllib.request
 
 load_dotenv()
 
@@ -561,6 +562,7 @@ async def valUpdates(ctx):
     embedU.set_image(url=firstArticle['banner_url'])
 
     await ctx.send(embed=embedU)
+    await msg.edit(content= 'Here\'s the latest patch notes for VALORANT:')
 
 
 @bot.command()
