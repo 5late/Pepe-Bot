@@ -376,12 +376,7 @@ async def valm(ctx, *, arg:str):
             convertD = datetime.fromtimestamp(int(jsonR['data']['matches'][0]['metadata']['game_start']) / 1000.0)
             finalT = convertD.strftime('%a, %b %d, %Y | %H:%M')
 
-            if jsonR['data']['matches'][0]['teams']['blue']['has_won']:
-                color = 0x10B402
-            elif str(jsonR['data']['matches'][0]['teams']['blue']['has_won']) == 'False':
-                color = 0xDF0606
-            else:
-                color = 0x3b3d3c
+            
             
             def mode():
                 try:
@@ -398,10 +393,32 @@ async def valm(ctx, *, arg:str):
 
             for i in players:
                 if i['name'] == name or i['name'] == name.title():
+                    team = str(i['team']).lower()
+                    puuid = i['puuid']
+                    if str(mode()) == 'Deathmatch':
+                        if jsonR['data']['matches'][0]['rounds'][0]['winning_team'] == puuid:
+                            color = 0x10B402
+                        elif not jsonR['data']['matches'][0]['rounds'][0]['winning_team'] == puuid:
+                            color = 0xDF0606
+                        else:
+                            color = 0x3b3d3c
+                        won = i['stats']['kills']
+                        lost = i['stats']['deaths']
+                        
+                    else:    
+                        if str(jsonR['data']['matches'][0]['teams'][team]['has_won']) == 'True':
+                            color = 0x10B402
+                        elif str(jsonR['data']['matches'][0]['teams'][team]['has_won']) == 'False':
+                            color = 0xDF0606
+                        else:
+                            color = 0x3b3d3c
+                        won = jsonR['data']['matches'][0]['teams'][team]['rounds_won']
+                        lost = jsonR['data']['matches'][0]['teams'][team]['rounds_lost']
+                        
                     global iconFile
                     iconFile = discord.File(f"./imgs/agents/{i['character']}_icon.png")
                     global embedM
-                    embedM = discord.Embed(title=f"{i['name']}#{i['tag']}\'s last match:", description = f"**{mode()}** | ***{jsonR['data']['matches'][0]['teams']['blue']['rounds_won']}-{jsonR['data']['matches'][0]['teams']['red']['rounds_won']}***", color=color)
+                    embedM = discord.Embed(title=f"{i['name']}#{i['tag']}\'s last match:", description = f"**{mode()}** | ***{won}-{lost}***", color=color)
                     embedM.add_field(name='Character: ', value=i['character'])
                     embedM.add_field(name='KDA: ', value=str(i['stats']['kills']) + '/' + str(i['stats']['deaths'])+ '/' +str(i['stats']['assists']))
                     embedM.add_field(name='Combat Score: ', value=int(i['stats']['score'])//int(jsonR['data']['matches'][0]['metadata']['rounds_played']), inline=True)
@@ -819,10 +836,9 @@ async def talk(ctx, *, args):
     rs.close()
 
 @bot.command()
+@commands.is_owner()
 async def test(ctx):
-    print(sudosContent)
-    if sudosContent == 'True' and str(ctx.author.id) in sudoers:
-        await ctx.send('sudo works')
+    await ctx.send('sudo works')
     
 @bot.command()
 async def gh(ctx):
