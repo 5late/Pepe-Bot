@@ -161,11 +161,11 @@ async def pwd(ctx):
 
     if now.hour < 12:
         wordTime = 'Good Morning'
-    elif now.time() > datetime.time(12) and now.time() < datetime.time(17):
+    elif now.hour >= 12 and now.hour < 17:
         wordTime = 'It\'s Afternoon'
-    elif now.time() > datetime.time(17) and now.time() < datetime.time(21):
+    elif now.hour >= 17 and now.hour < 21:
         wordTime = 'Good Evening'
-    elif now.time() > datetime.time(21) and now.time() < datetime.time(23, 59):
+    else:
         wordTime = 'Night'
 
     embedI = discord.Embed(title=f'{wordTime}, {ctx.author.nick}', description='Let\'s check out some stats.')
