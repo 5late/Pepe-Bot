@@ -404,12 +404,12 @@ async def valm(ctx, *, arg:str):
                         lost = i['stats']['deaths']
                         
                     else:    
-                        if str(jsonR['data']['matches'][0]['teams'][team]['has_won']) == 'True':
+                        if jsonR['data']['matches'][0]['teams'][team]['rounds_won'] > jsonR['data']['matches'][0]['teams'][team]['rounds_lost']:
                             color = 0x10B402
-                        elif str(jsonR['data']['matches'][0]['teams'][team]['has_won']) == 'False':
+                        elif jsonR['data']['matches'][0]['teams'][team]['rounds_won'] < jsonR['data']['matches'][0]['teams'][team]['rounds_lost']:
                             color = 0xDF0606
                         else:
-                            color = 0x3b3d3c
+                            color = 0xd1d1d1
                         won = jsonR['data']['matches'][0]['teams'][team]['rounds_won']
                         lost = jsonR['data']['matches'][0]['teams'][team]['rounds_lost']
                         
