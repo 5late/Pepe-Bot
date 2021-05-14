@@ -68,6 +68,18 @@
 
 *Returns the last game stats about a player*
 
+### VALA
+
+``=vala PLAYER#TAG``
+
+*Fetches the last 5 games for a player, then condenses it and delivers results*
+
+### ValUpdates
+
+``=valUpdates``
+
+*Fetches latest update link and sends it in an embed*
+
 
 # Music
 

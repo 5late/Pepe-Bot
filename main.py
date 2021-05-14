@@ -1,7 +1,6 @@
 import discord
 from discord.utils import get
 from discord.ext import commands
-import logging 
 import numbers
 from datetime import datetime, time, timedelta
 import json
@@ -14,7 +13,6 @@ import os
 from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
-import time as ttime
 
 load_dotenv()
 
@@ -23,12 +21,6 @@ intents = discord.Intents().all()
 DISCORD_TOKEN = os.getenv("discord_token")
 AI_API_KEY = os.getenv('ai_api_key')
 TRN_API_KEY = os.getenv('trn_api_key')
-
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix='=', description='A simple bot to learn python.', intents = intents, help_command=None)
 
@@ -437,88 +429,132 @@ async def valm(ctx, *, arg:str):
 
 @bot.command()
 async def vala(ctx, *, arg):
-    def listToString(l):
-        str1=''
+    try:
+        msg = await ctx.send(f'I\'m fetching the five latest games from ``{arg}``\'s match history.')
+        def listToString(l):
+            str1=''
 
-        for ele in l:
-            str1 += ele + ' '
-        return str1
-    
-    def shortenGamemode(mode):
-        if str(mode) == 'Competitive':
-            return 'Comp'
-        elif str(mode) == 'Normal':
-            return 'Unr'
-        elif str(mode) == 'Spike Rush':
-            return 'SpR'
-        elif str(mode) == 'Deathmatch':
-            return 'DM'
-        elif str(mode) == 'Replication':
-            return 'Repl'
-        else:
-            return 'Unknown'
-
-    kills = []
-    deaths = []
-    assists = []
-    agents = []
-    gamemode = []
-
-    fkills = []
-    fdeaths = []
-    fassists = []
-
-    newArg = arg.split('#')
-    name = newArg[0]
-    tag = newArg[1]
-
-    async with ctx.typing():
-        response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
-        jsonR = response.json()
-
-        def mode(i):
-                try:
-                    return jsonR['data']['matches'][i]['metadata']['mode']
-                except:
-                    if KeyError:
-                        return 'Unknown'
-
-        for i in range(5):
-            players = jsonR['data']['matches'][i]['players']['all_players']
-
-            for ii in players:
-                if ii['name'] == name or ii['name'] == name.title():
-                    kills.append(ii['stats']['kills'])
-                    deaths.append(ii['stats']['deaths'])
-                    assists.append(ii['stats']['assists'])
-                    agents.append(ii['character'])
-                    gamemode.append(shortenGamemode(mode(i)))
-                    
-
-        kcounter = 0
-        dcounter = 0
-        acounter = 0
-        kcounter += sum(kills)
-        dcounter += sum(deaths)
-        acounter += sum(assists)
-
-        fkills.append(round(kcounter/5))
-        fdeaths.append(round(dcounter/5))
-        fassists.append(round(acounter/5))
-
-        finalKDA = f'{fkills[0]}/{fdeaths[0]}/{fassists[0]}'
-        newAgent = listToString(agents)
-        mostCommonAgent = max(agents, key=agents.count)
-        iconFile = discord.File(f"./imgs/agents/{mostCommonAgent}_icon.png")
+            for ele in l:
+                str1 += ele + ' '
+            return str1
         
+        def shortenGamemode(mode):
+            if str(mode) == 'Competitive':
+                return 'Comp'
+            elif str(mode) == 'Normal':
+                return 'Unr'
+            elif str(mode) == 'Spike Rush':
+                return 'SpR'
+            elif str(mode) == 'Deathmatch':
+                return 'DM'
+            elif str(mode) == 'Replication':
+                return 'Repl'
+            else:
+                return 'Unknown'
 
-        fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}')
-        fembed.add_field(name='Average KDA', value= finalKDA)
-        fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
-        fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
+        kills = []
+        deaths = []
+        assists = []
+        agents = []
+        gamemode = []
 
-        await ctx.send(file = iconFile, embed = fembed)
+        fkills = []
+        fdeaths = []
+        fassists = []
 
+        newArg = arg.split('#')
+        name = newArg[0]
+        tag = newArg[1]
+
+        async with ctx.typing():
+            response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+            jsonR = response.json()
+
+            if jsonR['status'] == '200':
+
+                await msg.edit(content=f'I\'ve fetched the last five games and ``{arg}``\'s stats. I\'m now averaging ``{arg}``\'s perfomance...')
+
+                await asyncio.sleep(1)
+
+                def mode(i):
+                        try:
+                            return jsonR['data']['matches'][i]['metadata']['mode']
+                        except:
+                            if KeyError:
+                                return 'Unknown'
+
+                for i in range(5):
+                    players = jsonR['data']['matches'][i]['players']['all_players']
+
+                    for ii in players:
+                        if ii['name'] == name or ii['name'] == name.title():
+                            kills.append(ii['stats']['kills'])
+                            deaths.append(ii['stats']['deaths'])
+                            assists.append(ii['stats']['assists'])
+                            agents.append(ii['character'])
+                            gamemode.append(shortenGamemode(mode(i)))
+
+                kcounter = 0
+                dcounter = 0
+                acounter = 0
+                kcounter += sum(kills)
+                dcounter += sum(deaths)
+                acounter += sum(assists)
+
+                fkills.append(round(kcounter/5))
+                fdeaths.append(round(dcounter/5))
+                fassists.append(round(acounter/5))
+
+                if fkills[0] > fdeaths[0]:
+                    color = 0x10B402
+                elif fkills[0] < fdeaths[0]:
+                    color = 0xDF0606
+                else: 
+                    color = 0x3b3d3c
+
+                finalKDA = f'{fkills[0]}/{fdeaths[0]}/{fassists[0]}'
+                newAgent = listToString(agents)
+                mostCommonAgent = max(agents, key=agents.count)
+                iconFile = discord.File(f"./imgs/agents/{mostCommonAgent}_icon.png")
+                
+
+                fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
+                fembed.add_field(name='Average KDA', value= finalKDA)
+                fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
+                fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
+
+                await ctx.send(file = iconFile, embed = fembed)
+                await msg.edit(content=f':smile: Here is the past five games of ``{arg}``, condensed!')
+            
+            elif jsonR['status'] == '404':
+
+                await msg.edit(content='Error 404')
+                await ctx.send('That player was not found.')
+            
+            else:
+                await msg.edit(content='An error occured. :(')
+                await ctx.send('Try again, or check spelling, tag, etc.')
+    except:
+        await msg.edit('The server might be down. :pensive:')
+        await ctx.send('I didn\'t receive a response from the server. Try again in about 15 - 20 minutes.')
+
+
+@bot.command()
+async def valUpdates(ctx):
+    msg = await ctx.send('I\'m fetching the latest game update, I will send the URL shortly...')
+
+    response = requests.get('https://api.henrikdev.xyz/valorant/v1/website/en-us?filter=game_updates')
+    jsonR = response.json()
+    
+    firstArticle = jsonR['data'][0]
+
+    embedU = discord.Embed(title=firstArticle['title'], url= firstArticle['url'],color=0x00DDFF)
+    embedU.add_field(name= 'Date:', value= firstArticle['date'])
+    embedU.set_footer(text='https://github.com/5late/Pepe-Bot')
+    embedU.set_image(url=firstArticle['banner_url'])
+
+    await ctx.send(embed=embedU)
+    await msg.edit(content= 'Here\'s the latest patch notes for VALORANT:')
 
 
 @bot.command()

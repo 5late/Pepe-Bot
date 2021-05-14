@@ -9,3 +9,5 @@ sudo.txt
 *.jpg
 !imgs/*.jpg
 *.log
+__pycache__/
+.vscode/
