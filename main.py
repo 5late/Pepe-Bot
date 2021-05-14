@@ -108,7 +108,9 @@ async def on_message_edit(message_before, message_after):
     editedMsgA.append(msga)
 
 @bot.command()
-async def help(ctx, group=''):
+async def help(ctx, *, group=''):
+    categories = ['calculator', 'image manipulation', 'valorant', 'music', 'misc']
+    fGroup = group.replace(' ', '-')
     if not group:
         helpEmbed = discord.Embed(title='Help Command', description='Use command ``=help {category}``')
         helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
@@ -117,41 +119,14 @@ async def help(ctx, group=''):
         helpEmbed.set_footer(text='Thanks :)')
 
         await ctx.send(embed = helpEmbed)
-    elif group.lower() == 'calculator':
-        helpEmbed = discord.Embed(title='Help Command - Calculator')
+    elif group.lower() in categories:
+        helpEmbed = discord.Embed(title=f'Help Command - {group.title()}')
         helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        helpEmbed.add_field(name='Calculator Commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#calculator)')
+        helpEmbed.add_field(name=f'{group.title()} commands!', value=f"[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#{fGroup})")
         helpEmbed.set_footer(text='Thanks :)')
-
         await ctx.send(embed = helpEmbed)
-    elif group.lower() == 'image manipulation':
-        helpEmbed = discord.Embed(title='Help Command - Image Manipulation')
-        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        helpEmbed.add_field(name='Image manipulation Commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#Image-manipulation)')
-        helpEmbed.set_footer(text='Thanks :)')
-
-        await ctx.send(embed = helpEmbed)
-    elif group.lower() == 'valorant':
-        helpEmbed = discord.Embed(title='Help Command - VALORANT')
-        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        helpEmbed.add_field(name='Valorant Commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#VALORANT)')
-        helpEmbed.set_footer(text='Thanks :)')
-
-        await ctx.send(embed = helpEmbed)
-    elif group.lower() == 'music':
-        helpEmbed = discord.Embed(title='Help Command - Music')
-        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        helpEmbed.add_field(name='Music Commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#music)')
-        helpEmbed.set_footer(text='Thanks :)')
-
-        await ctx.send(embed = helpEmbed)
-    elif group.lower() == 'misc':
-        helpEmbed = discord.Embed(title='Help Command - Misc')
-        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        helpEmbed.add_field(name='Miscellaneous Commands!', value='[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#misc)')
-        helpEmbed.set_footer(text='Thanks :)')
-
-        await ctx.send(embed = helpEmbed)
+    else:
+        await ctx.send(f'No command group with name {group} found.')
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(bot.latency, 1)}')
