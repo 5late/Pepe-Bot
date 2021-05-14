@@ -653,7 +653,7 @@ bot.command(name="ball", pass_context=True,)(randomchoice.callback)
 
 @bot.command()
 async def write(ctx, title:str, url:str):
-    if ctx.message.author.id == 564466359107321856 and sudoPriv:
+    if ctx.message.author.id == 564466359107321856:
         def write_json(data, filename='clips.json'):
             with open(filename, 'w') as f:
                 json.dump(data, f, indent=4)
@@ -675,13 +675,15 @@ async def write(ctx, title:str, url:str):
 @bot.command()
 async def read(ctx, title=''):
     if not title:
-        titles = []
+        clipEmbed = discord.Embed(title='Clips I\'ve stored.', description = 'You can also use command ``=read {title}`` to see a specific clip.', color=0X00CCFF)
         with open('clips.json') as f:
             data = json.load(f)
             dataClips = data['clips']
         for i in dataClips:
-            titles.append(i['title'])
-        await ctx.send(f'These are the clip titles I\'ve got: ```{str(titles)}```. Run command ``=read [title]`` to watch the clip.')
+            clipEmbed.add_field(name=i['title'], value=f"[Click Here]({i['url']})")
+
+        clipEmbed.set_footer(text='As more clips are added, they\'ll show up here.')
+        await ctx.send(embed = clipEmbed)
     else:        
         with open('clips.json') as f:
             data = json.load(f)
