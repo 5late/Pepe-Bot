@@ -173,7 +173,7 @@ async def pwd(ctx):
     embedI.add_field(name='Running on Operating System:', value=f'``{platform.system()}``')
     embedI.add_field(name='Version:', value=f'``{platform.release()}``', inline=True)
     embedI.add_field(name='Time:', value=current_time, inline=False)
-    embedI.add_field(name='Bot Latency/Ping', value=f'``{round(bot.latency, 1)} ms``', inline=True)
+    embedI.add_field(name='Bot Latency/Ping', value=f'``{round(bot.latency, 3)} ms``', inline=True)
     embedI.add_field(name='Bot Uptime', value=getBotUptime(), inline=True)
 
     await ctx.send(embed = embedI)
@@ -594,7 +594,7 @@ async def vala(ctx, *, arg):
                 await msg.edit(content='An error occured. :(')
                 await ctx.send('Try again, or check spelling, tag, etc.')
     except:
-        await msg.edit('The server might be down. :pensive:')
+        await msg.edit(content='The server might be down. :pensive:')
         await ctx.send('I didn\'t receive a response from the server. Try again in about 15 - 20 minutes.')
 
 
