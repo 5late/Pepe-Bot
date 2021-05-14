@@ -13,6 +13,7 @@ import os
 from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
+import platform
 
 load_dotenv()
 
@@ -72,6 +73,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
 @bot.event
 async def on_ready():
+    global botUptime
+    botUptime = datetime.utcnow()
     print('Logged on as ')
     print(bot.user.name)
     print(bot.user.id)
@@ -126,10 +129,53 @@ async def help(ctx, *, group=''):
         helpEmbed.set_footer(text='Thanks :)')
         await ctx.send(embed = helpEmbed)
     else:
-        await ctx.send(f'No command group with name {group} found.')
+        await ctx.send(f'No command group with name ``{group}`` found.')
+
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f'Pong! {round(bot.latency, 1)}')
+    await ctx.send(f'Pong! Bot latency is ``{round(bot.latency, 1)}`` ms.')
+    print(os.name)
+
+@bot.command()
+async def pwd(ctx):
+
+    def getBotUptime():
+        now = datetime.utcnow()
+        delta = now - botUptime
+
+        hours, remainder = divmod(int(delta.total_seconds()), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        days, hours = divmod(hours, 24)
+
+        if days:
+            fmt = '{d} days, {h} hours, {m} minuts, and {s} seconds.'
+        else:
+            fmt = '{h} hours, {m} minuts, and {s} seconds.'
+        
+        return fmt.format(d=days, h=hours, m=minutes, s=seconds)
+
+    print(getBotUptime())
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+
+    if now.hour < 12:
+        wordTime = 'Good Morning'
+    elif now.time() > datetime.time(12) and now.time() < datetime.time(17):
+        wordTime = 'It\'s Afternoon'
+    elif now.time() > datetime.time(17) and now.time() < datetime.time(21):
+        wordTime = 'Good Evening'
+    elif now.time() > datetime.time(21) and now.time() < datetime.time(23, 59):
+        wordTime = 'Night'
+
+    embedI = discord.Embed(title=f'{wordTime}, {ctx.author.nick}', description='Let\'s check out some stats.')
+    embedI.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+    embedI.add_field(name='Running on Operating System:', value=f'``{platform.system()}``')
+    embedI.add_field(name='Version:', value=f'``{platform.release()}``', inline=True)
+    embedI.add_field(name='Time:', value=current_time, inline=False)
+    embedI.add_field(name='Bot Latency/Ping', value=f'``{round(bot.latency, 1)} ms``', inline=True)
+    embedI.add_field(name='Bot Uptime', value=getBotUptime(), inline=True)
+
+    await ctx.send(embed = embedI)
 
 @bot.command()
 async def ldm(ctx):
