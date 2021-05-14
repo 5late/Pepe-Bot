@@ -154,7 +154,6 @@ async def pwd(ctx):
         
         return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
-    print(getBotUptime())
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
