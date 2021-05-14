@@ -148,9 +148,11 @@ async def pwd(ctx):
         days, hours = divmod(hours, 24)
 
         if days:
-            fmt = '{d} days, {h} hours, {m} minuts, and {s} seconds.'
+            fmt = '{d} days, {h} hours, {m} minutes, and {s} seconds.'
+        elif hours:
+            fmt = '{h} hours, {m} minutes, and {s} seconds.'
         else:
-            fmt = '{h} hours, {m} minuts, and {s} seconds.'
+            fmt = '{m} minutes and {s} seconds.'
         
         return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
