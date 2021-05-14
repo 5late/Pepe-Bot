@@ -559,16 +559,31 @@ async def valUpdates(ctx):
 
 @bot.command()
 async def ras(ctx, option=''):
+    selectedAgent = []
+    selectedAgentNF = []
+    selectedAgent.clear()
+    selectedAgentNF.clear()
+
     agentList = ["Astra", "Breach", "Skye", "Yoru", "Phoenix", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
     agentListNF = ["Astra", "Brimstone", "Sova", "Jett", "Reyna", "Omen", "Viper", "Cypher", "Killjoy", "Sage", "Raze"]
     
-    embedN = discord.Embed(title="Random Agent Selector", description=random.choice(agentList))
-    embedNF = discord.Embed(title="Random Agent Selector", description=random.choice(agentListNF))
+    selectedAgent.append(random.choice(agentList))
+    selectedAgentNF.append(random.choice(agentListNF))
+    
+    first = selectedAgent[0]
+    firstNF = selectedAgentNF[0]
+
+    agentImgFile = discord.File(f'./imgs/agents/{first}_icon.png')
+    agentImgNFFile = discord.File(f'./imgs/agents/{firstNF}_icon.png')
+    embedN = discord.Embed(title="Random Agent Selector", description=first)
+    embedN.set_thumbnail(url=f'attachment://{first}_icon.png')
+    embedNF = discord.Embed(title="Random Agent Selector", description=firstNF)
+    embedNF.set_thumbnail(url=f'attachment://{firstNF}_icon.png')
 
     if option == "nf":
-        await ctx.send(embed = embedNF)
+        await ctx.send(embed = embedNF, file = agentImgNFFile)
     if not option:
-        await ctx.send(embed=embedN)
+        await ctx.send(embed=embedN, file = agentImgFile)
 
 @bot.command(pass_context=True)
 async def randomchoice(ctx, *, question):
