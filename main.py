@@ -1,7 +1,6 @@
 import discord
 from discord.utils import get
 from discord.ext import commands
-import numbers
 from datetime import datetime, time, timedelta
 import json
 import requests
@@ -14,6 +13,7 @@ from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import platform
+import leaderboard
 
 load_dotenv()
 
@@ -597,6 +597,10 @@ async def vala(ctx, *, arg):
         await msg.edit(content='The server might be down. :pensive:')
         await ctx.send('I didn\'t receive a response from the server. Try again in about 15 - 20 minutes.')
 
+
+@bot.command()
+async def lb(ctx, *, args):
+    await leaderboard.leaderBoard(ctx, args)
 
 @bot.command()
 async def valUpdates(ctx):
