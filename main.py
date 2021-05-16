@@ -270,6 +270,18 @@ async def add(ctx, *nums):
     await ctx.send("{} = {}".format((' + '.join(map(str, list(nums)))), result))
 
 @bot.command()
+async def sub(ctx, *nums):
+    result = int(nums[0])
+    newNums = nums[1:]
+    for num in newNums:
+        try:
+            result -= int(num)
+        except:
+            await ctx.send('Whole numbers, please!')
+            break
+    await ctx.send(f"{str(result)}")
+
+@bot.command()
 async def dv(ctx, num1, num2):
     try:
         await ctx.send(f'{int(num1)/int(num2)}')
