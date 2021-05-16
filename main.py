@@ -606,6 +606,8 @@ async def vala(ctx, *, arg):
                     kcounter = round(sum(compKills)/num)
                     dcounter = round(sum(compDeaths)/num)
                     acounter = round(sum(compAssists)/num)
+                    if dcounter == 0:
+                        dcounter = 1
 
                     return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
                 
