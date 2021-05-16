@@ -669,7 +669,7 @@ async def vala(ctx, *, arg):
                 
 
                 fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
-                fembed.add_field(name='Average KDA', value= finalKDA, inline=True)
+                fembed.add_field(name='Overall Average KDA', value= finalKDA, inline=True)
                 fembed.add_field(name='Gamemodes: ', value=listToString(gamemode), inline=True)
                 if cCount > 0:
                     fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
