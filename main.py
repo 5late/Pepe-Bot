@@ -529,6 +529,10 @@ async def vala(ctx, *, arg):
         dmDeaths = []
         dmAssists = []
 
+        replKills = []
+        replDeaths = []
+        replAssists = []
+
         fkills = []
         fdeaths = []
         fassists = []
@@ -576,6 +580,13 @@ async def vala(ctx, *, arg):
                                 dmKills.append(ii['stats']['kills'])
                                 dmDeaths.append(ii['stats']['deaths'])
                                 dmAssists.append(ii['stats']['assists'])
+                    elif jsonR['data']['matches'][i]['metadata']['mode'] == 'Replication':
+                        Count.append('repl')
+                        for ii in players:
+                            if ii['name'] == name or ii['name'] == name.title():
+                                replKills.append(ii['stats']['kills'])
+                                replDeaths.append(ii['stats']['deaths'])
+                                replAssists.append(ii['stats']['assists'])
                 
                 def getCompKD(num):
                     if num == 0:
@@ -603,6 +614,15 @@ async def vala(ctx, *, arg):
                     acounter = round(sum(dmAssists)/num)
 
                     return f'{kcounter}/{dcounter}/{acounter}'
+                
+                def getReplKD(num):
+                    if num == 0:
+                        num = 1
+                    kcounter = round(sum(replKills)/num)
+                    dcounter = round(sum(replDeaths)/num)
+                    acounter = round(sum(replAssists)/num)
+
+                    return f'{kcounter}/{dcounter}/{acounter}'
 
 
                 for i in range(5):
@@ -620,8 +640,9 @@ async def vala(ctx, *, arg):
                 cCount = Count.count('comp')
                 uCount = Count.count('unrate')
                 dCount = Count.count('dm')
+                rCount = Count.count('repl')
 
-                compKD, unrateKD, dmKD = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount)
+                compKD, unrateKD, dmKD, replKD = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount), getReplKD(rCount)
 
                 kcounter = 0
                 dcounter = 0
@@ -648,14 +669,16 @@ async def vala(ctx, *, arg):
                 
 
                 fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
-                fembed.add_field(name='Average KDA', value= finalKDA)
-                fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
+                fembed.add_field(name='Average KDA', value= finalKDA, inline=True)
+                fembed.add_field(name='Gamemodes: ', value=listToString(gamemode), inline=True)
                 if cCount > 0:
                     fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
                 if uCount > 0:
                     fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
                 if dCount > 0:
                     fembed.add_field(name='Average Deathmatch KDA', value=dmKD)
+                if rCount > 0:
+                    fembed.add_field(name='Average Replication KDA', value=replKD)
                 fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
 
                 await ctx.send(file = iconFile, embed = fembed)
