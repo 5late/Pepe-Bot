@@ -14,6 +14,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import platform
 import leaderboard
+import careerF
 
 load_dotenv()
 
@@ -499,13 +500,9 @@ async def valm(ctx, *, arg:str):
         await ctx.send('Use command ``=error 2`` to see more information.')
 
 @bot.command()
-async def career(ctx, *, arg):
-    auth = [564466359107321856, 323269361232248832, 564562239739396098, 564584121582747659]
-    if not ctx.author.id in auth:
-        await ctx.send('You are not authorized to use this command.')
-    else:
-        await ctx.send('wait')
-
+async def career(ctx, *, args):
+    await careerF.career(ctx, args)
+    
 @bot.command()
 async def vala(ctx, *, arg):
     try:

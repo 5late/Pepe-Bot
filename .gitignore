@@ -12,3 +12,4 @@ sudo.txt
 __pycache__/
 .vscode/
 leaderboard.py
+careerF.py
