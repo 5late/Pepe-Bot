@@ -771,16 +771,24 @@ async def ras(ctx, option=''):
 
 @bot.command()
 async def turtles(ctx):
-    turtles = ['https://cdn.britannica.com/s:800x450,c:crop/66/195966-138-F9E7A828/facts-turtles.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Florida_Box_Turtle_Digon3_re-edited.jpg/1200px-Florida_Box_Turtle_Digon3_re-edited.jpg', 'https://c402277.ssl.cf1.rackcdn.com/photos/18349/images/hero_small/Sea_Turtle_Hol_Chan_Marine_Reserve_WW1105958.jpg?1576691810', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuWcKOVFiz01awMOZ3mLV6v2WGERoBMlOFTGHcwBz6sRh7giXfYLRIt4KkjOsx8CLe1z0&usqp=CAU']
+    turtles = ['https://cdn.britannica.com/s:800x450,c:crop/66/195966-138-F9E7A828/facts-turtles.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Florida_Box_Turtle_Digon3_re-edited.jpg/1200px-Florida_Box_Turtle_Digon3_re-edited.jpg', 
+    'https://c402277.ssl.cf1.rackcdn.com/photos/18349/images/hero_small/Sea_Turtle_Hol_Chan_Marine_Reserve_WW1105958.jpg?1576691810', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuWcKOVFiz01awMOZ3mLV6v2WGERoBMlOFTGHcwBz6sRh7giXfYLRIt4KkjOsx8CLe1z0&usqp=CAU']
     randomTurtle = random.choice(turtles)
 
     names = ['Tom the Turtle', 'Turtle the Turtle', 'Tony the Turtle', 'Terry the Turtle']
     randomName = random.choice(names)
 
+    if randomTurtle == 'https://www.clipartmax.com/png/small/23-231233_i-like-being-a-naked-turtle-by-porygon2z-franklin-turtle-nude.png':
+        randomName = 'Franklin'
+
     turtleEmbed = discord.Embed(title=f'Hey there! I\'m {randomName}', description= 'Here\'s a picture of me on vacation!', color=0X00CCFF)
     turtleEmbed.set_image(url=randomTurtle)
 
     await ctx.send(embed = turtleEmbed)
+
+@bot.command()
+async def turtle(ctx):
+    await ctx.send('https://www.clipartmax.com/png/small/23-231233_i-like-being-a-naked-turtle-by-porygon2z-franklin-turtle-nude.png')
 
 
 @bot.command(pass_context=True)
