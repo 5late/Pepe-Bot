@@ -595,7 +595,7 @@ async def vala(ctx, *, arg):
                     dcounter = round(sum(compDeaths)/num)
                     acounter = round(sum(compAssists)/num)
 
-                    return f'{kcounter}/{dcounter}/{acounter}'
+                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
                 
                 def getUnrateKD(num):
                     if num == 0:
@@ -603,8 +603,10 @@ async def vala(ctx, *, arg):
                     kcounter = round(sum(unrateKills)/num)
                     dcounter = round(sum(unrateDeaths)/num)
                     acounter = round(sum(unrateAssists)/num)
+                    if dcounter == 0:
+                        dcounter = 1
 
-                    return f'{kcounter}/{dcounter}/{acounter}'
+                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
 
                 def getDMKD(num):
                     if num == 0:
@@ -612,8 +614,10 @@ async def vala(ctx, *, arg):
                     kcounter = round(sum(dmKills)/num)
                     dcounter = round(sum(dmDeaths)/num)
                     acounter = round(sum(dmAssists)/num)
+                    if dcounter == 0:
+                        dcounter = 1
 
-                    return f'{kcounter}/{dcounter}/{acounter}'
+                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
                 
                 def getReplKD(num):
                     if num == 0:
@@ -621,8 +625,10 @@ async def vala(ctx, *, arg):
                     kcounter = round(sum(replKills)/num)
                     dcounter = round(sum(replDeaths)/num)
                     acounter = round(sum(replAssists)/num)
+                    if dcounter == 0:
+                        dcounter = 1
 
-                    return f'{kcounter}/{dcounter}/{acounter}'
+                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
 
 
                 for i in range(5):
@@ -642,7 +648,7 @@ async def vala(ctx, *, arg):
                 dCount = Count.count('dm')
                 rCount = Count.count('repl')
 
-                compKD, unrateKD, dmKD, replKD = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount), getReplKD(rCount)
+                (compKD, compKDdec), (unrateKD, unrateKDdec), (dmKD, dmKDdec), (replKD, replKDdec) = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount), getReplKD(rCount)
 
                 kcounter = 0
                 dcounter = 0
@@ -663,22 +669,23 @@ async def vala(ctx, *, arg):
                     color = 0x3b3d3c
 
                 finalKDA = f'{fkills[0]}/{fdeaths[0]}/{fassists[0]}'
+                finalKDAdec = round(fkills[0]/fdeaths[0], 2)
                 newAgent = listToString(agents)
                 mostCommonAgent = max(agents, key=agents.count)
                 iconFile = discord.File(f"./imgs/agents/{mostCommonAgent}_icon.png")
                 
 
                 fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
-                fembed.add_field(name='Overall Average KDA', value= finalKDA, inline=True)
+                fembed.add_field(name='Overall Average KDA', value= f'{finalKDA} ({finalKDAdec})', inline=True)
                 fembed.add_field(name='Gamemodes: ', value=listToString(gamemode), inline=True)
                 if cCount > 0:
-                    fembed.add_field(name='Average Competitive KDA', value=compKD, inline=False)
+                    fembed.add_field(name='Average Competitive KDA', value=f'{compKD} ({compKDdec})', inline=False)
                 if uCount > 0:
-                    fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
+                    fembed.add_field(name='Average Unrated KDA', value=f'{unrateKD} ({unrateKDdec})', inline= True)
                 if dCount > 0:
-                    fembed.add_field(name='Average Deathmatch KDA', value=dmKD)
+                    fembed.add_field(name='Average Deathmatch KDA', value=f'{dmKD} ({dmKDdec})')
                 if rCount > 0:
-                    fembed.add_field(name='Average Replication KDA', value=replKD)
+                    fembed.add_field(name='Average Replication KDA', value=f'{replKD} ({replKDdec})')
                 fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
 
                 await ctx.send(file = iconFile, embed = fembed)
