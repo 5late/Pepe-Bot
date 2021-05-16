@@ -578,6 +578,8 @@ async def vala(ctx, *, arg):
                                 dmAssists.append(ii['stats']['assists'])
                 
                 def getCompKD(num):
+                    if num == 0:
+                        num = 1
                     kcounter = round(sum(compKills)/num)
                     dcounter = round(sum(compDeaths)/num)
                     acounter = round(sum(compAssists)/num)
@@ -585,6 +587,8 @@ async def vala(ctx, *, arg):
                     return f'{kcounter}/{dcounter}/{acounter}'
                 
                 def getUnrateKD(num):
+                    if num == 0:
+                        num = 1
                     kcounter = round(sum(unrateKills)/num)
                     dcounter = round(sum(unrateDeaths)/num)
                     acounter = round(sum(unrateAssists)/num)
@@ -592,6 +596,8 @@ async def vala(ctx, *, arg):
                     return f'{kcounter}/{dcounter}/{acounter}'
 
                 def getDMKD(num):
+                    if num == 0:
+                        num = 1
                     kcounter = round(sum(dmKills)/num)
                     dcounter = round(sum(dmDeaths)/num)
                     acounter = round(sum(dmAssists)/num)
@@ -614,12 +620,6 @@ async def vala(ctx, *, arg):
                 cCount = Count.count('comp')
                 uCount = Count.count('unrate')
                 dCount = Count.count('dm')
-                if cCount == 0:
-                    cCount = 1
-                elif uCount == 0:
-                    uCount = 1
-                elif dCount == 0:
-                    dCount = 1
 
                 compKD, unrateKD, dmKD = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount)
 
@@ -650,9 +650,12 @@ async def vala(ctx, *, arg):
                 fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
                 fembed.add_field(name='Average KDA', value= finalKDA)
                 fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
-                fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
-                fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
-                fembed.add_field(name='Average Deathmatch KDA', value=dmKD)
+                if cCount > 0:
+                    fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
+                if uCount > 0:
+                    fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
+                if dCount > 0:
+                    fembed.add_field(name='Average Deathmatch KDA', value=dmKD)
                 fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
 
                 await ctx.send(file = iconFile, embed = fembed)
