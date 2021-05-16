@@ -502,6 +502,22 @@ async def valm(ctx, *, arg:str):
 @bot.command()
 async def career(ctx, *, args):
     await careerF.career(ctx, args)
+
+@bot.command()
+async def dur(ctx, *, arg):
+    newArg = arg.split('#')
+    name = newArg[0]
+    tag = newArg[1]
+
+    response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}')
+    jsonR = response.json()
+    
+    embedD = discord.Embed(title = f'Duration of past 5 games for {name}', color=0x00CCFF)
+    for j in range(5):
+        
+        embedD.add_field(name=f'Match {j+1} Duration:', value=f"{int((jsonR['data']['matches'][j]['metadata']['game_length'])/1000)//60} minutes", inline=False)
+    
+    await ctx.send(embed = embedD)
     
 @bot.command()
 async def vala(ctx, *, arg):
