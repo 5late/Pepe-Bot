@@ -672,7 +672,7 @@ async def vala(ctx, *, arg):
                 fembed.add_field(name='Overall Average KDA', value= finalKDA, inline=True)
                 fembed.add_field(name='Gamemodes: ', value=listToString(gamemode), inline=True)
                 if cCount > 0:
-                    fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
+                    fembed.add_field(name='Average Competitive KDA', value=compKD, inline=False)
                 if uCount > 0:
                     fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
                 if dCount > 0:
