@@ -499,6 +499,14 @@ async def valm(ctx, *, arg:str):
         await ctx.send('Use command ``=error 2`` to see more information.')
 
 @bot.command()
+async def career(ctx, *, arg):
+    auth = [564466359107321856, 323269361232248832, 564562239739396098, 564584121582747659]
+    if not ctx.author.id in auth:
+        await ctx.send('You are not authorized to use this command.')
+    else:
+        await ctx.send('wait')
+
+@bot.command()
 async def vala(ctx, *, arg):
     try:
         msg = await ctx.send(f'I\'m fetching the five latest games from ``{arg}``\'s match history.')
