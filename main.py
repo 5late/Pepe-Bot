@@ -701,7 +701,7 @@ async def vala(ctx, *, arg):
                 elif fkills[0] < fdeaths[0]:
                     color = 0xDF0606
                 else: 
-                    color = 0x3b3d3c
+                    color = 0xd9d9d9
 
                 finalKDA = f'{fkills[0]}/{fdeaths[0]}/{fassists[0]}'
                 finalKDAdec = round(fkills[0]/fdeaths[0], 2)
