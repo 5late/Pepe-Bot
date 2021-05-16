@@ -701,6 +701,7 @@ async def vala(ctx, *, arg):
                 if rCount > 0:
                     fembed.add_field(name='Average Replication KDA', value=f'{replKD} ({replKDdec})')
                 fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
+                fembed.set_footer(text=f'This is from {newArg}\'s past 5 games only.')
 
                 await ctx.send(file = iconFile, embed = fembed)
                 await msg.edit(content=f':smile: Here is the past five games of ``{arg}``, condensed!')
