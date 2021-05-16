@@ -517,6 +517,18 @@ async def vala(ctx, *, arg):
         agents = []
         gamemode = []
 
+        compKills = []
+        compDeaths = []
+        compAssists = []
+
+        unrateKills = []
+        unrateDeaths = []
+        unrateAssists = []
+
+        dmKills = []
+        dmDeaths = []
+        dmAssists = []
+
         fkills = []
         fdeaths = []
         fassists = []
@@ -541,9 +553,55 @@ async def vala(ctx, *, arg):
                         except:
                             if KeyError:
                                 return 'Unknown'
+                Count = []
+                def initKD(i):
+                    if jsonR['data']['matches'][i]['metadata']['mode'] == 'Competitive':
+                        Count.append('comp')
+                        for ii in players:
+                            if ii['name'] == name or ii['name'] == name.title():
+                                compKills.append(ii['stats']['kills'])
+                                compDeaths.append(ii['stats']['deaths'])
+                                compAssists.append(ii['stats']['assists'])
+                    elif jsonR['data']['matches'][i]['metadata']['mode'] == 'Normal':
+                        Count.append('unrate')
+                        for ii in players:
+                            if ii['name'] == name or ii['name'] == name.title():
+                                unrateKills.append(ii['stats']['kills'])
+                                unrateDeaths.append(ii['stats']['deaths'])
+                                unrateAssists.append(ii['stats']['assists'])
+                    elif jsonR['data']['matches'][i]['metadata']['mode'] == 'Deathmatch':
+                        Count.append('dm')
+                        for ii in players:
+                            if ii['name'] == name or ii['name'] == name.title():
+                                dmKills.append(ii['stats']['kills'])
+                                dmDeaths.append(ii['stats']['deaths'])
+                                dmAssists.append(ii['stats']['assists'])
+                
+                def getCompKD(num):
+                    kcounter = round(sum(compKills)/num)
+                    dcounter = round(sum(compDeaths)/num)
+                    acounter = round(sum(compAssists)/num)
+
+                    return f'{kcounter}/{dcounter}/{acounter}'
+                
+                def getUnrateKD(num):
+                    kcounter = round(sum(unrateKills)/num)
+                    dcounter = round(sum(unrateDeaths)/num)
+                    acounter = round(sum(unrateAssists)/num)
+
+                    return f'{kcounter}/{dcounter}/{acounter}'
+
+                def getDMKD(num):
+                    kcounter = round(sum(dmKills)/num)
+                    dcounter = round(sum(dmDeaths)/num)
+                    acounter = round(sum(dmAssists)/num)
+
+                    return f'{kcounter}/{dcounter}/{acounter}'
+
 
                 for i in range(5):
                     players = jsonR['data']['matches'][i]['players']['all_players']
+                    initKD(i)
 
                     for ii in players:
                         if ii['name'] == name or ii['name'] == name.title():
@@ -552,6 +610,18 @@ async def vala(ctx, *, arg):
                             assists.append(ii['stats']['assists'])
                             agents.append(ii['character'])
                             gamemode.append(shortenGamemode(mode(i)))
+                
+                cCount = Count.count('comp')
+                uCount = Count.count('unrate')
+                dCount = Count.count('dm')
+                if cCount == 0:
+                    cCount = 1
+                elif uCount == 0:
+                    uCount = 1
+                elif dCount == 0:
+                    dCount = 1
+
+                compKD, unrateKD, dmKD = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount)
 
                 kcounter = 0
                 dcounter = 0
@@ -580,6 +650,9 @@ async def vala(ctx, *, arg):
                 fembed = discord.Embed(title=f'{arg} past agent performance', description= f'{newAgent}', color=color)
                 fembed.add_field(name='Average KDA', value= finalKDA)
                 fembed.add_field(name='Gamemodes: ', value=listToString(gamemode))
+                fembed.add_field(name='Average Comp KDA', value=compKD, inline=False)
+                fembed.add_field(name='Average Unrated KDA', value=unrateKD, inline= True)
+                fembed.add_field(name='Average Deathmatch KDA', value=dmKD)
                 fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
 
                 await ctx.send(file = iconFile, embed = fembed)
