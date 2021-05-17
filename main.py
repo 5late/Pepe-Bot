@@ -411,11 +411,11 @@ async def val(ctx, *, arg: str):
         )
         jsonR = response.json()
 
-        ctp = int(jsonR['data']['elo'])
+        ctp = int(jsonR["data"]["elo"])
         rank = int(jsonR["data"]["currenttier"])
         iconFile2 = discord.File(
-            f'imgs/icons/TX_CompetitiveTier_Large_{rank}.png',
-            filename='icon.png')
+            f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png", filename="icon.png"
+        )
 
         def last_2_digits_at_best(n):
             return float(
@@ -434,11 +434,12 @@ async def val(ctx, *, arg: str):
             description=jsonR["data"]["currenttierpatched"],
             color=0x0000FF,
         )
-        embedR.set_thumbnail(url=f'attachment://icon.png')
+        embedR.set_thumbnail(url=f"attachment://icon.png")
         await asyncio.sleep(1)
         embedR.add_field(name="Elo: ", value=eloEnd)
-        embedR.add_field(name="Last Game Change: ",
-                         value=jsonR["data"]["mmr_change_to_last_game"])
+        embedR.add_field(
+            name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"]
+        )
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
