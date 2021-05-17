@@ -124,20 +124,13 @@ async def on_message_edit(message_before, message_after):
 
 @bot.command()
 async def help(ctx, *, group=""):
-    categories = [
-        "calculator",
-        "image manipulation",
-        "valorant",
-        "music",
-        "misc"]
+    categories = ["calculator", "image manipulation", "valorant", "music", "misc"]
     fGroup = group.replace(" ", "-")
     if not group:
         helpEmbed = discord.Embed(
-            title="Help Command",
-            description="Use command ``=help {category}``")
-        helpEmbed.set_author(
-            name=ctx.author.name,
-            icon_url=ctx.author.avatar_url)
+            title="Help Command", description="Use command ``=help {category}``"
+        )
+        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         helpEmbed.add_field(
             name="See all my commands!",
             value="[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md)",
@@ -151,9 +144,7 @@ async def help(ctx, *, group=""):
         await ctx.send(embed=helpEmbed)
     elif group.lower() in categories:
         helpEmbed = discord.Embed(title=f"Help Command - {group.title()}")
-        helpEmbed.set_author(
-            name=ctx.author.name,
-            icon_url=ctx.author.avatar_url)
+        helpEmbed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         helpEmbed.add_field(
             name=f"{group.title()} commands!",
             value=f"[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md/#{fGroup})",
@@ -209,15 +200,11 @@ async def pwd(ctx):
     embedI.add_field(
         name="Running on Operating System:", value=f"``{platform.system()}``"
     )
-    embedI.add_field(
-        name="Version:",
-        value=f"``{platform.release()}``",
-        inline=True)
+    embedI.add_field(name="Version:", value=f"``{platform.release()}``", inline=True)
     embedI.add_field(name="Time:", value=current_time, inline=False)
     embedI.add_field(
-        name="Bot Latency/Ping",
-        value=f"``{round(bot.latency, 3)} ms``",
-        inline=True)
+        name="Bot Latency/Ping", value=f"``{round(bot.latency, 3)} ms``", inline=True
+    )
     embedI.add_field(name="Bot Uptime", value=getBotUptime(), inline=True)
 
     await ctx.send(embed=embedI)
@@ -249,9 +236,7 @@ async def lem(ctx):
         )
         embedVar.add_field(name="Message Before: ", value=editedMsgB[0])
         embedVar.add_field(name="Message After: ", value=editedMsgA[0])
-        embedVar.set_author(
-            name=editedAthr[0],
-            icon_url=editedAthr[0].avatar_url)
+        embedVar.set_author(name=editedAthr[0], icon_url=editedAthr[0].avatar_url)
 
         await ctx.send(embed=embedVar)
     except BaseException:
@@ -456,8 +441,7 @@ async def val(ctx, *, arg: str):
             image = "https://static.wikia.nocookie.net/valorant/images/2/24/TX_CompetitiveTier_Large_24.png/revision/latest/scale-to-width-down/185?cb=20200623203621"
 
         def last_2_digits_at_best(n):
-            return float(
-                str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
+            return float(str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
 
         fElo = last_2_digits_at_best(jsonR["data"]["elo"])
         rank = jsonR["data"]["currenttierpatched"]
@@ -473,8 +457,9 @@ async def val(ctx, *, arg: str):
             color=0x0000FF,
         )
         embedR.add_field(name="Elo: ", value=eloEnd)
-        embedR.add_field(name="Last Game Change: ",
-                         value=jsonR["data"]["mmr_change_to_last_game"])
+        embedR.add_field(
+            name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"]
+        )
         embedR.set_thumbnail(url=image)
         await ctx.send(embed=embedR)
         await msg.edit(content="Stats queryied.")
@@ -536,8 +521,7 @@ async def valm(ctx, *, arg: str):
 
             def map():
                 try:
-                    return mapImg(
-                        str(jsonR["data"]["matches"][0]["metadata"]["map"]))
+                    return mapImg(str(jsonR["data"]["matches"][0]["metadata"]["map"]))
                 except KeyError:
                     return "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/200px-Question_mark_%28black%29.svg.png"
 
@@ -546,8 +530,10 @@ async def valm(ctx, *, arg: str):
                     team = str(i["team"]).lower()
                     puuid = i["puuid"]
                     if str(mode()) == "Deathmatch":
-                        if (jsonR["data"]["matches"][0]["rounds"]
-                                [0]["winning_team"] == puuid):
+                        if (
+                            jsonR["data"]["matches"][0]["rounds"][0]["winning_team"]
+                            == puuid
+                        ):
                             color = 0x10B402
                         elif (
                             not jsonR["data"]["matches"][0]["rounds"][0]["winning_team"]
@@ -576,8 +562,7 @@ async def valm(ctx, *, arg: str):
                         lost = jsonR["data"]["matches"][0]["teams"][team]["rounds_lost"]
 
                     global iconFile
-                    iconFile = discord.File(
-                        f"./imgs/agents/{i['character']}_icon.png")
+                    iconFile = discord.File(f"./imgs/agents/{i['character']}_icon.png")
                     global embedM
                     embedM = discord.Embed(
                         title=f"{i['name']}#{i['tag']}'s last match:",
@@ -606,15 +591,14 @@ async def valm(ctx, *, arg: str):
                         name="Duration:",
                         value=f"{int((jsonR['data']['matches'][0]['metadata']['game_length'])/1000)//60} minutes",
                     )
-                    embedM.set_thumbnail(
-                        url=f"attachment://{i['character']}_icon.png")
+                    embedM.set_thumbnail(url=f"attachment://{i['character']}_icon.png")
                     embedM.set_image(url=str(map()))
                     if mode() == "Unknown":
                         embedM.set_footer(
-                            text="Wondering what happened to mode/map? Run command ``=error 1``.")
+                            text="Wondering what happened to mode/map? Run command ``=error 1``."
+                        )
                     else:
-                        embedM.set_footer(
-                            text="https://github.com/5late/Pepe-Bot")
+                        embedM.set_footer(text="https://github.com/5late/Pepe-Bot")
                     await asyncio.sleep(1)
                     await ctx.send(file=iconFile, embed=embedM)
                     await msg.edit(
@@ -642,9 +626,7 @@ async def dur(ctx, *, arg):
     )
     jsonR = response.json()
 
-    embedD = discord.Embed(
-        title=f"Duration of past 5 games for {name}",
-        color=0x00CCFF)
+    embedD = discord.Embed(title=f"Duration of past 5 games for {name}", color=0x00CCFF)
     for j in range(5):
 
         embedD.add_field(
@@ -867,8 +849,7 @@ async def vala(ctx, *, arg):
                 finalKDAdec = round(fkills[0] / fdeaths[0], 2)
                 newAgent = listToString(agents)
                 mostCommonAgent = max(agents, key=agents.count)
-                iconFile = discord.File(
-                    f"./imgs/agents/{mostCommonAgent}_icon.png")
+                iconFile = discord.File(f"./imgs/agents/{mostCommonAgent}_icon.png")
 
                 fembed = discord.Embed(
                     title=f"{arg} past agent performance",
@@ -881,9 +862,8 @@ async def vala(ctx, *, arg):
                     inline=True,
                 )
                 fembed.add_field(
-                    name="Gamemodes: ",
-                    value=listToString(gamemode),
-                    inline=True)
+                    name="Gamemodes: ", value=listToString(gamemode), inline=True
+                )
                 if cCount > 0:
                     fembed.add_field(
                         name="Average Competitive KDA",
@@ -898,16 +878,14 @@ async def vala(ctx, *, arg):
                     )
                 if dCount > 0:
                     fembed.add_field(
-                        name="Average Deathmatch KDA",
-                        value=f"{dmKD} ({dmKDdec})")
+                        name="Average Deathmatch KDA", value=f"{dmKD} ({dmKDdec})"
+                    )
                 if rCount > 0:
                     fembed.add_field(
-                        name="Average Replication KDA",
-                        value=f"{replKD} ({replKDdec})")
-                fembed.set_thumbnail(
-                    url=f"attachment://{mostCommonAgent}_icon.png")
-                fembed.set_footer(
-                    text=f"This is from {name}'s past 5 games only.")
+                        name="Average Replication KDA", value=f"{replKD} ({replKDdec})"
+                    )
+                fembed.set_thumbnail(url=f"attachment://{mostCommonAgent}_icon.png")
+                fembed.set_footer(text=f"This is from {name}'s past 5 games only.")
 
                 await ctx.send(file=iconFile, embed=fembed)
                 await msg.edit(
@@ -1110,12 +1088,9 @@ async def read(ctx, title=""):
             data = json.load(f)
             dataClips = data["clips"]
         for i in dataClips:
-            clipEmbed.add_field(
-                name=i["title"],
-                value=f"[Click Here]({i['url']})")
+            clipEmbed.add_field(name=i["title"], value=f"[Click Here]({i['url']})")
 
-        clipEmbed.set_footer(
-            text="As more clips are added, they'll show up here.")
+        clipEmbed.set_footer(text="As more clips are added, they'll show up here.")
         await ctx.send(embed=clipEmbed)
     else:
         with open("clips.json") as f:
@@ -1155,8 +1130,7 @@ async def vote(ctx):
         if reaction.emoji == "❎":
             negative = reaction.count - 1
 
-    print(
-        f"Vote Result: {positive} postiive and {negative} negative reactions.")
+    print(f"Vote Result: {positive} postiive and {negative} negative reactions.")
 
 
 @bot.command()
@@ -1247,9 +1221,8 @@ async def play(ctx, url):
         async with ctx.typing():
             filename = await YTDLSource.from_url(url, loop=bot.loop)
             voice.play(
-                discord.FFmpegPCMAudio(
-                    executable="/usr/bin/ffmpeg",
-                    source=filename))
+                discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=filename)
+            )
         await ctx.send("**Now playing** {}".format(filename))
     else:
         await ctx.send(
@@ -1536,8 +1509,7 @@ async def bj(ctx):
                                 title="Black Jack",
                                 description=f"You win! You drew 5 cards without going over 21!",
                             )
-                            finalEmbed.add_field(
-                                name="Your cards", value=playerCard)
+                            finalEmbed.add_field(name="Your cards", value=playerCard)
 
                             await ctx.send(
                                 f"You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
