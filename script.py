@@ -24,7 +24,7 @@ for i in range(2):
         print("Try again\n")
 
 # Last attempt and different statements
-if correct_number != True:
+if not correct_number:
     while True:
         try:
             guess = int(input("What is your guess? "))
