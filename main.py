@@ -621,50 +621,42 @@ async def vala(ctx, *, arg):
                                 replDeaths.append(ii['stats']['deaths'])
                                 replAssists.append(ii['stats']['assists'])
                 
-                def getCompKD(num):
-                    if num == 0:
-                        num = 1
-                    kcounter = round(sum(compKills)/num)
-                    dcounter = round(sum(compDeaths)/num)
-                    acounter = round(sum(compAssists)/num)
-                    if dcounter == 0:
-                        dcounter = 1
+                def getOverallKD(compNum, unrateNum, DMNum, replNum):
+                    if compNum == 0:
+                        compNum = 1
+                    if unrateNum == 0:
+                        unrateNum = 1
+                    if DMNum == 0:
+                        DMNum = 1
+                    if replNum == 0:
+                        replNum = 1
+                    
+                    compKcounter = round(sum(compKills)/compNum)
+                    compDcounter = round(sum(compDeaths)/compNum)
+                    compAcounter = round(sum(compAssists)/compNum)
+                    
+                    unratekcounter = round(sum(unrateKills)/unrateNum)
+                    unratedcounter = round(sum(unrateDeaths)/unrateNum)
+                    unrateacounter = round(sum(unrateAssists)/unrateNum)
 
-                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
-                
-                def getUnrateKD(num):
-                    if num == 0:
-                        num = 1
-                    kcounter = round(sum(unrateKills)/num)
-                    dcounter = round(sum(unrateDeaths)/num)
-                    acounter = round(sum(unrateAssists)/num)
-                    if dcounter == 0:
-                        dcounter = 1
+                    dmkcounter = round(sum(dmKills)/DMNum)
+                    dmdcounter = round(sum(dmDeaths)/DMNum)
+                    dmacounter = round(sum(dmAssists)/DMNum)
+                    
+                    replkcounter = round(sum(replKills)/replNum)
+                    repldcounter = round(sum(replDeaths)/replNum)
+                    replacounter = round(sum(replAssists)/replNum)
 
-                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
+                    if compDcounter == 0:
+                        compDcounter = 1
+                    if unratedcounter == 0:
+                        unratedcounter = 1
+                    if dmdcounter == 0:
+                        dmdcounter = 1
+                    if repldcounter == 0:
+                        repldcounter = 1
 
-                def getDMKD(num):
-                    if num == 0:
-                        num = 1
-                    kcounter = round(sum(dmKills)/num)
-                    dcounter = round(sum(dmDeaths)/num)
-                    acounter = round(sum(dmAssists)/num)
-                    if dcounter == 0:
-                        dcounter = 1
-
-                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
-                
-                def getReplKD(num):
-                    if num == 0:
-                        num = 1
-                    kcounter = round(sum(replKills)/num)
-                    dcounter = round(sum(replDeaths)/num)
-                    acounter = round(sum(replAssists)/num)
-                    if dcounter == 0:
-                        dcounter = 1
-
-                    return f'{kcounter}/{dcounter}/{acounter}', round(kcounter/dcounter, 2)
-
+                    return f'{compKcounter}/{compDcounter}/{compAcounter}', round(compKcounter/compDcounter, 2), f'{unratekcounter}/{unratedcounter}/{unrateacounter}', round(unratekcounter/unratedcounter, 2), f'{dmkcounter}/{dmdcounter}/{dmacounter}', round(dmacounter/dmdcounter, 2), f'{replkcounter}/{repldcounter}/{replacounter}', round(replkcounter/repldcounter, 2)
 
                 for i in range(5):
                     players = jsonR['data']['matches'][i]['players']['all_players']
@@ -683,7 +675,7 @@ async def vala(ctx, *, arg):
                 dCount = Count.count('dm')
                 rCount = Count.count('repl')
 
-                (compKD, compKDdec), (unrateKD, unrateKDdec), (dmKD, dmKDdec), (replKD, replKDdec) = getCompKD(cCount), getUnrateKD(uCount), getDMKD(dCount), getReplKD(rCount)
+                compKD, compKDdec, unrateKD, unrateKDdec, dmKD, dmKDdec, replKD, replKDdec = getOverallKD(cCount, uCount, dCount, rCount)
 
                 kcounter = 0
                 dcounter = 0
