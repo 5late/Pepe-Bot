@@ -27,7 +27,7 @@ jobs:
           auto_fix: true
       
       - name: Format python code
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: autopep8
         uses: peter-evans/autopep8@v1
         with:
@@ -43,7 +43,7 @@ jobs:
           branch: autopep8-patches
       
       - name: autopep8
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
       - name: autopep8
