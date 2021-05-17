@@ -501,6 +501,7 @@ async def valm(ctx, *, arg:str):
 
 @bot.command()
 async def career(ctx, *, args):
+    await ctx.send('Checking for authorization....')
     await careerF.career(ctx, args)
 
 @bot.command()
