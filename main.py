@@ -395,50 +395,10 @@ async def val(ctx, *, arg: str):
             f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
         )
         jsonR = response.json()
-
-        ctp = int(jsonR["data"]["elo"])
-        if ctp <= 100:
-            image = "https://static.wikia.nocookie.net/valorant/images/7/7f/TX_CompetitiveTier_Large_3.png/revision/latest/scale-to-width-down/185?cb=20200623203005"
-        elif ctp >= 100 and ctp < 200:
-            image = "https://static.wikia.nocookie.net/valorant/images/2/28/TX_CompetitiveTier_Large_4.png/revision/latest/scale-to-width-down/185?cb=20200623203053"
-        elif ctp >= 200 and ctp < 300:
-            image = "https://static.wikia.nocookie.net/valorant/images/b/b8/TX_CompetitiveTier_Large_5.png/revision/latest/scale-to-width-down/185?cb=20200623203101"
-        elif ctp >= 300 and ctp < 400:
-            image = "https://static.wikia.nocookie.net/valorant/images/a/a2/TX_CompetitiveTier_Large_6.png/revision/latest/scale-to-width-down/185?cb=20200623203119"
-        elif ctp >= 400 and ctp < 500:
-            image = "https://static.wikia.nocookie.net/valorant/images/e/e7/TX_CompetitiveTier_Large_7.png/revision/latest/scale-to-width-down/185?cb=20200623203140"
-        elif ctp >= 500 and ctp < 600:
-            image = "https://static.wikia.nocookie.net/valorant/images/a/a8/TX_CompetitiveTier_Large_8.png/revision/latest/scale-to-width-down/185?cb=20200623203313"
-        elif ctp >= 600 and ctp < 700:
-            image = "https://static.wikia.nocookie.net/valorant/images/0/09/TX_CompetitiveTier_Large_9.png/revision/latest/scale-to-width-down/185?cb=20200623203408"
-        elif ctp >= 700 and ctp < 800:
-            image = "https://static.wikia.nocookie.net/valorant/images/c/ca/TX_CompetitiveTier_Large_10.png/revision/latest/scale-to-width-down/185?cb=20200623203410"
-        elif ctp >= 800 and ctp < 900:
-            image = "https://static.wikia.nocookie.net/valorant/images/1/1e/TX_CompetitiveTier_Large_11.png/revision/latest/scale-to-width-down/185?cb=20200623203413"
-        elif ctp >= 900 and ctp < 1000:
-            image = "https://static.wikia.nocookie.net/valorant/images/9/91/TX_CompetitiveTier_Large_12.png/revision/latest/scale-to-width-down/185?cb=20200623203413"
-        elif ctp >= 1000 and ctp < 1100:
-            image = "https://static.wikia.nocookie.net/valorant/images/4/45/TX_CompetitiveTier_Large_13.png/revision/latest/scale-to-width-down/185?cb=20200623203415"
-        elif ctp >= 1100 and ctp < 1200:
-            image = "https://static.wikia.nocookie.net/valorant/images/c/c0/TX_CompetitiveTier_Large_14.png/revision/latest/scale-to-width-down/185?cb=20200623203417"
-        elif ctp >= 1200 and ctp < 1300:
-            image = "https://static.wikia.nocookie.net/valorant/images/d/d3/TX_CompetitiveTier_Large_15.png/revision/latest/scale-to-width-down/185?cb=20200623203419"
-        elif ctp >= 1300 and ctp < 1400:
-            image = "https://static.wikia.nocookie.net/valorant/images/a/a5/TX_CompetitiveTier_Large_16.png/revision/latest/scale-to-width-down/185?cb=20200623203606"
-        elif ctp >= 1400 and ctp < 1500:
-            image = "https://static.wikia.nocookie.net/valorant/images/f/f2/TX_CompetitiveTier_Large_17.png/revision/latest/scale-to-width-down/185?cb=20200623203607"
-        elif ctp >= 1500 and ctp < 1600:
-            image = "https://static.wikia.nocookie.net/valorant/images/b/b7/TX_CompetitiveTier_Large_18.png/revision/latest/scale-to-width-down/185?cb=20200623203609"
-        elif ctp >= 1600 and ctp < 1700:
-            image = "https://static.wikia.nocookie.net/valorant/images/3/32/TX_CompetitiveTier_Large_19.png/revision/latest/scale-to-width-down/185?cb=20200623203610"
-        elif ctp >= 1700 and ctp < 1800:
-            image = "https://static.wikia.nocookie.net/valorant/images/1/11/TX_CompetitiveTier_Large_20.png/revision/latest/scale-to-width-down/185?cb=20200623203611"
-        elif ctp >= 1800 and ctp < 1900:
-            image = "https://static.wikia.nocookie.net/valorant/images/f/f9/TX_CompetitiveTier_Large_23.png/revision/latest/scale-to-width-down/185?cb=20200623203617"
-        elif ctp >= 1900 and ctp < 2000:
-            image = "https://static.wikia.nocookie.net/valorant/images/f/f9/TX_CompetitiveTier_Large_23.png/revision/latest/scale-to-width-down/185?cb=20200623203617"
-        elif ctp >= 2000:
-            image = "https://static.wikia.nocookie.net/valorant/images/2/24/TX_CompetitiveTier_Large_24.png/revision/latest/scale-to-width-down/185?cb=20200623203621"
+        
+        ctp = int(jsonR['data']['elo'])
+        rank = int(jsonR["data"]["currenttier"])
+        iconFile2 = discord.File(f'imgs/icons/TX_CompetitiveTier_Large_{rank}.png', filename='icon.png')
 
         def last_2_digits_at_best(n):
             return float(str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
@@ -456,12 +416,14 @@ async def val(ctx, *, arg: str):
             description=jsonR["data"]["currenttierpatched"],
             color=0x0000FF,
         )
+        embedR.set_thumbnail(url=f'attachment://icon.png')
+        await asyncio.sleep(1)
         embedR.add_field(name="Elo: ", value=eloEnd)
         embedR.add_field(
             name="Last Game Change: ", value=jsonR["data"]["mmr_change_to_last_game"]
         )
-        embedR.set_thumbnail(url=image)
-        await ctx.send(embed=embedR)
+        
+        await ctx.send(file = iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
     except json.decoder.JSONDecodeError:
         await msg.edit(content="Error 504")
