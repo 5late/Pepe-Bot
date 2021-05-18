@@ -379,14 +379,20 @@ async def keyword(ctx, *, word: str):
 async def cry(ctx):
     await ctx.message.delete()
     await ctx.send("<:chriscry:758862800637657118>")
-    await ctx.send(f"~~Called by {ctx.author.nick}~~")
+    if ctx.author.nick is None:
+        await ctx.send(f"~~Called by {ctx.author.name}~~")
+    else:
+        await ctx.send(f"~~Called by {ctx.author.nick}~~")
 
 
 @bot.command()
 async def pog(ctx):
     await ctx.message.delete()
     await ctx.send("<:pog:766067548520448001>")
-    await ctx.send(f"~~Called by {ctx.author.nick}~~")
+    if ctx.author.nick is None:
+        await ctx.send(f"~~Called by {ctx.author.name}~~")
+    else:
+        await ctx.send(f"~~Called by {ctx.author.nick}~~")
 
 
 @bot.command()
