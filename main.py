@@ -181,11 +181,11 @@ async def pwd(ctx):
         days, hours = divmod(hours, 24)
 
         if days:
-            fmt = "{d} days, {h} hours, {m} minutes, and {s} seconds."
+            fmt = "``{d}`` days, ``{h}`` hours, ``{m}`` minutes, and ``{s}`` seconds."
         elif hours:
-            fmt = "{h} hours, {m} minutes, and {s} seconds."
+            fmt = "``{h}`` hours, ``{m}`` minutes, and ``{s}`` seconds."
         else:
-            fmt = "{m} minutes and {s} seconds."
+            fmt = "``{m}`` minutes and ``{s}`` seconds."
 
         return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
@@ -213,10 +213,10 @@ async def pwd(ctx):
         name="Version:",
         value=f"``{platform.release()}``",
         inline=True)
-    embedI.add_field(name="Time:", value=current_time, inline=False)
+    embedI.add_field(name="Time:", value=f'``{current_time}``', inline=False)
     embedI.add_field(
         name="Bot Latency/Ping",
-        value=f"``{round(bot.latency, 3)} ms``",
+        value=f"``{round(bot.latency, 3)}`` ms",
         inline=True)
     embedI.add_field(name="Bot Uptime", value=getBotUptime(), inline=True)
 
