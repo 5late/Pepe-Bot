@@ -1613,12 +1613,32 @@ async def changelog(ctx, arg=""):
     elif arg == "latest":
         msg = await ctx.send("I'm fetching the latest update for PepeBot. Hang tight.")
         await asyncio.sleep(2)
-        await msg.edit(content="Error 3:")
+        await msg.edit(content="Error 3 || Error 410")
         await ctx.send("This command is currently not ready. Check back later.")
         await ctx.send("You can run ``=error 3`` for more information.")
+    elif arg == 'cb':
+        msg2 = await ctx.send('Checking for authorization....')
+
+        cauth = [564466359107321856]
+        if ctx.author.id in cauth:
+            await msg2.edit(content= f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
+            f = open('./docs/changelog.md', 'r')
+            await ctx.send(f'```{f.read()}```')
+        else:
+            await msg2.edit(content=f'Error 4 || Error 401')
+            await ctx.send(f'Your ID is not recognized.\nYou can run ``=error 4`` for more information.')
+    elif arg == 'f':
+        msg3 = await ctx.send('Checking for authorization....')
+
+        fauth = [564466359107321856]
+        if ctx.author.id in fauth:
+            await msg3.edit(content=f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
+            changelogFile = discord.File('./docs/changelog.md')
+            await ctx.send(file = changelogFile)
+        
     else:
         await ctx.send(
-            f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``."
+            f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``, ``cb`` and ``f``."
         )
 
 
