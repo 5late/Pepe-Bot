@@ -16,7 +16,8 @@
 - Fixed bug where Error commands returned different information
 - Fixed by where Error commands contained command names (this was intentional but now is much smoother)
 - Fixed bugs with vala
-- Fixed bugs where 
+- Fixed bugs where bot would return errors on valm commands
+- Fixed bug where wrong errors would return on valm commands
 
 ## Release 0.1
 
