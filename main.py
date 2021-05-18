@@ -1558,15 +1558,15 @@ async def error(ctx, command=""):
         await ctx.send(embed=embedvalm)
     elif str(command) == "2":
         embedvalm2 = discord.Embed(
-            title="VALM Error 2 || Error 404",
-            description="``=valm`` is a command that lets you see someones past match!",
+            title="Error 2 || Error 404",
+            description="```css\nERROR 404```",
             color=0x00FFCC,
         )
         embedvalm2.set_author(
             name=ctx.author.name,
             icon_url=ctx.author.avatar_url)
         embedvalm2.add_field(
-            name="Error 2 || Error 404",
+            name="Info",
             value="Error 2 || Error 404 is returned when the server could not find the player you are looking for. Check your spelling, and/or tag. The other reason is that the player has not played in a long time, and RIOT doesnt let me query that far :(.",
             inline=False,
         )
@@ -1579,15 +1579,15 @@ async def error(ctx, command=""):
         await ctx.send(embed=embedvalm2)
     elif str(command) == "3":
         embedvalm3 = discord.Embed(
-            title="Changelog Error 3 || Error 410",
-            description="``=changelog`` is a command that lets you see the changelog of the bot!",
+            title="Error 3 || Error 410",
+            description="```css\nERROR 410```",
             color=0x00CCFF,
         )
         embedvalm3.set_author(
             name=ctx.author.name,
             icon_url=ctx.author.avatar_url)
         embedvalm3.add_field(
-            name="Error 3 || Error 410",
+            name="Info",
             value="Error 3 || Error 410 is returned when the bot command does not exist, or the command has not been implemented yet. ",
         )
         embedvalm3.add_field(
@@ -1602,6 +1602,31 @@ async def error(ctx, command=""):
         )
         embedvalm3.set_footer(text="Thanks for your patience with me! :)")
         await ctx.send(embed=embedvalm3)
+    elif str(command) == "4":
+        embedvalm4 = discord.Embed(
+            title="Error 4 || Error 401",
+            description="```css\nERROR 401```",
+            color=0x00CCFF,
+        )
+        embedvalm4.set_author(
+            name=ctx.author.name,
+            icon_url=ctx.author.avatar_url)
+        embedvalm4.add_field(
+            name="Info",
+            value="Error 4 || Error 401 is returned when you do not have authorization to use a command.",
+        )
+        embedvalm4.add_field(
+            name="What to do",
+            value="Unfotunately, there is nothing you can do about the command. You can contact the owner to see how to gain authorization. Auto-authorization is a future project.",
+            inline=False,
+        )
+        embedvalm4.add_field(
+            name="How to help",
+            value="There is not anything you can do to help. Heh.",
+            inline=False,
+        )
+        embedvalm4.set_footer(text="Thanks for your patience with me! :)")
+        await ctx.send(embed=embedvalm4)
 
 
 @bot.command()
@@ -1635,7 +1660,9 @@ async def changelog(ctx, arg=""):
             await msg3.edit(content=f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
             changelogFile = discord.File('./docs/changelog.md')
             await ctx.send(file = changelogFile)
-        
+        else:
+            await msg3.edit(content=f'Error 4 || Error 401')
+            await ctx.send(f'Your ID is not recognized.\nYou can run ``=error 4`` for more information.')
     else:
         await ctx.send(
             f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``, ``cb`` and ``f``."
