@@ -140,7 +140,7 @@ async def help(ctx, *, group=""):
             icon_url=ctx.author.avatar_url)
         helpEmbed.add_field(
             name="See all my commands!",
-            value="[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/README.md)",
+            value="[Click Here](https://github.com/5late/Pepe-Bot/blob/master/docs/commands.md)",
         )
         helpEmbed.add_field(
             name="Categories",
