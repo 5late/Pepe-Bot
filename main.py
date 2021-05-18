@@ -1646,7 +1646,7 @@ async def changelog(ctx, arg=""):
 
         cauth = [564466359107321856]
         if ctx.author.id in cauth:
-            await msg2.edit(content= f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
+            await msg2.edit(content=f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
             f = open('./docs/changelog.md', 'r')
             await ctx.send(f'```{f.read()}```')
         else:
@@ -1659,7 +1659,7 @@ async def changelog(ctx, arg=""):
         if ctx.author.id in fauth:
             await msg3.edit(content=f'Successfully authorized as <@{ctx.author.id}>. Fetching changelog....')
             changelogFile = discord.File('./docs/changelog.md')
-            await ctx.send(file = changelogFile)
+            await ctx.send(file=changelogFile)
         else:
             await msg3.edit(content=f'Error 4 || Error 401')
             await ctx.send(f'Your ID is not recognized.\nYou can run ``=error 4`` for more information.')
