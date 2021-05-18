@@ -1503,6 +1503,7 @@ async def error(ctx, command=""):
             description="``=valm`` is a command that lets you see someones past match!",
             color=0x00CCFF,
         )
+        embedvalm.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         embedvalm.add_field(
             name="Unknown Map/Gamemode",
             value="If you're wondering why your map image returned with a **?** instead of a map, it means that I could not find the map for that match. The same thing happens with the game mode. Unfortunately there is nothing I can do about this. :(",
@@ -1525,6 +1526,7 @@ async def error(ctx, command=""):
             description="``=valm`` is a command that lets you see someones past match!",
             color=0x00FFCC,
         )
+        embedvalm2.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         embedvalm2.add_field(
             name="Error 2 || Error 404",
             value="Error 2 || Error 404 is returned when the server could not find the player you are looking for. Check your spelling, and/or tag. The other reason is that the player has not played in a long time, and RIOT doesnt let me query that far :(.",
