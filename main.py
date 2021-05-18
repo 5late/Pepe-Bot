@@ -904,7 +904,14 @@ async def vala(ctx, *, arg):
 
 @bot.command()
 async def lb(ctx, *, args):
-    await leaderboard.leaderBoard(ctx, args)
+    auth = [564466359107321856, 323269361232248832]
+    msg = await ctx.send('Checking authorization....')
+    if ctx.author.id in auth:
+        await msg.edit(content=f'Authorization as <@{ctx.author.id}> was successful. Please allow up to 15 seconds for this command to process.')
+        await leaderboard.leaderBoard(ctx, args)
+    else:
+        await msg.edit(content='Error 4 || Error 401')
+        await ctx.send('You are not authorized to use this command. \nUse command ``=error 4`` to see more information.')
 
 
 @bot.command()
