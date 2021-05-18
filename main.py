@@ -1539,7 +1539,31 @@ async def error(ctx, command=""):
         )
         embedvalm2.set_footer(text="Thanks for your patience with me! :)")
         await ctx.send(embed=embedvalm2)
+    elif str(command) == '3':
+        embedvalm3 = discord.Embed(
+            title = 'Changelog Error 3 || Error 410',
+            description = '``=changelog`` is a command that lets you see the changelog of the bot!',
+            color = 0x00CCFF
+        )
+        embedvalm3.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+        embedvalm3.add_field(name='Error 3 || Error 410', value='Error 3 || Error 410 is returned when the bot command does not exist, or the command has not been implemented yet. ')
+        embedvalm3.add_field(name='What to do', value='Unfotunately, there is nothing you can do about the command. You can contact the owner to see when the command will be released, or what happened to it, tho.', inline=False)
+        embedvalm3.add_field(name='How to help', value='There isn\'t much you can do to help. heh.', inline=False)
+        embedvalm3.set_footer(text='Thanks for your patience with me! :)')
+        await ctx.send(embed=embedvalm3)
 
+@bot.command()
+async def changelog(ctx, arg=''):
+    if not arg:
+        await ctx.send('This command is used to send the changelog of a recent update. I try to keep this as up to date as possible, but you can also check https://github.com/5late/Pepe-Bot for updates and/or more information. Thanks. :)')
+    elif arg == 'latest':
+        msg = await ctx.send('I\'m fetching the latest update for PepeBot. Hang tight.')
+        await asyncio.sleep(2)
+        await msg.edit(content='Error 3:')
+        await ctx.send('This command is currently not ready. Check back later.')
+        await ctx.send('You can run ``=error 3`` for more information.')
+    else:
+        await ctx.send(f'I don\'t know what ``{arg}`` is. The arguments I currently accept are: ``latest``.')
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
