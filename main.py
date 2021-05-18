@@ -782,7 +782,7 @@ async def vala(ctx, *, arg):
                         f"{unratekcounter}/{unratedcounter}/{unrateacounter}",
                         round(unratekcounter / unratedcounter, 2),
                         f"{dmkcounter}/{dmdcounter}/{dmacounter}",
-                        round(dmacounter / dmdcounter, 2),
+                        round(dmkcounter / dmdcounter, 2),
                         f"{replkcounter}/{repldcounter}/{replacounter}",
                         round(replkcounter / repldcounter, 2),
                     )
@@ -892,11 +892,14 @@ async def vala(ctx, *, arg):
             else:
                 await msg.edit(content="An error occured. :(")
                 await ctx.send("Try again, or check spelling, tag, etc.")
-    except BaseException:
+    except KeyError:
         await msg.edit(content="The server might be down. :pensive:")
         await ctx.send(
             "I didn't receive a response from the server. Try again in about 15 - 20 minutes."
         )
+    except BaseException:
+        await msg.edit(content='Error 2 || Error 404')
+        await ctx.send("That player was not found.")
 
 
 @bot.command()
