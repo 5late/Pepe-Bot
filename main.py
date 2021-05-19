@@ -466,7 +466,7 @@ async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
 
-
+@commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def valm(ctx, *, arg: str):
     try:
@@ -600,6 +600,11 @@ async def valm(ctx, *, arg: str):
     except BaseException:
         await msg.edit(content="Error 2||Error 404 :(")
         await ctx.send("Use command ``=error 2`` to see more information.")
+
+@valm.error
+async def valm_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
 
 
 @bot.command()
