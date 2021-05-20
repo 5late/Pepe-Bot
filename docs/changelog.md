@@ -1,5 +1,16 @@
 # PepeBot Changelog
 
+### May 20 2021
+
+### New Command
+
+**TEMPERATURE COMMAND** 
+
+- Added Fareinheit to Celcius coverter 
+    - ``=tempfc NUM``
+
+- Still in testing, will add to [documentation](./commands.md) later
+
 ### May 18 2021
 
 ### Bug Fixes
