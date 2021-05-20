@@ -364,6 +364,10 @@ async def pog(ctx):
         await ctx.send(f"~~Called by {ctx.author.nick}~~")
 
 
+@bot.command()
+async def auth(ctx):
+    await ctx.send('This command is a work in progress. We hope to have a future where this command can begin to automatically authorize trusted users. Check back later. (Error 3 || Error 410)')
+
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def val(ctx, *, arg: str):

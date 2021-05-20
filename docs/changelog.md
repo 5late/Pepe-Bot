@@ -2,6 +2,17 @@
 
 ### May 20 2021
 
+### Updates to Leaderboard auth-ed command
+
+- The leaderboard command has always been authorized users only.
+- You can now get the leaderboard of any of your past 5 games! 
+    - To do this, you will now have to use command ``=lb PLAYER#TAG#GAMENUMBER`` 
+    <sub>(Note: Game number must be between 1-5)</sub>
+- This continues in this update, but to authorized users, the leaderboard now is much cleaner.
+- The leaderboard colors have been uplifted as well.
+- Fixed bug where everyone had the same amount of kills and deaths.
+- Started working on auth command (wow!)
+
 ### New Command
 
 **TEMPERATURE COMMAND** 
