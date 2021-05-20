@@ -112,7 +112,7 @@ async def leaderBoard(ctx, arg):
 
         Eembed = discord.Embed(title='Enemy Team', description=f'```{finalEMessage}```', color=enemyColor)
         await ctx.send(embed = Eembed)
-        await msg.edit(content=f'Successfully got the leaderboard for match ``{lbnum}`` of ``{name}#{tag}``.')
+        await msg.edit(content=f'Successfully got the leaderboard for match ``{lbnum + 1}`` of ``{name}#{tag}``.')
 
 if __name__ == '__main__':
     leaderBoard(ctx, arg)
