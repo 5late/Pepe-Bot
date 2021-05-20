@@ -1628,10 +1628,22 @@ async def error(ctx, command=""):
         embedvalm4.set_footer(text="Thanks for your patience with me! :)")
         await ctx.send(embed=embedvalm4)
     elif str(command) == '5':
-        embedvalm5 = discord.Embed(title='Error 5 || Error 400', description='```css\nERROR 400```', color=0x00CCFF)
-        embedvalm5.add_field(name='Info', value='Error 5 || Error 400 is returned when the content type is not supported.', inline=False)
-        embedvalm5.add_field(name='What to do', value='Re-send the command with a supported content type.', inline=False)
-        embedvalm5.add_field(name='How to help', value='If you know how to support certain content types, you can contact the owner.', inline=False)
+        embedvalm5 = discord.Embed(
+            title='Error 5 || Error 400',
+            description='```css\nERROR 400```',
+            color=0x00CCFF)
+        embedvalm5.add_field(
+            name='Info',
+            value='Error 5 || Error 400 is returned when the content type is not supported.',
+            inline=False)
+        embedvalm5.add_field(
+            name='What to do',
+            value='Re-send the command with a supported content type.',
+            inline=False)
+        embedvalm5.add_field(
+            name='How to help',
+            value='If you know how to support certain content types, you can contact the owner.',
+            inline=False)
         embedvalm5.set_footer(text='Thanks for your patience with me! :)')
         await ctx.send(embed=embedvalm5)
 
