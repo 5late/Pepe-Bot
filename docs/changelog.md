@@ -19,7 +19,7 @@
 - Fixed a bug where leaderboards showed:
     - One player only
     - One team only
-    - Spammed "```"
+    - Spammed "` ` `"
     - Spammed "','"
     - Did not return anything
     - Had [] wrapped around the players
