@@ -1695,6 +1695,13 @@ async def changelog(ctx, arg=""):
             f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``, ``cb`` and ``f``."
         )
 
+@bot.command()
+async def tempfc(ctx, arg:int):
+    C = round(((arg - 32) / 1.8), 2)
+    TempEmbed = discord.Embed(title='Fareinheit to Celcius Converter')
+    TempEmbed.add_field(name='Input:', value=f'{arg}F', inline = True)
+    TempEmbed.add_field(name='Output:', value=f'{C}C', inline = True)
+    await ctx.send(embed=TempEmbed)
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
