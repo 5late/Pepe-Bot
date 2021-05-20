@@ -257,38 +257,6 @@ async def lem(ctx):
     except BaseException:
         await ctx.send("I couldnt find any edited messages. :(")
 
-
-sudoPriv = None
-sudoers = open("sudoers.txt", "r").read()
-sudos = open("sudo.txt", "r+")
-sudosContent = sudos.read()
-sudos.seek(0)
-sudos.truncate()
-sudos.write("False")
-
-
-@bot.command()
-async def sudo(message):
-    print(sudoers)
-    if str(message.author.id) in sudoers:
-        sudos = open("sudo.txt", "r+")
-        sudos.seek(0)
-        sudos.truncate()
-        sudos.write("True")
-        sudos.close()
-        print(sudosContent)
-        await message.channel.send("200")
-    if not str(message.author.id) in sudoers:
-        await message.channel.send(
-            f"<@{message.author.id}> is not in the sudoers file. This incident will be reported."
-        )
-        sudos.seek(0)
-        sudos.truncate()
-        sudos.write("False")
-        sudos.close()
-        print(sudosContent)
-
-
 @bot.command()
 async def hello(message):
     await message.channel.send("Hello!")
@@ -1242,7 +1210,7 @@ async def leave(ctx):
 
 @bot.command(name="play", help="play a youtube URL.")
 async def play(ctx, url):
-    if str(ctx.message.author.id) in sudoers and sudosContent == "True":
+    if str(ctx.message.author.id):
         voice = get(bot.voice_clients, guild=ctx.guild)
 
         async with ctx.typing():
