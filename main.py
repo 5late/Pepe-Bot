@@ -637,7 +637,7 @@ async def dur(ctx, *, arg):
 
     await ctx.send(embed=embedD)
 
-
+@commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def vala(ctx, *, arg):
     try:
@@ -912,7 +912,10 @@ async def vala(ctx, *, arg):
     except BaseException:
         await msg.edit(content='Error 2 || Error 404')
         await ctx.send("That player was not found.")
-
+@vala.error
+async def vala_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
 
 @bot.command()
 async def lb(ctx, *, args):
