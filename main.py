@@ -260,7 +260,7 @@ async def lem(ctx):
 
 @bot.command()
 async def hello(message):
-    await message.channel.send("Hello!")
+    await message.channel.send(f"Hello {message.author.name}!")
 
 
 @bot.command()
