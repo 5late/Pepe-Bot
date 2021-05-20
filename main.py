@@ -257,6 +257,7 @@ async def lem(ctx):
     except BaseException:
         await ctx.send("I couldnt find any edited messages. :(")
 
+
 @bot.command()
 async def hello(message):
     await message.channel.send("Hello!")
