@@ -639,6 +639,7 @@ async def dur(ctx, *, arg):
 
     await ctx.send(embed=embedD)
 
+
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def vala(ctx, *, arg):
@@ -914,10 +915,13 @@ async def vala(ctx, *, arg):
     except BaseException:
         await msg.edit(content='Error 2 || Error 404')
         await ctx.send("That player was not found.")
+
+
 @vala.error
 async def vala_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
 
 @bot.command()
 async def lb(ctx, *, args):
@@ -1695,14 +1699,15 @@ async def changelog(ctx, arg=""):
             f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``, ``cb`` and ``f``."
         )
 
+
 @bot.command()
 async def tempfc(ctx, arg):
     try:
         newArg = arg.split('F')
         C = round(((int(newArg[0]) - 32) / 1.8), 2)
         TempEmbed = discord.Embed(title='Fareinheit to Celcius Converter')
-        TempEmbed.add_field(name='Input:', value=f'{newArg[0]}F', inline = True)
-        TempEmbed.add_field(name='Output:', value=f'{C}C', inline = True)
+        TempEmbed.add_field(name='Input:', value=f'{newArg[0]}F', inline=True)
+        TempEmbed.add_field(name='Output:', value=f'{C}C', inline=True)
         await ctx.send(embed=TempEmbed)
     except ValueError:
         await ctx.send('Value must be of type ``num``.')
