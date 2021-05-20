@@ -1696,12 +1696,16 @@ async def changelog(ctx, arg=""):
         )
 
 @bot.command()
-async def tempfc(ctx, arg:int):
-    C = round(((arg - 32) / 1.8), 2)
-    TempEmbed = discord.Embed(title='Fareinheit to Celcius Converter')
-    TempEmbed.add_field(name='Input:', value=f'{arg}F', inline = True)
-    TempEmbed.add_field(name='Output:', value=f'{C}C', inline = True)
-    await ctx.send(embed=TempEmbed)
+async def tempfc(ctx, arg):
+    try:
+        newArg = arg.split('F')
+        C = round(((int(newArg[0]) - 32) / 1.8), 2)
+        TempEmbed = discord.Embed(title='Fareinheit to Celcius Converter')
+        TempEmbed.add_field(name='Input:', value=f'{newArg[0]}F', inline = True)
+        TempEmbed.add_field(name='Output:', value=f'{C}C', inline = True)
+        await ctx.send(embed=TempEmbed)
+    except ValueError:
+        await ctx.send('Value must be of type ``num``.')
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
