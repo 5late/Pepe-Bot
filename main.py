@@ -258,40 +258,9 @@ async def lem(ctx):
         await ctx.send("I couldnt find any edited messages. :(")
 
 
-sudoPriv = None
-sudoers = open("sudoers.txt", "r").read()
-sudos = open("sudo.txt", "r+")
-sudosContent = sudos.read()
-sudos.seek(0)
-sudos.truncate()
-sudos.write("False")
-
-
-@bot.command()
-async def sudo(message):
-    print(sudoers)
-    if str(message.author.id) in sudoers:
-        sudos = open("sudo.txt", "r+")
-        sudos.seek(0)
-        sudos.truncate()
-        sudos.write("True")
-        sudos.close()
-        print(sudosContent)
-        await message.channel.send("200")
-    if not str(message.author.id) in sudoers:
-        await message.channel.send(
-            f"<@{message.author.id}> is not in the sudoers file. This incident will be reported."
-        )
-        sudos.seek(0)
-        sudos.truncate()
-        sudos.write("False")
-        sudos.close()
-        print(sudosContent)
-
-
 @bot.command()
 async def hello(message):
-    await message.channel.send("Hello!")
+    await message.channel.send(f"Hello {message.author.name}!")
 
 
 @bot.command()
@@ -639,6 +608,7 @@ async def dur(ctx, *, arg):
 
     await ctx.send(embed=embedD)
 
+
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def vala(ctx, *, arg):
@@ -914,10 +884,13 @@ async def vala(ctx, *, arg):
     except BaseException:
         await msg.edit(content='Error 2 || Error 404')
         await ctx.send("That player was not found.")
+
+
 @vala.error
 async def vala_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
 
 @bot.command()
 async def lb(ctx, *, args):
@@ -1238,7 +1211,7 @@ async def leave(ctx):
 
 @bot.command(name="play", help="play a youtube URL.")
 async def play(ctx, url):
-    if str(ctx.message.author.id) in sudoers and sudosContent == "True":
+    if str(ctx.message.author.id):
         voice = get(bot.voice_clients, guild=ctx.guild)
 
         async with ctx.typing():
@@ -1695,6 +1668,18 @@ async def changelog(ctx, arg=""):
             f"I don't know what ``{arg}`` is. The arguments I currently accept are: ``latest``, ``cb`` and ``f``."
         )
 
+
+@bot.command()
+async def tempfc(ctx, arg):
+    try:
+        newArg = arg.split('F')
+        C = round(((int(newArg[0]) - 32) / 1.8), 2)
+        TempEmbed = discord.Embed(title='Fareinheit to Celcius Converter')
+        TempEmbed.add_field(name='Input:', value=f'{newArg[0]}F', inline=True)
+        TempEmbed.add_field(name='Output:', value=f'{C}C', inline=True)
+        await ctx.send(embed=TempEmbed)
+    except ValueError:
+        await ctx.send('Value must be of type ``num``.')
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
