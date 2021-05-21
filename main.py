@@ -1110,8 +1110,9 @@ async def kissme(ctx):
         or ctx.message.author.id == 564562239739396098
     ):
         await ctx.send("Ok <:happier:821406857678946394> , nht.")
+        await ctx.author.send('Hi qt <:cutepepe:821408779279138887>, u lookin extra nice today <:happier:821406857678946394>. nht <:happy:816424699906752562>')
     else:
-        await ctx.send("Ew, no.")
+        await ctx.send("*Seen*")
 
 
 @bot.command()
