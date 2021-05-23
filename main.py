@@ -446,7 +446,6 @@ async def mine_error(ctx, error):
 @bot.command()
 async def valm(ctx, *, arg: str):
     await lm.valm(ctx, arg)
-    
 
 
 @valm.error
