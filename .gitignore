@@ -13,4 +13,4 @@ __pycache__/
 .vscode/
 leaderboard.py
 careerF.py
-main.py
+lm.py
