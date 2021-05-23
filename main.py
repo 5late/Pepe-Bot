@@ -445,10 +445,6 @@ async def mine_error(ctx, error):
 @bot.command()
 async def valm(ctx, *, arg: str):
     await lm.valm(ctx, arg)
-<<<<<<< HEAD
-=======
-
->>>>>>> c67705d9554cfd1e82e92e7ffbace7451edc3b77
 
 @valm.error
 async def valm_error(ctx, error):
