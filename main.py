@@ -435,7 +435,6 @@ async def val(ctx, *, arg: str):
             "I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)"
         )
 
-
 @val.error
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
@@ -446,8 +445,6 @@ async def mine_error(ctx, error):
 @bot.command()
 async def valm(ctx, *, arg: str):
     await lm.valm(ctx, arg)
-    
-
 
 @valm.error
 async def valm_error(ctx, error):
