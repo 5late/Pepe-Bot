@@ -11,3 +11,6 @@ sudo.txt
 *.log
 __pycache__/
 .vscode/
+leaderboard.py
+careerF.py
+main.py
