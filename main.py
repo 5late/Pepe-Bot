@@ -15,7 +15,7 @@ from io import BytesIO
 import platform
 import leaderboard
 import careerF
-import lm
+#import lm
 
 load_dotenv()
 
@@ -445,7 +445,8 @@ async def mine_error(ctx, error):
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def valm(ctx, *, arg: str):
-    await lm.valm(ctx, arg)
+    await ctx.send('Command currently unavailable.')
+    #await lm.valm(ctx, arg)
 
 
 @valm.error
@@ -1036,7 +1037,7 @@ async def quiz(ctx):
         await ctx.send("An error occured.")
 
 
-WHEN = time(9, 28, 0)  # 6:00 PM
+WHEN = time(13, 28, 0)  # 6:00 PM
 channel_id = 801520877753597974  # Put your channel id here
 
 
@@ -1044,7 +1045,7 @@ async def called_once_a_day():
     await bot.wait_until_ready()
     channel = bot.get_channel(channel_id)
     await channel.send(
-        f"<@564466359107321856>, <@564562239739396098>, <@543866993602723843>, <@380761443479322624> This is an automated message to remind you all to take attendance at {WHEN} EDT. This message was set to send to <#{channel_id}> by <@564466359107321856>."
+        f"<@564466359107321856>, <@564562239739396098>, <@543866993602723843>, <@380761443479322624> Automated message for **ATTENDANCE** set at {WHEN}. Run command ``=sl`` to get a DM with the attendance link. This message was set to send to <#{channel_id}> by 5|ate."
     )
 
 
@@ -1064,6 +1065,11 @@ async def background_task():
         seconds = (tomorrow - now).total_seconds()
         await asyncio.sleep(seconds)
 
+@bot.command()
+async def sl(ctx):
+    ward = [564466359107321856, 380761443479322624, 543866993602723843, 564562239739396098]
+    if ctx.author.id in ward:
+        await ctx.author.send('https://docs.google.com/forms/d/e/1FAIpQLSfSOKbZkUmo-zGRjuAl33WloeVJVNhJMzQdSqBmn3hPchi8OA/viewform')
 
 @bot.command(name="join", help="Joins the voice channel.")
 async def join(ctx):
