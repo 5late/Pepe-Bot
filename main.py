@@ -446,7 +446,7 @@ async def mine_error(ctx, error):
 @bot.command()
 async def valm(ctx, *, arg: str):
     await ctx.send('Command currently unavailable.')
-    #await lm.valm(ctx, arg)
+    # await lm.valm(ctx, arg)
 
 
 @valm.error
@@ -1065,11 +1065,17 @@ async def background_task():
         seconds = (tomorrow - now).total_seconds()
         await asyncio.sleep(seconds)
 
+
 @bot.command()
 async def sl(ctx):
-    ward = [564466359107321856, 380761443479322624, 543866993602723843, 564562239739396098]
+    ward = [
+        564466359107321856,
+        380761443479322624,
+        543866993602723843,
+        564562239739396098]
     if ctx.author.id in ward:
         await ctx.author.send('https://docs.google.com/forms/d/e/1FAIpQLSfSOKbZkUmo-zGRjuAl33WloeVJVNhJMzQdSqBmn3hPchi8OA/viewform')
+
 
 @bot.command(name="join", help="Joins the voice channel.")
 async def join(ctx):
