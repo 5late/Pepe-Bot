@@ -1402,16 +1402,29 @@ async def bj(ctx):
                                 f"You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
                             )
 
-                    elif msg3.content == "s":
-                        await ctx.send(
-                            f"You stood. The dealers cards were: {dealerCard}."
-                        )
+                    elif msg3.content == "s":                
+                        if cpc1[0] > cdc1[0]:
+                            await ctx.send(f"You stood and ***WON***. The dealers cards were: {dealerCard}.")
+                        elif cdc1[0] > cpc1[0]:
+                            await ctx.send(f'You stood and ***LOST***. The dealers cards were: {dealerCard}.')
+                        else:
+                            await ctx.send(f'You stood and ***TIED***. The dealers cards were {dealerCard}.')
 
             elif msg2.content == "s":
-                await ctx.send(f"You stood. The dealers cards were: {dealerCard}.")
+                if cpc1[0] > cdc1[0]:
+                    await ctx.send(f"You stood and ***WON***. The dealers cards were: {dealerCard}.")
+                elif cdc1[0] > cpc1[0]:
+                    await ctx.send(f'You stood and ***LOST***. The dealers cards were: {dealerCard}.')
+                else:
+                    await ctx.send(f'You stood and ***TIED***. The dealers cards were {dealerCard}.')
 
     elif msg.content == "s":
-        await ctx.send(f"You stood. The dealers cards were: {dealerCard}.")
+        if cpc1[0] > cdc1[0]:
+            await ctx.send(f"You stood and ***WON***. The dealers cards were: {dealerCard}.")
+        elif cdc1[0] > cpc1[0]:
+            await ctx.send(f'You stood and ***LOST***. The dealers cards were: {dealerCard}.')
+        else:
+            await ctx.send(f'You stood and ***TIED***. The dealers cards were {dealerCard}.')
 
 
 @bot.command()
