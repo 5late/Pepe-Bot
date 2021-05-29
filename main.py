@@ -167,7 +167,7 @@ async def help(ctx, *, group=""):
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f"Pong! Bot latency is ``{round(bot.latency, 1)}`` ms.")
+    await ctx.send(f"Pong! Bot latency is ``{round((bot.latency * 1000), 1)}`` ms.")
     print(os.name)
 
 
@@ -217,7 +217,7 @@ async def pwd(ctx):
     embedI.add_field(name="Time:", value=f'``{current_time}``', inline=False)
     embedI.add_field(
         name="Bot Latency/Ping",
-        value=f"``{round(bot.latency, 3)}`` ms",
+        value=f"``{round((bot.latency * 1000), 1)}`` ms",
         inline=True)
     embedI.add_field(name="Bot Uptime", value=getBotUptime(), inline=True)
 
