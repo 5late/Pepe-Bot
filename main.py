@@ -1300,15 +1300,31 @@ async def bj(ctx):
         cpc1.clear()
         cpc1.append(cpc)
         return cpc
+    
+    def calcDealerCard(card, cdc):
+        if card in faceCards:
+            cdc += 10
+        elif int(cdc) < 10 and card == "A":
+            cdc += 11
+        elif int(cdc) >= 10 and card == "A":
+            cdc += 1
+        elif card == 'a':
+            cdc += 1
+        else:
+            cdc += int(card)
+        print(cdc)
+        cdc1.clear()
+        cdc1.append(cdc)
+        return cdc
 
     def intize(cpc, cdc):
         dealerCard.append(shownCard)
         dealerCard.append(randomCard)
         playerCard.append(random.choice(cards))
         playerCard.append(random.choice(cards))
-        print(playerCard)
-        print(shownCard)
-        print(dealerCard)
+        print('player cards are: ' ,playerCard)
+        print('shows card is', shownCard)
+        print('dealers cards is ', dealerCard)
         playerCount = int(cpc)
         dealerCount = int(cdc)
         for playerCardnow in playerCard:
@@ -1345,9 +1361,29 @@ async def bj(ctx):
             currentC = (count - 10)
             cpc1.clear()
             cpc1.append(currentC)
-            print(playerCard)
+            print('players cards are ', playerCard)
 
             if cpc1[0] > 21:
+                return True
+            elif count <= 21:
+                return False
+        elif count > 21:
+            return True
+        elif count <= 21:
+            return False
+    
+    def checkDealerGame(count):
+        if count >= 21 and "A" in dealerCard:
+            i = 0
+            for i in range(len(dealerCard)):
+                if dealerCard[i] == 'A':
+                    dealerCard[i] = 'a'
+            currentC = (count - 10)
+            cdc1.clear()
+            cdc1.append(currentC)
+            print(dealerCard)
+
+            if cdc1[0] > 21:
                 return True
             elif count <= 21:
                 return False
@@ -1382,6 +1418,22 @@ async def bj(ctx):
         ckGame = checkGame(cpc1[0])
         currentC = calcCard(playerCard[2], cpc1[0])
         ckGame = checkGame(cpc1[0])
+        if int(cdc1[0]) < 17:
+            dealerCard.append(random.choice(cards))
+            calcDealerCard(dealerCard[2], cdc1[0])
+            ckDGame = checkDealerGame(cdc1[0])
+            if ckDGame and not ckGame:
+                win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
+                win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{dealerCard}')
+                
+                return await ctx.send(embed = win_dealer_embed)
+            elif ckDGame and ckGame:
+                tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.name} || **TIE**', description = 'You tied.', color=0xcee5e3)
+                tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+                return await ctx.send(embed = tie_dealer_embed)
         if ckGame:
             await ctx.send(
                 f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}"
@@ -1390,7 +1442,7 @@ async def bj(ctx):
             player_card_string = ''
             for player_card in playerCard:
                 player_card_string += f'``{str(player_card)}``  '
-            first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand')
+            first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand', color=0xcee5e3)
             first_bj_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
             first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
             await ctx.send(
@@ -1405,6 +1457,22 @@ async def bj(ctx):
                 ckGame = checkGame(cpc1[0])
                 currentC = calcCard(playerCard[3], cpc1[0])
                 ckGame = checkGame(cpc1[0])
+                if int(cdc1[0]) < 17:
+                    dealerCard.append(random.choice(cards))
+                    calcDealerCard(dealerCard[2], cdc1[0])
+                    ckDGame = checkDealerGame(cdc1[0])
+                    if ckDGame and not ckGame:
+                        win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
+                        win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                        win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{dealerCard}')
+                        
+                        return await ctx.send(embed = win_dealer_embed)
+                    elif ckDGame and ckGame:
+                        tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.name} || **TIE**', description = 'You tied.', color=0xcee5e3)
+                        tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                        tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+                        return await ctx.send(embed = tie_dealer_embed)
                 if ckGame:
                     await ctx.send(
                         f"You busted! You pulled a {playerCard[3]}, bringing your total to {currentC}"
@@ -1413,8 +1481,8 @@ async def bj(ctx):
                     player_card_string = ''
                     for player_card in playerCard:
                         player_card_string += f'{str(player_card)}  '
-                    first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand')
-                    first_bj_embed.add_field(name = f'Your Cards: ``{currentC}``', value = f'``{player_card_string}``')
+                    first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand', color = 0xcee5e3)
+                    first_bj_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'``{player_card_string}``')
                     first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
                     await ctx.send(
                         f"You took a {playerCard[3]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}",
@@ -1429,6 +1497,22 @@ async def bj(ctx):
                         ckGame = checkGame(cpc1[0])
                         currentC = calcCard(playerCard[4], cpc1[0])
                         ckGame = checkGame(cpc1[0])
+                        if int(cdc1[0]) < 17:
+                            dealerCard.append(random.choice(cards))
+                            calcDealerCard(dealerCard[2], cdc1[0])
+                            ckDGame = checkDealerGame(cdc1[0])
+                            if ckDGame and not ckGame:
+                                win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
+                                win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                                win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{dealerCard}')
+                                
+                                return await ctx.send(embed = win_dealer_embed)
+                            elif ckDGame and ckGame:
+                                tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.name} || **TIE**', description = 'You tied.', color=0xcee5e3)
+                                tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
+                                tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+                                return await ctx.send(embed = tie_dealer_embed)
                         if ckGame:
                             await ctx.send(
                                 f"You busted! You pulled a {playerCard[4]}, bringing your total to {currentC}"
@@ -1442,7 +1526,7 @@ async def bj(ctx):
                                 name="Your cards", value=playerCard)
 
                             await ctx.send(
-                                f"You took a {playerCard[4]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
+                                f"You took a {playerCard[4]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}", embed = finalEmbed
                             )
 
                     elif msg3.content == "s":                
