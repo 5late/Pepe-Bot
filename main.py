@@ -1337,21 +1337,22 @@ async def bj(ctx):
     intize(0, 0)
 
     def checkGame(count):
-        if count > 21 and "A" in playerCard:
+        if count >= 21 and "A" in playerCard:
+            for i in range(len(playerCard)):
+                if playerCard[i] == 'A':
+                    playerCard[i] = 'a'
             currentC = (count - 10)
-            for i in playerCard:
-                if i == 'A':
-                    i = 'a'
             cpc1.clear()
             cpc1.append(currentC)
+            print(playerCard)
 
-            if count > 21:
+            if cpc1[0] > 21:
                 return True
-            else:
+            elif count <= 21:
                 return False
         if count > 21:
             return True
-        else:
+        elif count <= 21:
             return False
 
     checkGame(cpc1[0])
