@@ -1562,7 +1562,14 @@ async def bj(ctx):
                     elif msg3.content == "s":                      
                         player_card_string = ''
                         for player_card in playerCard:
-                            player_card_string += f'``{str(player_card)}``  '              
+                            player_card_string += f'``{str(player_card)}``  '
+                        stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
+                        stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+                        stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+                        stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
+                        stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+                        stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
                         if cpc1[0] > cdc1[0]:
                             stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
                             stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
@@ -1577,6 +1584,13 @@ async def bj(ctx):
                 player_card_string = ''
                 for player_card in playerCard:
                     player_card_string += f'``{str(player_card)}``  '
+                stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
+                stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+                stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+                stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
+                stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+                stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
                 if cpc1[0] > cdc1[0]:
                     stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
                     stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
@@ -1591,6 +1605,13 @@ async def bj(ctx):
         player_card_string = ''
         for player_card in playerCard:
             player_card_string += f'``{str(player_card)}``  '
+        stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
+        stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+        stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
+
+        stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
+        stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
+        stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{dealerCard}')
         if cpc1[0] > cdc1[0]:
             stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
             stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{player_card_string}')
