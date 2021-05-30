@@ -1288,9 +1288,9 @@ async def bj(ctx):
     def calcCard(card, cpc):
         if card in faceCards:
             cpc += 10
-        elif int(cpc) <= 10 and card == "A":
+        elif int(cpc) < 10 and card == "A":
             cpc += 11
-        elif int(cpc) > 10 and card == "A":
+        elif int(cpc) >= 10 and card == "A":
             cpc += 1
         else:
             cpc += int(card)
@@ -1318,7 +1318,6 @@ async def bj(ctx):
                 playerCount += 1
             else:
                 playerCount += int(playerCardnow)
-        print(playerCount)
         for dealerCardnow in dealerCard:
             if dealerCardnow in faceCards:
                 dealerCount += 10
@@ -1328,7 +1327,6 @@ async def bj(ctx):
                 dealerCount += 1
             else:
                 dealerCount += int(dealerCardnow)
-        print(dealerCount)
         cpc1.clear()
         cdc1.clear()
         cdc1.append(dealerCount)
@@ -1352,7 +1350,7 @@ async def bj(ctx):
 
     msg = await bot.wait_for("message", check=check(ctx.author), timeout=30)
     if msg.content == "h":
-        playerCard.append(randomCard)
+        playerCard.append(random.choice(cards))
         currentC = calcCard(playerCard[2], cpc1[0])
         ckGame = checkGame()
         if ckGame:
@@ -1360,35 +1358,50 @@ async def bj(ctx):
                 f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}"
             )
         else:
+            player_card_string = ''
+            dealer_card_string = ''
+            for player_card in playerCard:
+                player_card_string += f'``{str(player_card)}``  '
+            first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand')
+            first_bj_embed.add_field(name = f'Your Cards: ``{currentC}``', value = f'{player_card_string}')
+            first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
             await ctx.send(
-                f"You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
+                f"You took a {playerCard[2]} from the deck.",
+                embed = first_bj_embed
             )
 
             msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
 
             if msg2.content == "h":
-                playerCard.append(randomCard)
-                currentC = calcCard(playerCard[2], cpc1[0])
+                playerCard.append(random.choice(cards))
+                currentC = calcCard(playerCard[3], cpc1[0])
                 ckGame = checkGame()
                 if ckGame:
                     await ctx.send(
-                        f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}"
+                        f"You busted! You pulled a {playerCard[3]}, bringing your total to {currentC}"
                     )
                 else:
+                    player_card_string = ''
+                    for player_card in playerCard:
+                        player_card_string += f'{str(player_card)}  '
+                    first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand')
+                    first_bj_embed.add_field(name = f'Your Cards: ``{currentC}``', value = f'``{player_card_string}``')
+                    first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
                     await ctx.send(
-                        f"You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
+                        f"You took a {playerCard[3]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}",
+                        embed = first_bj_embed
                     )
                     msg3 = await bot.wait_for(
                         "message", check=check(ctx.author), timeout=30
                     )
 
                     if msg3.content == "h":
-                        playerCard.append(randomCard)
-                        currentC = calcCard(playerCard[2], cpc1[0])
+                        playerCard.append(random.choice(cards))
+                        currentC = calcCard(playerCard[4], cpc1[0])
                         ckGame = checkGame()
                         if ckGame:
                             await ctx.send(
-                                f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}"
+                                f"You busted! You pulled a {playerCard[4]}, bringing your total to {currentC}"
                             )
                         else:
                             finalEmbed = discord.Embed(
@@ -1399,7 +1412,7 @@ async def bj(ctx):
                                 name="Your cards", value=playerCard)
 
                             await ctx.send(
-                                f"You took a {playerCard[2]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
+                                f"You took a {playerCard[4]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}"
                             )
 
                     elif msg3.content == "s":                
