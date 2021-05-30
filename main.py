@@ -1293,7 +1293,7 @@ async def bj(ctx):
         elif int(cpc) >= 10 and card == "A":
             cpc += 1
         elif card == 'a':
-            cpc += 0
+            cpc += 1
         else:
             cpc += int(card)
         print(cpc)
@@ -1338,6 +1338,7 @@ async def bj(ctx):
 
     def checkGame(count):
         if count >= 21 and "A" in playerCard:
+            i = 0
             for i in range(len(playerCard)):
                 if playerCard[i] == 'A':
                     playerCard[i] = 'a'
@@ -1350,12 +1351,11 @@ async def bj(ctx):
                 return True
             elif count <= 21:
                 return False
-        if count > 21:
+        elif count > 21:
             return True
         elif count <= 21:
             return False
 
-    checkGame(cpc1[0])
 
     def check(author):
         def inner_check(ctx):
@@ -1381,6 +1381,7 @@ async def bj(ctx):
         playerCard.append(random.choice(cards))
         ckGame = checkGame(cpc1[0])
         currentC = calcCard(playerCard[2], cpc1[0])
+        ckGame = checkGame(cpc1[0])
         if ckGame:
             await ctx.send(
                 f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}"
@@ -1390,7 +1391,7 @@ async def bj(ctx):
             for player_card in playerCard:
                 player_card_string += f'``{str(player_card)}``  '
             first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand')
-            first_bj_embed.add_field(name = f'Your Cards: ``{currentC}``', value = f'{player_card_string}')
+            first_bj_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{player_card_string}')
             first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
             await ctx.send(
                 f"You took a {playerCard[2]} from the deck.",
@@ -1403,6 +1404,7 @@ async def bj(ctx):
                 playerCard.append(random.choice(cards))
                 ckGame = checkGame(cpc1[0])
                 currentC = calcCard(playerCard[3], cpc1[0])
+                ckGame = checkGame(cpc1[0])
                 if ckGame:
                     await ctx.send(
                         f"You busted! You pulled a {playerCard[3]}, bringing your total to {currentC}"
@@ -1426,6 +1428,7 @@ async def bj(ctx):
                         playerCard.append(random.choice(cards))
                         ckGame = checkGame(cpc1[0])
                         currentC = calcCard(playerCard[4], cpc1[0])
+                        ckGame = checkGame(cpc1[0])
                         if ckGame:
                             await ctx.send(
                                 f"You busted! You pulled a {playerCard[4]}, bringing your total to {currentC}"
