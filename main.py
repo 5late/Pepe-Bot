@@ -1300,7 +1300,7 @@ async def bj(ctx):
         cpc1.clear()
         cpc1.append(cpc)
         return cpc
-    
+
     def calcDealerCard(card, cdc):
         if card in faceCards:
             cdc += 10
@@ -1322,7 +1322,7 @@ async def bj(ctx):
         dealerCard.append(randomCard)
         playerCard.append(random.choice(cards))
         playerCard.append(random.choice(cards))
-        print('player cards are: ' ,playerCard)
+        print('player cards are: ', playerCard)
         print('shows card is', shownCard)
         print('dealers cards is ', dealerCard)
         playerCount = int(cpc)
@@ -1371,7 +1371,7 @@ async def bj(ctx):
             return True
         elif count <= 21:
             return False
-    
+
     def checkDealerGame(count):
         if count >= 21 and "A" in dealerCard:
             i = 0
@@ -1392,13 +1392,12 @@ async def bj(ctx):
         elif count <= 21:
             return False
 
-
     def check(author):
         def inner_check(ctx):
             return ctx.author == author and ctx.content == "h" or "s"
 
         return inner_check
-    
+
     def listtoString(list):
         newString = ''
         for item in list:
@@ -1409,11 +1408,18 @@ async def bj(ctx):
     cpc1.clear()
     cpc1.append(currentC)
 
-    first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand', color = 0xcee5e3)
-    first_bj_embed.add_field(name = f'Your Cards: ``{currentC}``', value = f'{listtoString(playerCard)}')
-    first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
+    first_bj_embed = discord.Embed(
+        title=f'Blackjack Game for {ctx.author.nick}',
+        description='``h`` or ``s`` to hit or stand',
+        color=0xcee5e3)
+    first_bj_embed.add_field(
+        name=f'Your Cards: ``{currentC}``',
+        value=f'{listtoString(playerCard)}')
+    first_bj_embed.add_field(
+        name=f'Dealer Cards: :thinking:',
+        value=f'``{shownCard} ?``')
 
-    await ctx.send(embed = first_bj_embed)
+    await ctx.send(embed=first_bj_embed)
 
     msg = await bot.wait_for("message", check=check(ctx.author), timeout=30)
     if msg.content == "h":
@@ -1426,32 +1432,60 @@ async def bj(ctx):
             calcDealerCard(dealerCard[2], cdc1[0])
             ckDGame = checkDealerGame(cdc1[0])
             if ckDGame and not ckGame:
-                win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
-                win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{listtoString(dealerCard)}')
-                
-                return await ctx.send(embed = win_dealer_embed)
-            elif ckDGame and ckGame:
-                tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color=0xcee5e3)
-                tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                win_dealer_embed = discord.Embed(
+                    title=f'{ctx.author.nick} Blackjack Game - **WIN**',
+                    description='You won!',
+                    color=0x12c92d)
+                win_dealer_embed.add_field(
+                    name=f'Your Cards: ``{cpc1[0]}``',
+                    value=f'{listtoString(playerCard)}')
+                win_dealer_embed.add_field(
+                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                    value=f'{listtoString(dealerCard)}')
 
-                return await ctx.send(embed = tie_dealer_embed)
+                return await ctx.send(embed=win_dealer_embed)
+            elif ckDGame and ckGame:
+                tie_dealer_embed = discord.Embed(
+                    title=f'Blackjack Game - {ctx.author.nick} || **TIE**',
+                    description='You tied.',
+                    color=0xcee5e3)
+                tie_dealer_embed.add_field(
+                    name=f'Your Cards: ``{cpc1[0]}``',
+                    value=f'{listtoString(playerCard)}')
+                tie_dealer_embed.add_field(
+                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                    value=f'{listtoString(dealerCard)}')
+
+                return await ctx.send(embed=tie_dealer_embed)
         if ckGame:
-            busted_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSS**', description = 'You lost.', color = 0xc91e12)
-            busted_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-            busted_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+            busted_embed = discord.Embed(
+                title=f'Blackjack Game - {ctx.author.nick} || **LOSS**',
+                description='You lost.',
+                color=0xc91e12)
+            busted_embed.add_field(
+                name=f'Your Cards: ``{cpc1[0]}``',
+                value=f'{listtoString(playerCard)}')
+            busted_embed.add_field(
+                name=f'Dealers Cards: ``{cdc1[0]}``',
+                value=f'{listtoString(dealerCard)}')
             await ctx.send(
                 f"You busted! You pulled a {playerCard[2]}, bringing your total to {currentC}",
-                embed = busted_embed
+                embed=busted_embed
             )
         else:
-            first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand', color=0xcee5e3)
-            first_bj_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-            first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
+            first_bj_embed = discord.Embed(
+                title=f'Blackjack Game for {ctx.author.nick}',
+                description='``h`` or ``s`` to hit or stand',
+                color=0xcee5e3)
+            first_bj_embed.add_field(
+                name=f'Your Cards: ``{cpc1[0]}``',
+                value=f'{listtoString(playerCard)}')
+            first_bj_embed.add_field(
+                name=f'Dealer Cards: :thinking:',
+                value=f'``{shownCard} ?``')
             await ctx.send(
                 f"You took a {playerCard[2]} from the deck.",
-                embed = first_bj_embed
+                embed=first_bj_embed
             )
 
             msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
@@ -1466,32 +1500,60 @@ async def bj(ctx):
                     calcDealerCard(dealerCard[2], cdc1[0])
                     ckDGame = checkDealerGame(cdc1[0])
                     if ckDGame and not ckGame:
-                        win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
-                        win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                        win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{listtoString(dealerCard)}')
-                        
-                        return await ctx.send(embed = win_dealer_embed)
-                    elif ckDGame and ckGame:
-                        tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.name} || **TIE**', description = 'You tied.', color=0xcee5e3)
-                        tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                        tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                        win_dealer_embed = discord.Embed(
+                            title=f'{ctx.author.nick} Blackjack Game - **WIN**',
+                            description='You won!',
+                            color=0x12c92d)
+                        win_dealer_embed.add_field(
+                            name=f'Your Cards: ``{cpc1[0]}``',
+                            value=f'{listtoString(playerCard)}')
+                        win_dealer_embed.add_field(
+                            name=f'Dealers Cards: ``{cdc1[0]}``',
+                            value=f'{listtoString(dealerCard)}')
 
-                        return await ctx.send(embed = tie_dealer_embed)
+                        return await ctx.send(embed=win_dealer_embed)
+                    elif ckDGame and ckGame:
+                        tie_dealer_embed = discord.Embed(
+                            title=f'Blackjack Game - {ctx.author.name} || **TIE**',
+                            description='You tied.',
+                            color=0xcee5e3)
+                        tie_dealer_embed.add_field(
+                            name=f'Your Cards: ``{cpc1[0]}``',
+                            value=f'{listtoString(playerCard)}')
+                        tie_dealer_embed.add_field(
+                            name=f'Dealers Cards: ``{cdc1[0]}``',
+                            value=f'{listtoString(dealerCard)}')
+
+                        return await ctx.send(embed=tie_dealer_embed)
                 if ckGame:
-                    busted_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSS**', description = 'You lost.', color = 0xc91e12)
-                    busted_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                    busted_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                    busted_embed = discord.Embed(
+                        title=f'Blackjack Game - {ctx.author.nick} || **LOSS**',
+                        description='You lost.',
+                        color=0xc91e12)
+                    busted_embed.add_field(
+                        name=f'Your Cards: ``{cpc1[0]}``',
+                        value=f'{listtoString(playerCard)}')
+                    busted_embed.add_field(
+                        name=f'Dealers Cards: ``{cdc1[0]}``',
+                        value=f'{listtoString(dealerCard)}')
                     await ctx.send(
                         f"You busted! You pulled a {playerCard[3]}, bringing your total to {cpc1[0]}",
-                        embed = busted_embed
+                        embed=busted_embed
                     )
                 else:
-                    first_bj_embed = discord.Embed(title = f'Blackjack Game for {ctx.author.nick}', description = '``h`` or ``s`` to hit or stand', color = 0xcee5e3)
-                    first_bj_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'``{listtoString(playerCard)}``')
-                    first_bj_embed.add_field(name = f'Dealer Cards: :thinking:', value= f'``{shownCard} ?``')
+                    first_bj_embed = discord.Embed(
+                        title=f'Blackjack Game for {ctx.author.nick}',
+                        description='``h`` or ``s`` to hit or stand',
+                        color=0xcee5e3)
+                    first_bj_embed.add_field(
+                        name=f'Your Cards: ``{cpc1[0]}``',
+                        value=f'``{listtoString(playerCard)}``')
+                    first_bj_embed.add_field(
+                        name=f'Dealer Cards: :thinking:',
+                        value=f'``{shownCard} ?``')
                     await ctx.send(
                         f"You took a {playerCard[3]} from the deck. Your new cards are: {playerCard}. Your total is {cpc1[0]}",
-                        embed = first_bj_embed
+                        embed=first_bj_embed
                     )
                     msg3 = await bot.wait_for(
                         "message", check=check(ctx.author), timeout=30
@@ -1507,24 +1569,43 @@ async def bj(ctx):
                             calcDealerCard(dealerCard[2], cdc1[0])
                             ckDGame = checkDealerGame(cdc1[0])
                             if ckDGame and not ckGame:
-                                win_dealer_embed = discord.Embed(title = f'{ctx.author.nick} Blackjack Game - **WIN**', description = 'You won!', color=0x12c92d)
-                                win_dealer_embed.add_field(name= f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                                win_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value= f'{listtoString(dealerCard)}')
-                                
-                                return await ctx.send(embed = win_dealer_embed)
-                            elif ckDGame and ckGame:
-                                tie_dealer_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.name} || **TIE**', description = 'You tied.', color=0xcee5e3)
-                                tie_dealer_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                                tie_dealer_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                                win_dealer_embed = discord.Embed(
+                                    title=f'{ctx.author.nick} Blackjack Game - **WIN**',
+                                    description='You won!',
+                                    color=0x12c92d)
+                                win_dealer_embed.add_field(
+                                    name=f'Your Cards: ``{cpc1[0]}``', value=f'{listtoString(playerCard)}')
+                                win_dealer_embed.add_field(
+                                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                                    value=f'{listtoString(dealerCard)}')
 
-                                return await ctx.send(embed = tie_dealer_embed)
+                                return await ctx.send(embed=win_dealer_embed)
+                            elif ckDGame and ckGame:
+                                tie_dealer_embed = discord.Embed(
+                                    title=f'Blackjack Game - {ctx.author.name} || **TIE**',
+                                    description='You tied.',
+                                    color=0xcee5e3)
+                                tie_dealer_embed.add_field(
+                                    name=f'Your Cards: ``{cpc1[0]}``', value=f'{listtoString(playerCard)}')
+                                tie_dealer_embed.add_field(
+                                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                                    value=f'{listtoString(dealerCard)}')
+
+                                return await ctx.send(embed=tie_dealer_embed)
                         if ckGame:
-                            busted_embed = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSS**', description = 'You lost.', color = 0xc91e12)
-                            busted_embed.add_field(name = f'Your Cards: ``{cpc1[0]}``', value = f'{listtoString(playerCard)}')
-                            busted_embed.add_field(name = f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                            busted_embed = discord.Embed(
+                                title=f'Blackjack Game - {ctx.author.nick} || **LOSS**',
+                                description='You lost.',
+                                color=0xc91e12)
+                            busted_embed.add_field(
+                                name=f'Your Cards: ``{cpc1[0]}``',
+                                value=f'{listtoString(playerCard)}')
+                            busted_embed.add_field(
+                                name=f'Dealers Cards: ``{cdc1[0]}``',
+                                value=f'{listtoString(dealerCard)}')
                             await ctx.send(
                                 f"You busted! You pulled a {playerCard[4]}, bringing your total to {currentC}",
-                                embed = busted_embed
+                                embed=busted_embed
                             )
                         else:
                             finalEmbed = discord.Embed(
@@ -1535,62 +1616,125 @@ async def bj(ctx):
                                 name="Your cards", value=playerCard)
 
                             await ctx.send(
-                                f"You took a {playerCard[4]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}", embed = finalEmbed
+                                f"You took a {playerCard[4]} from the deck. Your new cards are: {playerCard}. Your total is {currentC}", embed=finalEmbed
                             )
 
                     elif msg3.content == "s":
-                        stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
-                        stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                        stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                        stand_and_lose = discord.Embed(
+                            title=f'Blackjack Game - {ctx.author.nick} || **LOSE**',
+                            description='You lose.',
+                            color=0xc91e12)
+                        stand_and_lose.add_field(
+                            name=f'Your Cards: ``{cpc1[0]}``',
+                            value=f'{listtoString(playerCard)}')
+                        stand_and_lose.add_field(
+                            name=f'Dealers Cards: ``{cdc1[0]}``',
+                            value=f'{listtoString(dealerCard)}')
 
-                        stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
-                        stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                        stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                        stand_and_tie = discord.Embed(
+                            title=f'Blackjack Game - {ctx.author.nick} || **TIE**',
+                            description='You tied.',
+                            color=0xcee5e3)
+                        stand_and_tie.add_field(
+                            name=f'Your Cards: ``{cpc1[0]}``',
+                            value=f'{listtoString(playerCard)}')
+                        stand_and_tie.add_field(
+                            name=f'Dealers Cards: ``{cdc1[0]}``',
+                            value=f'{listtoString(dealerCard)}')
                         if cpc1[0] > cdc1[0]:
-                            stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
-                            stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                            stand_and_win.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
-                            await ctx.send(f"You stood and ***WON***.", embed = stand_and_win)
+                            stand_and_win = discord.Embed(
+                                title=f'Blackjack Game - {ctx.author.nick} || **WIN**',
+                                description='You won!',
+                                color=0x12c92d)
+                            stand_and_win.add_field(
+                                name=f'Your Cards: ``{cpc1[0]}``',
+                                value=f'{listtoString(playerCard)}')
+                            stand_and_win.add_field(
+                                name=f'Dealers Cards: ``{cdc1[0]}``',
+                                value=f'{listtoString(dealerCard)}')
+                            await ctx.send(f"You stood and ***WON***.", embed=stand_and_win)
                         elif cdc1[0] > cpc1[0]:
-                            await ctx.send(f'You stood and ***LOST***.', embed = stand_and_lose)
+                            await ctx.send(f'You stood and ***LOST***.', embed=stand_and_lose)
                         else:
-                            await ctx.send(f'You stood and ***TIED***', embed = stand_and_tie)
+                            await ctx.send(f'You stood and ***TIED***', embed=stand_and_tie)
 
             elif msg2.content == "s":
-                stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
-                stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                stand_and_lose = discord.Embed(
+                    title=f'Blackjack Game - {ctx.author.nick} || **LOSE**',
+                    description='You lose.',
+                    color=0xc91e12)
+                stand_and_lose.add_field(
+                    name=f'Your Cards: ``{cpc1[0]}``',
+                    value=f'{listtoString(playerCard)}')
+                stand_and_lose.add_field(
+                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                    value=f'{listtoString(dealerCard)}')
 
-                stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
-                stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+                stand_and_tie = discord.Embed(
+                    title=f'Blackjack Game - {ctx.author.nick} || **TIE**',
+                    description='You tied.',
+                    color=0xcee5e3)
+                stand_and_tie.add_field(
+                    name=f'Your Cards: ``{cpc1[0]}``',
+                    value=f'{listtoString(playerCard)}')
+                stand_and_tie.add_field(
+                    name=f'Dealers Cards: ``{cdc1[0]}``',
+                    value=f'{listtoString(dealerCard)}')
                 if cpc1[0] > cdc1[0]:
-                    stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
-                    stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-                    stand_and_win.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
-                    await ctx.send(f"You stood and ***WON***.", embed = stand_and_win)
+                    stand_and_win = discord.Embed(
+                        title=f'Blackjack Game - {ctx.author.nick} || **WIN**',
+                        description='You won!',
+                        color=0x12c92d)
+                    stand_and_win.add_field(
+                        name=f'Your Cards: ``{cpc1[0]}``',
+                        value=f'{listtoString(playerCard)}')
+                    stand_and_win.add_field(
+                        name=f'Dealers Cards: ``{cdc1[0]}``',
+                        value=f'{listtoString(dealerCard)}')
+                    await ctx.send(f"You stood and ***WON***.", embed=stand_and_win)
                 elif cdc1[0] > cpc1[0]:
-                    await ctx.send(f'You stood and ***LOST***.', embed = stand_and_lose)
+                    await ctx.send(f'You stood and ***LOST***.', embed=stand_and_lose)
                 else:
-                    await ctx.send(f'You stood and ***TIED***', embed = stand_and_tie)
+                    await ctx.send(f'You stood and ***TIED***', embed=stand_and_tie)
 
     elif msg.content == "s":
-        stand_and_lose = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **LOSE**', description = 'You lose.', color = 0xc91e12)
-        stand_and_lose.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-        stand_and_lose.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+        stand_and_lose = discord.Embed(
+            title=f'Blackjack Game - {ctx.author.nick} || **LOSE**',
+            description='You lose.',
+            color=0xc91e12)
+        stand_and_lose.add_field(
+            name=f'Your Cards: ``{cpc1[0]}``',
+            value=f'{listtoString(playerCard)}')
+        stand_and_lose.add_field(
+            name=f'Dealers Cards: ``{cdc1[0]}``',
+            value=f'{listtoString(dealerCard)}')
 
-        stand_and_tie = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **TIE**', description = 'You tied.', color = 0xcee5e3)
-        stand_and_tie.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-        stand_and_tie.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
+        stand_and_tie = discord.Embed(
+            title=f'Blackjack Game - {ctx.author.nick} || **TIE**',
+            description='You tied.',
+            color=0xcee5e3)
+        stand_and_tie.add_field(
+            name=f'Your Cards: ``{cpc1[0]}``',
+            value=f'{listtoString(playerCard)}')
+        stand_and_tie.add_field(
+            name=f'Dealers Cards: ``{cdc1[0]}``',
+            value=f'{listtoString(dealerCard)}')
         if cpc1[0] > cdc1[0]:
-            stand_and_win = discord.Embed(title = f'Blackjack Game - {ctx.author.nick} || **WIN**', description = 'You won!', color = 0x12c92d)
-            stand_and_win.add_field(name = f'Your Cards: ``{cpc1[0]}``',value = f'{listtoString(playerCard)}')
-            stand_and_win.add_field(name=f'Dealers Cards: ``{cdc1[0]}``', value = f'{listtoString(dealerCard)}')
-            await ctx.send(f"You stood and ***WON***.", embed = stand_and_win)
+            stand_and_win = discord.Embed(
+                title=f'Blackjack Game - {ctx.author.nick} || **WIN**',
+                description='You won!',
+                color=0x12c92d)
+            stand_and_win.add_field(
+                name=f'Your Cards: ``{cpc1[0]}``',
+                value=f'{listtoString(playerCard)}')
+            stand_and_win.add_field(
+                name=f'Dealers Cards: ``{cdc1[0]}``',
+                value=f'{listtoString(dealerCard)}')
+            await ctx.send(f"You stood and ***WON***.", embed=stand_and_win)
         elif cdc1[0] > cpc1[0]:
-            await ctx.send(f'You stood and ***LOST***.', embed = stand_and_lose)
+            await ctx.send(f'You stood and ***LOST***.', embed=stand_and_lose)
         else:
-            await ctx.send(f'You stood and ***TIED***', embed = stand_and_tie)
+            await ctx.send(f'You stood and ***TIED***', embed=stand_and_tie)
 
 
 @bot.command()
