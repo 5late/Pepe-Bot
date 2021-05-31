@@ -6,7 +6,7 @@ Warning: Clone this repo at your own discretion, the code may break, fail, cause
 
 # Commands
 
-**To view the commands the bot has, [click here](docs/README.md)**
+**To view the commands the bot has, [click here](docs/commands.md)**
 
 # Acknowledgements
 
