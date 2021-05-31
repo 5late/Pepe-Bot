@@ -1259,7 +1259,7 @@ async def soyjak(ctx, user: discord.Member = None):
 async def talk(ctx, *, args):
     rs = RandomStuff(api_key=AI_API_KEY)
     response = rs.get_ai_response(args)
-    await ctx.send(response)
+    await ctx.send(response['message'])
     rs.close()
 
 
