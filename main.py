@@ -898,8 +898,9 @@ async def turtles(ctx):
 
 @bot.command()
 async def turtle(ctx):
+    await ctx.message.delete()
     await ctx.send(
-        "https://www.clipartmax.com/png/small/23-231233_i-like-being-a-naked-turtle-by-porygon2z-franklin-turtle-nude.png"
+        "https://media.discordapp.net/attachments/801520877753597974/849115199838486539/turtle-removebg-preview_1.png?width=225&height=453"
     )
 
 
