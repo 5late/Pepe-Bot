@@ -1913,6 +1913,11 @@ async def tempfc(ctx, arg):
     except ValueError:
         await ctx.send('Value must be of type ``num``.')
 
+@bot.command()
+async def compsci(ctx):
+    await ctx.send(f'Here is the boiler plate comments for compsci. Put this at the top of your file!```//Course Code:  ICS 2O1 \n//Submitted to:  Ms Chan \n//By:  \n//Date: \n//Program Name: \n//Description: \
+``` <@{ctx.author.id}>, make sure you actually fill it out <:kek:814531183533883402>')
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
