@@ -1458,7 +1458,7 @@ async def bj(ctx):
                     value=f'{listtoString(dealerCard)}')
 
                 return await ctx.send(embed=tie_dealer_embed)
-            
+
             elif not ckDGame and ckGame:
                 lose_dealer_embed = discord.Embed(
                     title=f'Blackjack Game - {ctx.author.nick} || **LOSE**',
