@@ -14,3 +14,4 @@ __pycache__/
 leaderboard.py
 careerF.py
 lm.py
+*.webm
