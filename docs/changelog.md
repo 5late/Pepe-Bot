@@ -1,5 +1,14 @@
 # PepeBot Changelog
 
+### Jun 6 2021
+
+### Lots of new features
+
+- Added features for different commands
+- Various bug fixes
+- WIP bug fix for vala and career, might be an api issue
+- WIP bug fix for github push, should be simple fix
+
 ### May 20 2021
 
 ### Updates to Leaderboard auth-ed command
