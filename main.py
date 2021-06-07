@@ -476,7 +476,6 @@ async def dur(ctx, *, arg):
         f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
     jsonR = response.json()
 
-
     embedD = discord.Embed(
         title=f"Duration of past 5 games for {name}",
         color=0x00CCFF)
