@@ -953,6 +953,9 @@ async def write(ctx, title: str, url: str):
 
 @bot.command()
 async def read(ctx, title=""):
+    servers = [754084714545152101, 839633894403997726, 814335750077153320]
+    if ctx.guild.id not in servers:
+        await ctx.send('Sorry, this command is server specific. It is not meant for use outside of bot development! ||Features like this might become public soon, let me know what you think.||')
     if not title:
         clipEmbed = discord.Embed(
             title="Clips I've stored.",
