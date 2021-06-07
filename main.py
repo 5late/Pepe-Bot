@@ -547,11 +547,12 @@ async def vala(ctx, *, arg):
 
         async with ctx.typing():
             firstResponse = requests.get(
-                    f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
-                )
+                f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
+            )
             jsonFR = firstResponse.json()
             puuid = jsonFR["data"]["puuid"]
-            response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
+            response = requests.get(
+                f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
             jsonR = response.json()
 
             if jsonR["status"] == "200" or jsonR['status'] == 200:
