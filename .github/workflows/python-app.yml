@@ -34,10 +34,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: autopep8 action fixes
-          title: Fixes by autopep8 action
-          body: This is an auto-generated PR with fixes by autopep8.
-          labels: autopep8, automated pr
+          commit-message: Automatic Code Fixes!
+          title: Fixes by automatic autopep8 action
+          body: This is an auto-generated PR with fixes by autopep8. This PR contains linted code.
+          labels: autopep8, automated pr, bot, githubactions
           reviewers: peter-evans
           branch: autopep8-patches
       
@@ -57,10 +57,10 @@ jobs:
         if: steps.autopep8.outputs.exit-code == 2
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: autopep8 action fixes
-          title: Fixes by autopep8 action
-          body: This is an auto-generated PR with fixes by autopep8.
-          labels: autopep8, automated pr
+          commit-message: Automatic Code Fixes!
+          title: Fixes by automatic autopep8 action
+          body: This is an auto-generated PR with fixes by autopep8. This PR contains linted code.
+          labels: autopep8, automated pr, bot, githubactions
           reviewers: peter-evans
           branch: ${{ steps.vars.outputs.branch-name }}
       - name: Fail if autopep8 made changes
