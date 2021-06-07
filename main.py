@@ -1972,15 +1972,22 @@ async def compsci(ctx):
     await ctx.send(f'Here is the boiler plate comments for compsci. Put this at the top of your file!```//Course Code:  ICS 2O1 \n//Submitted to:  Ms Chan \n//By:  \n//Date: \n//Program Name: \n//Description: \
 ``` <@{ctx.author.id}>, make sure you actually fill it out <:kek:814531183533883402>')
 
+
 @bot.command()
 async def search(ctx, *, args):
 
-    embedSearch = discord.Embed(title=f'Search Results for {args}', description=f'6 Results for {args}')
+    embedSearch = discord.Embed(
+        title=f'Search Results for {args}',
+        description=f'6 Results for {args}')
     result = google.search(args, 2)
     for i in range(6):
         new_name = f'{result[i].name[:35]}...'
-        embedSearch.add_field(name=f'{new_name}:', value = f'[Click Here]({result[i].google_link})')
-    embedSearch.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+        embedSearch.add_field(
+            name=f'{new_name}:',
+            value=f'[Click Here]({result[i].google_link})')
+    embedSearch.set_author(
+        name=ctx.author.name,
+        icon_url=ctx.author.avatar_url)
     embedSearch.set_footer(text='6 top Google Results')
 
     await ctx.send(embed=embedSearch)
