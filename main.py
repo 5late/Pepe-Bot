@@ -576,7 +576,7 @@ async def vala(ctx, *, arg):
                     else:
                         newPlayers = jsonR['data'][i]['players']['all_players']
                         newMode = jsonR['data'][i]['metadata']['mode']
-                        
+
                     return newPlayers, newMode
 
                 await msg.edit(
