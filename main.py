@@ -546,22 +546,23 @@ async def vala(ctx, *, arg):
         tag = newArg[1]
 
         async with ctx.typing():
-            response = requests.get(
-                f"https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}"
-            )
+            firstResponse = requests.get(
+                    f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
+                )
+            jsonFR = firstResponse.json()
+            puuid = jsonFR["data"]["puuid"]
+            response = requests.get(f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
             jsonR = response.json()
 
-            if jsonR["status"] == "200":
+            if jsonR["status"] == "200" or jsonR['status'] == 200:
 
                 await msg.edit(
                     content=f"I've fetched the last five games and ``{arg}``'s stats. I'm now averaging ``{arg}``'s perfomance..."
                 )
 
-                await asyncio.sleep(1)
-
                 def mode(i):
                     try:
-                        return jsonR["data"]["matches"][i]["metadata"]["mode"]
+                        return jsonR["data"][i]["metadata"]["mode"]
                     except BaseException:
                         if KeyError:
                             return "Unknown"
@@ -569,14 +570,14 @@ async def vala(ctx, *, arg):
                 Count = []
 
                 def initKD(i):
-                    if jsonR["data"]["matches"][i]["metadata"]["mode"] == "Competitive":
+                    if jsonR["data"][i]["metadata"]["mode"] == "Competitive":
                         Count.append("comp")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
                                 compKills.append(ii["stats"]["kills"])
                                 compDeaths.append(ii["stats"]["deaths"])
                                 compAssists.append(ii["stats"]["assists"])
-                    elif jsonR["data"]["matches"][i]["metadata"]["mode"] == "Normal":
+                    elif jsonR["data"][i]["metadata"]["mode"] == "Normal":
                         Count.append("unrate")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
@@ -584,7 +585,7 @@ async def vala(ctx, *, arg):
                                 unrateDeaths.append(ii["stats"]["deaths"])
                                 unrateAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"]["matches"][i]["metadata"]["mode"] == "Deathmatch"
+                        jsonR["data"][i]["metadata"]["mode"] == "Deathmatch"
                     ):
                         Count.append("dm")
                         for ii in players:
@@ -593,7 +594,7 @@ async def vala(ctx, *, arg):
                                 dmDeaths.append(ii["stats"]["deaths"])
                                 dmAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"]["matches"][i]["metadata"]["mode"] == "Replication"
+                        jsonR["data"][i]["metadata"]["mode"] == "Replication"
                     ):
                         Count.append("repl")
                         for ii in players:
@@ -649,7 +650,7 @@ async def vala(ctx, *, arg):
                     )
 
                 for i in range(5):
-                    players = jsonR["data"]["matches"][i]["players"]["all_players"]
+                    players = jsonR["data"][i]["players"]["all_players"]
                     initKD(i)
 
                     for ii in players:
@@ -739,7 +740,6 @@ async def vala(ctx, *, arg):
                     url=f"attachment://{mostCommonAgent}_icon.png")
                 fembed.set_footer(
                     text=f"This is from {name}'s past 5 games only.")
-
                 await ctx.send(file=iconFile, embed=fembed)
                 await msg.edit(
                     content=f":smile: Here is the past five games of ``{arg}``, condensed!"
