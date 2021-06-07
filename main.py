@@ -955,7 +955,7 @@ async def write(ctx, title: str, url: str):
 async def read(ctx, title=""):
     servers = [754084714545152101, 839633894403997726, 814335750077153320]
     if ctx.guild.id not in servers:
-        await ctx.send('Sorry, this command is server specific. It is not meant for use outside of bot development! ||Features like this might become public soon, let me know what you think.||')
+        return await ctx.send('Sorry, this command is server specific. It is not meant for use outside of bot development! ||Features like this might become public soon, let me know what you think.||')
     if not title:
         clipEmbed = discord.Embed(
             title="Clips I've stored.",
@@ -1944,6 +1944,9 @@ async def tempfc(ctx, arg):
 
 @bot.command()
 async def compsci(ctx):
+    servers = [754084714545152101, 839633894403997726, 814335750077153320]
+    if ctx.guild.id not in servers:
+        return await ctx.send('Sorry, this command is server specific. It is not meant for use outside of bot development! ||**Features like this might become public soon, let me know what you think.**||')
     await ctx.send(f'Here is the boiler plate comments for compsci. Put this at the top of your file!```//Course Code:  ICS 2O1 \n//Submitted to:  Ms Chan \n//By:  \n//Date: \n//Program Name: \n//Description: \
 ``` <@{ctx.author.id}>, make sure you actually fill it out <:kek:814531183533883402>')
 
