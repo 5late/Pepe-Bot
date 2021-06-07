@@ -467,10 +467,15 @@ async def dur(ctx, *, arg):
     name = newArg[0]
     tag = newArg[1]
 
-    response = requests.get(
-        f"https://api.henrikdev.xyz/valorant/v3/matches/na/{name}/{tag}"
+    firstResponse = requests.get(
+        f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
     )
+    jsonFR = firstResponse.json()
+    puuid = jsonFR["data"]["puuid"]
+    response = requests.get(
+        f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
     jsonR = response.json()
+
 
     embedD = discord.Embed(
         title=f"Duration of past 5 games for {name}",
@@ -479,7 +484,7 @@ async def dur(ctx, *, arg):
 
         embedD.add_field(
             name=f"Match {j+1} Duration:",
-            value=f"{int((jsonR['data']['matches'][j]['metadata']['game_length'])/1000)//60} minutes",
+            value=f"{int((jsonR['data'][j]['metadata']['game_length'])/1000)//60} minutes",
             inline=False,
         )
 
