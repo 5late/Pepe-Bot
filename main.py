@@ -568,7 +568,7 @@ async def vala(ctx, *, arg):
 
                 def mode(i):
                     try:
-                        return jsonR["data"][i]["metadata"]["mode"]
+                        return jsonR["data"][i]['data']["metadata"]["mode"]
                     except BaseException:
                         if KeyError:
                             return "Unknown"
@@ -576,14 +576,14 @@ async def vala(ctx, *, arg):
                 Count = []
 
                 def initKD(i):
-                    if jsonR["data"][i]["metadata"]["mode"] == "Competitive":
+                    if jsonR["data"][i]['data']["metadata"]["mode"] == "Competitive":
                         Count.append("comp")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
                                 compKills.append(ii["stats"]["kills"])
                                 compDeaths.append(ii["stats"]["deaths"])
                                 compAssists.append(ii["stats"]["assists"])
-                    elif jsonR["data"][i]["metadata"]["mode"] == "Normal":
+                    elif jsonR["data"][i]['data']["metadata"]["mode"] == "Normal":
                         Count.append("unrate")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
@@ -591,7 +591,7 @@ async def vala(ctx, *, arg):
                                 unrateDeaths.append(ii["stats"]["deaths"])
                                 unrateAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"][i]["metadata"]["mode"] == "Deathmatch"
+                        jsonR["data"][i]['data']["metadata"]["mode"] == "Deathmatch"
                     ):
                         Count.append("dm")
                         for ii in players:
@@ -600,7 +600,7 @@ async def vala(ctx, *, arg):
                                 dmDeaths.append(ii["stats"]["deaths"])
                                 dmAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"][i]["metadata"]["mode"] == "Replication"
+                        jsonR["data"][i]['data']["metadata"]["mode"] == "Replication"
                     ):
                         Count.append("repl")
                         for ii in players:
@@ -656,7 +656,7 @@ async def vala(ctx, *, arg):
                     )
 
                 for i in range(5):
-                    players = jsonR["data"][i]["players"]["all_players"]
+                    players = jsonR["data"][i]['data']["players"]["all_players"]
                     initKD(i)
 
                     for ii in players:
