@@ -564,13 +564,29 @@ async def vala(ctx, *, arg):
 
             if jsonR["status"] == "200" or jsonR['status'] == 200:
 
+                def checkForWeirdJSON(i):
+                    if 'data' in jsonR['data'][i]:
+                        secondData = True
+                    else:
+                        secondData = False
+
+                    if secondData:
+                        newPlayers = jsonR['data'][i]['data']['players']['all_players']
+                        newMode = jsonR['data'][i]['data']['metadata']['mode']
+                    else:
+                        newPlayers = jsonR['data'][i]['players']['all_players']
+                        newMode = jsonR['data'][i]['metadata']['mode']
+                        
+                    return newPlayers, newMode
+
                 await msg.edit(
                     content=f"I've fetched the last five games and ``{arg}``'s stats. I'm now averaging ``{arg}``'s perfomance..."
                 )
 
                 def mode(i):
+                    players, newMode = checkForWeirdJSON(i)
                     try:
-                        return jsonR["data"][i]['data']["metadata"]["mode"]
+                        return newMode
                     except BaseException:
                         if KeyError:
                             return "Unknown"
@@ -578,14 +594,15 @@ async def vala(ctx, *, arg):
                 Count = []
 
                 def initKD(i):
-                    if jsonR["data"][i]['data']["metadata"]["mode"] == "Competitive":
+                    players, newMode = checkForWeirdJSON(i)
+                    if newMode == "Competitive":
                         Count.append("comp")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
                                 compKills.append(ii["stats"]["kills"])
                                 compDeaths.append(ii["stats"]["deaths"])
                                 compAssists.append(ii["stats"]["assists"])
-                    elif jsonR["data"][i]['data']["metadata"]["mode"] == "Normal":
+                    elif newMode == "Normal":
                         Count.append("unrate")
                         for ii in players:
                             if ii["name"] == name or ii["name"] == name.title():
@@ -593,7 +610,7 @@ async def vala(ctx, *, arg):
                                 unrateDeaths.append(ii["stats"]["deaths"])
                                 unrateAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"][i]['data']["metadata"]["mode"] == "Deathmatch"
+                        newMode == "Deathmatch"
                     ):
                         Count.append("dm")
                         for ii in players:
@@ -602,7 +619,7 @@ async def vala(ctx, *, arg):
                                 dmDeaths.append(ii["stats"]["deaths"])
                                 dmAssists.append(ii["stats"]["assists"])
                     elif (
-                        jsonR["data"][i]['data']["metadata"]["mode"] == "Replication"
+                        newMode == "Replication"
                     ):
                         Count.append("repl")
                         for ii in players:
@@ -658,7 +675,8 @@ async def vala(ctx, *, arg):
                     )
 
                 for i in range(5):
-                    players = jsonR["data"][i]['data']["players"]["all_players"]
+                    newPlayers, newMode = checkForWeirdJSON(i)
+                    players = newPlayers
                     initKD(i)
 
                     for ii in players:
