@@ -347,6 +347,9 @@ async def keyword(ctx, *, word: str):
 
 @bot.command()
 async def cry(ctx):
+    servers = [754084714545152101, 839633894403997726, 814335750077153320]
+    if ctx.guild.id not in servers:
+        return await ctx.send('Sorry, this command is server specific. It is not meant for use outside of bot development! ||Features like this might become public soon, let me know what you think.||')
     await ctx.message.delete()
     await ctx.send("<:chriscry:758862800637657118>")
     if ctx.author.nick is None:
