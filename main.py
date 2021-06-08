@@ -280,7 +280,7 @@ async def delete(ctx, amount):
             return
         else:
             if amount > 100:
-                ctx.send("Thats too many messages for me!")
+                await ctx.send("Thats too many messages for me!")
             else:
                 await ctx.channel.purge(limit=amount)
 
