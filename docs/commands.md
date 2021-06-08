@@ -207,3 +207,9 @@
 ``=write TITLE URL``
 
 *Writes clip to file*
+
+### search
+
+``=search TERM``
+
+*Returns an embed with 6 google search results*
