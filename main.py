@@ -450,7 +450,6 @@ async def mine_error(ctx, error):
 @bot.command()
 async def valm(ctx, *, arg: str):
     await ctx.send('Command currently unavailable.')
-    # await lm.valm(ctx, arg)
 
 
 @valm.error
