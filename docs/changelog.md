@@ -1,5 +1,17 @@
 # PepeBot Changelog
 
+### Jun 7 2021
+
+### Major Bug Fixes
+
+- Issued a much more permanent fix for ``=vala`` and ``=career`` commands
+- Issued a bug fix for certain other commands
+
+- VAL COMMAND may not work!
+    - This is an API ISSUE.
+        - There is nothing I can do to fix this, as the API is the one with the problem, not me.
+
+
 ### Jun 6 2021
 
 ### Lots of new features
