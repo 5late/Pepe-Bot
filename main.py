@@ -1991,6 +1991,27 @@ async def search(ctx, *, args):
 
     await ctx.send(embed=embedSearch)
 
+@commands.cooldown(1, 600, commands.BucketType.user)
+@bot.command()
+async def report(ctx, *, args):
+    await ctx.send('I\'ve received your message! I\'m now transporting the message to my bot dev. Thanks for your help <:happy:816424699906752562>')
+    
+    now = datetime.now()
+    formatTime = now.strftime("%a, %B %d, %Y | %H:%M")
+    bugReport = discord.Embed(title = 'Bug Report!', description = f'``{formatTime}``')
+    bugReport.add_field(name = 'Reporter', value = ctx.author.name)
+    bugReport.add_field(name = 'Server', value = ctx.guild.name)
+    bugReport.add_field(name = 'Report', value = f'```{args}```',inline = False)
+    bugReport.set_footer(text = f'Author ID is: {ctx.author.id}')
+
+    dev = bot.get_user(564466359107321856)
+    await dev.send(embed = bugReport)
+
+@report.error
+async def report_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
