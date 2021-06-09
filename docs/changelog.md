@@ -2,6 +2,10 @@
 
 ### Jun 9 2021
 
+### Bug Fixes
+
+- Fixed a bug where ``=changelog cb`` command would be over 2000 chars, now should send 1990, then ``....``
+
 ### Report command
 
 - Report bugs to the dev with the ``=report BUG HERE`` command!
