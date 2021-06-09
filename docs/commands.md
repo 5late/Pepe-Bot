@@ -213,3 +213,9 @@
 ``=search TERM``
 
 *Returns an embed with 6 google search results*
+
+### report
+
+``=report BUG HERE``
+
+*Sends a message to the bot dev with your bug content report* (**your discord name and id are recorded**)

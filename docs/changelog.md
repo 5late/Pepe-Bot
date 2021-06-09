@@ -1,5 +1,11 @@
 # PepeBot Changelog
 
+### Jun 9 2021
+
+### Report command
+
+- Report bugs to the dev with the ``=report BUG HERE`` command!
+
 ### Jun 7 2021
 
 ### Major Bug Fixes
