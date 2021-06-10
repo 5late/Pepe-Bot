@@ -797,7 +797,12 @@ async def vala_error(ctx, error):
 
 @bot.command()
 async def lb(ctx, *, args):
-    auth = [564466359107321856, 323269361232248832, 564584121582747659, 564562239739396098, 342874810868826112]
+    auth = [
+        564466359107321856,
+        323269361232248832,
+        564584121582747659,
+        564562239739396098,
+        342874810868826112]
     msg = await ctx.send('Checking authorization....')
     if ctx.author.id in auth:
         await msg.edit(content=f'Authorization as <@{ctx.author.id}> was successful. Please allow up to 15 seconds for this command to process.')
