@@ -2,6 +2,11 @@
 
 ### Jun 9 2021
 
+### Major Bug Fixes
+
+- Fixed bug with ``=lb``
+- Rewrote the ``=lb`` command, so it works well now
+
 ### Bug Fixes
 
 - Fixed a bug where ``=changelog cb`` command would be over 2000 chars, now should send 1990, then ``....``
