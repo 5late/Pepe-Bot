@@ -2031,6 +2031,15 @@ async def report_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
 
+@bot.command()
+async def rr(ctx):
+        rickRollEmbed = discord.Embed(title='Welcome to Rusty Ricks Residence!', description = 'Our server is a safe space where we are all inclusive, accepting, and kind. As such, before you join our server, you must read and accept our rules. At the end of the rules, there is a link to access the server.', color = 0xf5ef3b)
+        rickRollEmbed.set_author(name = 'Admin', icon_url=ctx.author.avatar_url)
+        rickRollEmbed.add_field(name = 'Rules', value = f'[Click Here!](https://tinyurl.com/rustyrickrules)')
+        rickRollEmbed.set_footer(text = 'Bot created and maintained by Xurxx#7879', icon_url='https://www.streamscheme.com/wp-content/uploads/2020/04/poggers.png')
+
+        await ctx.send(embed = rickRollEmbed)
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
