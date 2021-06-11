@@ -1,5 +1,11 @@
 # PepeBot Changelog
 
+## Jun 11 2021
+
+### New Command
+
+- Added a rule command (rr) ~~you might want to test it~~
+
 ### Jun 9 2021
 
 ### Major Bug Fixes
