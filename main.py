@@ -123,11 +123,12 @@ async def on_message_edit(message_before, message_after):
     msga = message_after.content
     editedMsgA.append(msga)
 
+
 @bot.event
 async def on_message(message):
     if message.author.id == 564584121582747659 and ":" in message.content:
         await message.delete()
-    
+
     await bot.process_commands(message)
 
 
