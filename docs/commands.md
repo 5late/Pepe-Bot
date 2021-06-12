@@ -219,3 +219,9 @@
 ``=report BUG HERE``
 
 *Sends a message to the bot dev with your bug content report* (**your discord name and id are recorded**)
+
+### rr
+
+``=rr``
+
+*Sends a message with some "rules" in it*
