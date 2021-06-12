@@ -4,3 +4,5 @@ prsaw
 pillow
 youtube_dl
 python-dotenv
+googleapi
+datetime
