@@ -1120,6 +1120,8 @@ async def sl(ctx):
         564562239739396098]
     if ctx.author.id in ward:
         await ctx.author.send('https://docs.google.com/forms/d/e/1FAIpQLSfSOKbZkUmo-zGRjuAl33WloeVJVNhJMzQdSqBmn3hPchi8OA/viewform')
+    else:
+        await ctx.author.send('no')
 
 
 @bot.command(name="join", help="Joins the voice channel.")
