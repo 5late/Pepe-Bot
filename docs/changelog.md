@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - Fixed a ``=vala`` bug where Unrated games would show as Unknown
+- Fixed a ``=career`` bug where Deathmatch scores would be shown as kills and deaths rather than specified players kills vs top players kills
 
 ## Jun 11 2021
 
