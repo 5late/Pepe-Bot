@@ -527,6 +527,8 @@ async def vala(ctx, *, arg):
                 return "DM"
             elif str(mode) == "Replication":
                 return "Repl"
+            elif str(mode) == "Unrated":
+                return "Unr"
             else:
                 return "Unknown"
 
