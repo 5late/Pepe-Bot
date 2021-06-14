@@ -1082,7 +1082,7 @@ async def quiz(ctx):
         await ctx.send("An error occured.")
 
 
-WHEN = time(13, 28, 0)  # 6:00 PM
+WHEN = time(9, 28, 0)  # 6:00 PM
 channel_id = 801520877753597974  # Put your channel id here
 
 
