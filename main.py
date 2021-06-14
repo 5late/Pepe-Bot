@@ -2053,13 +2053,14 @@ async def rr(ctx):
 
     await ctx.send(embed=rickRollEmbed)
 
+
 @bot.command()
-async def ui(ctx, member:discord.Member = ''):
+async def ui(ctx, member: discord.Member = ''):
     if not member:
         user = ctx.author
     else:
         user = member
-    
+
     pfp = user.avatar_url
     is_bot = user.bot
     start_date = user.created_at.strftime('%b, %d, %Y')
@@ -2072,13 +2073,16 @@ async def ui(ctx, member:discord.Member = ''):
     else:
         is_bot_string = 'Beep. Boop. This user is a bot.'
 
-    finalEmbed = discord.Embed(title = f'User Information: {name}#{tag}', description = is_bot_string, color = 0x00FFCC)
-    finalEmbed.add_field(name = 'User Creation Date', value= start_date)
-    finalEmbed.add_field(name = 'Nickname', value = nickname)
-    finalEmbed.set_thumbnail(url= pfp)
+    finalEmbed = discord.Embed(
+        title=f'User Information: {name}#{tag}',
+        description=is_bot_string,
+        color=0x00FFCC)
+    finalEmbed.add_field(name='User Creation Date', value=start_date)
+    finalEmbed.add_field(name='Nickname', value=nickname)
+    finalEmbed.set_thumbnail(url=pfp)
 
-    await ctx.send(embed = finalEmbed)
-    
+    await ctx.send(embed=finalEmbed)
+
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
