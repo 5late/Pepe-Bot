@@ -1,5 +1,11 @@
 # PepeBot Changelog
 
+## Jun 14 2021
+
+### Bug Fixes
+
+- Fixed a ``=vala`` bug where Unrated games would show as Unknown
+
 ## Jun 11 2021
 
 ### New Command
