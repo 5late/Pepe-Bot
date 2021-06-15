@@ -128,7 +128,8 @@ async def on_message_edit(message_before, message_after):
 @bot.event
 async def on_message(message):
     matches = ['<:', ':>']
-    if message.author.id == 564584121582747659 and any(x in message.content for x in matches):
+    if message.author.id == 564584121582747659 and any(
+            x in message.content for x in matches):
         await message.delete()
 
     await bot.process_commands(message)
@@ -2091,16 +2092,16 @@ async def dankmeme(ctx):
     response = requests.get('https://www.reddit.com/r/dankmemes/hot/.json')
     jsonR = response.json()
 
-    random_number = random.randint(0,10)
+    random_number = random.randint(0, 10)
     print(jsonR)
     url = jsonR['data']['children'][0]['data']['url']
-    
+
     title = jsonR['data']['children'][0]['data']['title']
 
-    meme = discord.Embed(title = title)
+    meme = discord.Embed(title=title)
     meme.set_image(url=url)
 
-    await ctx.send(embed = meme)
+    await ctx.send(embed=meme)
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
