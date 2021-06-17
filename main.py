@@ -2104,6 +2104,10 @@ async def dankmeme(ctx):
 
     await ctx.send(embed=meme)
 
+@bot.command()
+async def kim(ctx):
+    await ctx.send('https://www.youtube.com/watch?v=5vABZIO9yqw')
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
