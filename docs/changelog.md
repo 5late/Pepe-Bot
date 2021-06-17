@@ -1,5 +1,11 @@
 # PepeBot Changelog
 
+## Jun 16 2021
+
+### New Command
+
+- Added kim command to link to [iconic video](https://www.youtube.com/watch?v=5vABZIO9yqw)
+
 ## Jun 14 2021
 
 ### Bug Fixes
