@@ -225,3 +225,9 @@
 ``=rr``
 
 *Sends a message with some "rules" in it*
+
+###
+
+``=kim``
+
+*Sends [iconic video](https://www.youtube.com/watch?v=5vABZIO9yqw)*
