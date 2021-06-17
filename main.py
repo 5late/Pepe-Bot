@@ -2104,6 +2104,7 @@ async def dankmeme(ctx):
 
     await ctx.send(embed=meme)
 
+
 @bot.command()
 async def kim(ctx):
     await ctx.send('https://www.youtube.com/watch?v=5vABZIO9yqw')
