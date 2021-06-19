@@ -111,6 +111,10 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message_edit(message_before, message_after):
+    matches = ['<:', ':>', '<a:']
+    if message_before.author.id == 564584121582747659 and any(
+            x in message_after.content for x in matches):
+        await message_after.delete()
     editedMsgA.clear()
     editedMsgB.clear()
     editedAthr.clear()
@@ -127,7 +131,7 @@ async def on_message_edit(message_before, message_after):
 
 @bot.event
 async def on_message(message):
-    matches = ['<:', ':>']
+    matches = ['<:', ':>', '<a:']
     if message.author.id == 564584121582747659 and any(
             x in message.content for x in matches):
         await message.delete()
@@ -2108,6 +2112,11 @@ async def dankmeme(ctx):
 @bot.command()
 async def kim(ctx):
     await ctx.send('https://www.youtube.com/watch?v=5vABZIO9yqw')
+
+@bot.command()
+async def apologize(ctx):
+    await ctx.send(f'<@{ctx.author.id}>:')
+    await ctx.send("```I made a severe and continuous lapse in my judgement, and I don’t expect to be forgiven. I’m simply here to apologise.\nWhat we came across in the woods that day was obviously unplanned. The reactions you saw on tape were raw; they were unfiltered. None of us knew how to react or how to feel. I should have never posted the video. I should have put the cameras down and stopped recording what we were going through.\nThere's a lot of things I should have done differently but I didn't. And for that, from the bottom of my heart, I am sorry.\nI want to apologise to the internet. I want to apologise to anyone who has seen the video. I want to apologise to anyone who has been affected or touched by mental illness, or depression, or suicide. But most importantly I want to apologise to the victim and his family.\nFor my fans who are defending my actions, please don't. I don’t deserve to be defended. My goal with my content is always to entertain; to push the boundaries, to be all-inclusive. In the world live in, I share almost everything I do. The intent is never to be heartless, cruel, or malicious.\nLike I said I made a huge mistake. I don’t expect to be forgiven, I’m just here to apologise.\nIm ashamed of myself. I’m disappointed in myself. And I promise to be better. I will be better. Thank you.```")
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
