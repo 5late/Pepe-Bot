@@ -2154,7 +2154,8 @@ async def shop(ctx):
     for item in shop:
         if isinstance(item, str):
             shop_embed.add_field(name='In your SHOP', value=item)
-            shop_embed.set_footer(text='Your username and password are not ever logged in our systems.')
+            shop_embed.set_footer(
+                text='Your username and password are not ever logged in our systems.')
 
     await ctx.send(embed=shop_embed)
 
