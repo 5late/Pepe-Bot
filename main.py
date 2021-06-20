@@ -2136,6 +2136,9 @@ async def shop(ctx):
     await ctx.send('Please send your PASSWORD now.')
     msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
     new_password = msg2.content
+    await msg2.delete()
+    fake = await ctx.send('h')
+    await fake.delete()
     shop = checkshop.check_item_shop(username=new_username, password=new_password)
     shop_embed = discord.Embed(title=f'Shop for {new_username}', description='Here is your shop.')
     for item in shop:
