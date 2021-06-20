@@ -2124,7 +2124,24 @@ async def apologize(ctx):
 
 @bot.command()
 async def shop(ctx):
-    print(checkshop.check_item_shop(username=USERNAME, password=PASSWORD))
+    def check(author):
+        def inner_check(ctx):
+            return ctx.author == author
+
+        return inner_check
+    await ctx.send('Please send your USERNAME now.')
+    msg = await bot.wait_for("message", check=check(ctx.author), timeout=30)
+    new_username = msg.content
+    await ctx.send('Please send your PASSWORD now.')
+    msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
+    new_password = msg2.content
+    shop = checkshop.check_item_shop(username=new_username, password=new_password)
+    shop_embed = discord.Embed(title=f'Shop for {new_username}', description='Here is your shop.')
+    for item in shop:
+        if isinstance(item, str):
+            shop_embed.add_field(name='In your SHOP', value = item)
+
+    await ctx.send(embed = shop_embed)
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
