@@ -2154,7 +2154,7 @@ async def shop(ctx):
     time_left_word = "minutes"
     if time_left >= 60:
         time_left = time_left // 60  # convert to hours
-        time_left_word = "hours"
+        time_left_word = "hour(s)"
     shop_embed = discord.Embed(
         title=f'Shop for {new_username}',
         description=f'You have {time_left} {time_left_word} left until your shop resets.')
