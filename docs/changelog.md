@@ -1,5 +1,12 @@
 # PepeBot Changelog
 
+## Jun 20 2021
+
+### New Command
+
+- Added new command (``shop``)
+- Shop tells you your in game shop as well as it will let you know how long you have left until it resets
+
 ## Jun 16 2021
 
 ### New Command
