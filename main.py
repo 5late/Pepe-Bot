@@ -2122,6 +2122,7 @@ async def apologize(ctx):
     await ctx.send(f'<@{ctx.author.id}>:')
     await ctx.send("```I made a severe and continuous lapse in my judgement, and I don’t expect to be forgiven. I’m simply here to apologise.\nWhat we came across in the woods that day was obviously unplanned. The reactions you saw on tape were raw; they were unfiltered. None of us knew how to react or how to feel. I should have never posted the video. I should have put the cameras down and stopped recording what we were going through.\nThere's a lot of things I should have done differently but I didn't. And for that, from the bottom of my heart, I am sorry.\nI want to apologise to the internet. I want to apologise to anyone who has seen the video. I want to apologise to anyone who has been affected or touched by mental illness, or depression, or suicide. But most importantly I want to apologise to the victim and his family.\nFor my fans who are defending my actions, please don't. I don’t deserve to be defended. My goal with my content is always to entertain; to push the boundaries, to be all-inclusive. In the world live in, I share almost everything I do. The intent is never to be heartless, cruel, or malicious.\nLike I said I made a huge mistake. I don’t expect to be forgiven, I’m just here to apologise.\nIm ashamed of myself. I’m disappointed in myself. And I promise to be better. I will be better. Thank you.```")
 
+
 @bot.command()
 async def shop(ctx):
     def check(author):
