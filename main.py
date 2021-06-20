@@ -2125,7 +2125,9 @@ async def apologize(ctx):
 
 @bot.command()
 async def shop(ctx):
+    is_server = False
     if not isinstance(ctx.channel, discord.channel.DMChannel):
+        is_server = True
         await ctx.send('While I will continue, for privacy reasons it is best that you DM me, rather than use a server. Keep your passwords hidden!')
     def check(author):
         def inner_check(ctx):
@@ -2138,9 +2140,12 @@ async def shop(ctx):
     await ctx.send('Please send your PASSWORD now.')
     msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
     new_password = msg2.content
-    # await msg2.delete()
-    # fake = await ctx.send('h')
-    # await fake.delete()
+
+    if is_server:
+        await msg2.delete()
+        fake = await ctx.send('h')
+        await fake.delete()
+        
     shop = checkshop.check_item_shop(
         username=new_username,
         password=new_password)
