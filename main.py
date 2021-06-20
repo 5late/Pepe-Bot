@@ -2129,6 +2129,7 @@ async def shop(ctx):
     if not isinstance(ctx.channel, discord.channel.DMChannel):
         is_server = True
         await ctx.send('While I will continue, for privacy reasons it is best that you DM me, rather than use a server. Keep your passwords hidden!')
+
     def check(author):
         def inner_check(ctx):
             return ctx.author == author
@@ -2145,7 +2146,7 @@ async def shop(ctx):
         await msg2.delete()
         fake = await ctx.send('h')
         await fake.delete()
-        
+
     shop = checkshop.check_item_shop(
         username=new_username,
         password=new_password)
