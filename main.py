@@ -2125,6 +2125,8 @@ async def apologize(ctx):
 
 @bot.command()
 async def shop(ctx):
+    if not isinstance(ctx.channel, discord.channel.DMChannel):
+        await ctx.send('While I will continue, for privacy reasons it is best that you DM me, rather than use a server. Keep your passwords hidden!')
     def check(author):
         def inner_check(ctx):
             return ctx.author == author
