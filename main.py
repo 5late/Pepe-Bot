@@ -2136,17 +2136,21 @@ async def shop(ctx):
     await ctx.send('Please send your PASSWORD now.')
     msg2 = await bot.wait_for("message", check=check(ctx.author), timeout=30)
     new_password = msg2.content
-    #await msg2.delete()
-    #fake = await ctx.send('h')
-    #await fake.delete()
-    shop = checkshop.check_item_shop(username=new_username, password=new_password)
+    # await msg2.delete()
+    # fake = await ctx.send('h')
+    # await fake.delete()
+    shop = checkshop.check_item_shop(
+        username=new_username,
+        password=new_password)
     time_left = shop[4]
-    time_left = time_left // 60 # convert to minutes
+    time_left = time_left // 60  # convert to minutes
     time_left_word = "minutes"
     if time_left >= 60:
-        time_left = time_left // 60 # convert to hours
+        time_left = time_left // 60  # convert to hours
         time_left_word = "hours"
-    shop_embed = discord.Embed(title=f'Shop for {new_username}', description=f'You have {time_left} {time_left_word} left until your shop resets.')
+    shop_embed = discord.Embed(
+        title=f'Shop for {new_username}',
+        description=f'You have {time_left} {time_left_word} left until your shop resets.')
     for item in shop:
         if isinstance(item, str):
             shop_embed.add_field(name='In your SHOP', value=item)
