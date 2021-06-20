@@ -2139,8 +2139,12 @@ async def shop(ctx):
     await msg2.delete()
     fake = await ctx.send('h')
     await fake.delete()
-    shop = checkshop.check_item_shop(username=new_username, password=new_password)
-    shop_embed = discord.Embed(title=f'Shop for {new_username}', description='Here is your shop.')
+    shop = checkshop.check_item_shop(
+        username=new_username,
+        password=new_password)
+    shop_embed = discord.Embed(
+        title=f'Shop for {new_username}',
+        description='Here is your shop.')
     for item in shop:
         if isinstance(item, str):
             shop_embed.add_field(name='In your SHOP', value=item)
