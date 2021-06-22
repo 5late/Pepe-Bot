@@ -222,7 +222,7 @@ async def pwd(ctx):
         wordTime = "Night"
 
     if ctx.author.nick == None:
-        name = ctx.author.Name
+        name = ctx.author.name
     else:
         name = ctx.author.nick
 
@@ -247,6 +247,27 @@ async def pwd(ctx):
 
     await ctx.send(embed=embedI)
 
+
+@bot.command()
+async def uptime(ctx):
+    def getBotUptime():
+        now = datetime.utcnow()
+        delta = now - botUptime
+
+        hours, remainder = divmod(int(delta.total_seconds()), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        days, hours = divmod(hours, 24)
+
+        if days:
+            fmt = "``{d}`` days, ``{h}`` hours, ``{m}`` minutes, and ``{s}`` seconds."
+        elif hours:
+            fmt = "``{h}`` hours, ``{m}`` minutes, and ``{s}`` seconds."
+        else:
+            fmt = "``{m}`` minutes and ``{s}`` seconds."
+
+        return fmt.format(d=days, h=hours, m=minutes, s=seconds)
+
+    await ctx.send(f'Bot has been online for {getBotUptime()}')
 
 @bot.command()
 async def ldm(ctx):
