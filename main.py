@@ -221,8 +221,13 @@ async def pwd(ctx):
     else:
         wordTime = "Night"
 
+    if ctx.author.nick == None:
+        name = ctx.author.Name
+    else:
+        name = ctx.author.nick
+
     embedI = discord.Embed(
-        title=f"{wordTime}, {ctx.author.nick}",
+        title=f"{wordTime}, {name}",
         description="Let's check out some stats.",
     )
     embedI.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
