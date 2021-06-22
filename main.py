@@ -221,7 +221,7 @@ async def pwd(ctx):
     else:
         wordTime = "Night"
 
-    if ctx.author.nick == None:
+    if ctx.author.nick is None:
         name = ctx.author.Name
     else:
         name = ctx.author.nick
