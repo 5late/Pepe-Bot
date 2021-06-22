@@ -221,7 +221,7 @@ async def pwd(ctx):
     else:
         wordTime = "Night"
 
-    if ctx.author.nick == None:
+    if ctx.author.nick is None:
         name = ctx.author.name
     else:
         name = ctx.author.nick
@@ -268,6 +268,7 @@ async def uptime(ctx):
         return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
     await ctx.send(f'Bot has been online for {getBotUptime()}')
+
 
 @bot.command()
 async def ldm(ctx):
