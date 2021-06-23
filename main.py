@@ -9,10 +9,10 @@ import asyncio
 from dotenv import load_dotenv
 import youtube_dl
 import os
-from prsaw import RandomStuff
+#from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
-from googleapi import google
+#from googleapi import google
 import platform
 import leaderboard
 import careerF
