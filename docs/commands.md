@@ -80,6 +80,14 @@
 
 *Fetches latest update link and sends it in an embed*
 
+### Shop
+**Requires your Riot username and password**
+
+``=shop``
+
+*Sends your shop contents to you*
+
+
 
 # Music
 
