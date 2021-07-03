@@ -1,0 +1,71 @@
+name: Lint
+
+on: 
+  push:
+    paths:
+      - '**.py'
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Python dependencies
+        run: pip install autopep8
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          autopep8: true
+          auto_fix: true
+      
+      - name: Format python code
+        uses: actions/checkout@v2
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggressive .
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Automatic Code Fixes!
+          title: Fixes by automatic autopep8 action
+          body: This is an auto-generated PR with fixes by autopep8. This PR contains linted code.
+          labels: autopep8, automated pr, bot, githubactions
+          reviewers: peter-evans
+          branch: autopep8-patches
+      
+      - name: autopep8
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: autopep8
+        id: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --exit-code --recursive --in-place --aggressive --aggressive .
+      - name: Set autopep8 branch name
+        id: vars
+        run: echo ::set-output name=branch-name::"autopep8-patches/${{ github.head_ref }}"
+      - name: Create Pull Request
+        if: steps.autopep8.outputs.exit-code == 2
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Automatic Code Fixes!
+          title: Fixes by automatic autopep8 action
+          body: This is an auto-generated PR with fixes by autopep8. This PR contains linted code.
+          labels: autopep8, automated pr, bot, githubactions
+          reviewers: peter-evans
+          branch: ${{ steps.vars.outputs.branch-name }}
+      - name: Fail if autopep8 made changes
+        if: steps.autopep8.outputs.exit-code == 2
+        run: exit 1
