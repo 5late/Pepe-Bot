@@ -1,5 +1,17 @@
 # PepeBot Changelog
 
+## Jul 5 2021
+
+### Patches
+
+- Patched a bug with starting the bot
+- Removed commands ``=talk`` and ``=search``
+
+### NOTICE: 
+
+**I had to rollback this changelog so it is slightly inaccurate and missing data from Jun 14-Jul 5, sorry.**
+**Stable Release soon**
+
 ## Jun 14 2021
 
 ### Bug Fixes
