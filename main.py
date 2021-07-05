@@ -2050,6 +2050,7 @@ async def search(ctx, *, args):
     await ctx.send(embed=embedSearch)
 '''
 
+
 @commands.cooldown(1, 600, commands.BucketType.user)
 @bot.command()
 async def report(ctx, *, args):
