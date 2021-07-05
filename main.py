@@ -9,10 +9,8 @@ import asyncio
 from dotenv import load_dotenv
 import youtube_dl
 import os
-from prsaw import RandomStuff
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
-from googleapi import google
 import platform
 import leaderboard
 import careerF
@@ -1343,10 +1341,11 @@ async def soyjak(ctx, user: discord.Member = None):
 
 @bot.command()
 async def talk(ctx, *, args):
-    rs = RandomStuff(api_key=AI_API_KEY)
+    await ctx.send('Error 3\nCommand currently unavailable.')
+    '''rs = RandomStuff(api_key=AI_API_KEY)
     response = rs.get_ai_response(args)
     await ctx.send(response['message'])
-    rs.close()
+    rs.close()'''
 
 
 @bot.command()
@@ -2031,7 +2030,8 @@ async def compsci(ctx):
 
 @bot.command()
 async def search(ctx, *, args):
-
+    await ctx.send('Error 3\n Command currently unavailable.')
+'''
     embedSearch = discord.Embed(
         title=f'Search Results for {args}',
         description=f'6 Results for {args}')
@@ -2047,7 +2047,7 @@ async def search(ctx, *, args):
     embedSearch.set_footer(text='6 top Google Results')
 
     await ctx.send(embed=embedSearch)
-
+'''
 
 @commands.cooldown(1, 600, commands.BucketType.user)
 @bot.command()
