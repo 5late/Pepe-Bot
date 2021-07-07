@@ -420,21 +420,19 @@ async def auth(ctx):
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def val(ctx, *, arg: str):
-    # try:
-    if 1 == 1:
+    try:
         newArg = arg.split("#")
 
         name = newArg[0]
         tag = newArg[1]
 
         msg = await ctx.send(
-            "Due to ratelimits and RIOT guidelines, this query could take between 4-8 seconds... Hang tight."
+            "This request is processing. Please allow up to 10 seconds. Thanks."
         )
         firstResponse = requests.get(
             f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
         )
         jsonFR = firstResponse.json()
-        print(jsonFR)
         puuid = jsonFR["puuid"]
         level = jsonFR["account_level"]
 
@@ -442,7 +440,8 @@ async def val(ctx, *, arg: str):
             f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
         )
         jsonR = response.json()
-        print(jsonR)
+        if not jsonR['status'] == '200':
+            return await ctx.send("Error 404 || Error 2\nI couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
 
         ctp = int(jsonR["data"]["elo"])
         lgc = str(jsonR['data']['mmr_change_to_last_game'])
@@ -485,19 +484,12 @@ async def val(ctx, *, arg: str):
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
-    '''
+    
     except json.decoder.JSONDecodeError:
         await msg.edit(content="Error 504")
         await ctx.send(
             "The server responded badly. The API is down. This is not a problem with PepeBot, but rather with the API. Try again in a few minutes"
         )
-    except KeyError:
-        await msg.edit(content="Error 404 :(")
-        await ctx.send(
-            "I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)"
-        )
-        '''
-
 
 @val.error
 async def mine_error(ctx, error):
