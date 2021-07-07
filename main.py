@@ -417,10 +417,11 @@ async def auth(ctx):
     await ctx.send('This command is a work in progress. We hope to have a future where this command can begin to automatically authorize trusted users. Check back later. (Error 3 || Error 410)')
 
 
-@commands.cooldown(1, 30, commands.BucketType.user)
+@commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def val(ctx, *, arg: str):
-    try:
+    #try:
+    if 1 == 1:
         newArg = arg.split("#")
 
         name = newArg[0]
@@ -430,15 +431,18 @@ async def val(ctx, *, arg: str):
             "Due to ratelimits and RIOT guidelines, this query could take between 4-8 seconds... Hang tight."
         )
         firstResponse = requests.get(
-            f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
+            f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
         )
         jsonFR = firstResponse.json()
-        puuid = jsonFR["data"]["puuid"]
+        print(jsonFR)
+        puuid = jsonFR["puuid"]
+        level = jsonFR["account_level"]
 
         response = requests.get(
             f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
         )
         jsonR = response.json()
+        print(jsonR)
 
         ctp = int(jsonR["data"]["elo"])
         rank = int(jsonR["data"]["currenttier"])
@@ -460,17 +464,19 @@ async def val(ctx, *, arg: str):
 
         embedR = discord.Embed(
             title=name + "#" + tag,
-            description=jsonR["data"]["currenttierpatched"],
-            color=0x0000FF,
+            description=jsonR["data"]["currenttierpatched"] + f" || Level **{level}**",
+            color=0x32a852,
         )
         embedR.set_thumbnail(url=f"attachment://icon.png")
         await asyncio.sleep(1)
         embedR.add_field(name="Elo: ", value=eloEnd)
         embedR.add_field(name="Last Game Change: ",
                          value=jsonR["data"]["mmr_change_to_last_game"])
+        embedR.set_footer(text='Bot maintained by Xurxx#7879. Level may be inaccurate due to server side bug.')
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
+    '''
     except json.decoder.JSONDecodeError:
         await msg.edit(content="Error 504")
         await ctx.send(
@@ -481,6 +487,7 @@ async def val(ctx, *, arg: str):
         await ctx.send(
             "I couldn't find a VALORANT profile with that name and/or tag. Try again. :( \nSome possible causes for this: \n1. The account does not exist. \n2. The account has not played competitive as yet. \n3. The accound has not played competitive in the past 20 games. (RIOT doesnt let me fetch that far :( - as yet.)"
         )
+        '''
 
 
 @val.error
