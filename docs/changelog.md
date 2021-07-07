@@ -1,5 +1,17 @@
 # PepeBot Changelog
 
+## Jul 7 2021
+
+### New ``=val`` command!
+
+- ``=val`` v2 is out!
+    - New fresh color
+    - Support for Account Level
+    - Redesigned embed
+    - Disclaimer in footer
+- ``career`` is much stricter access
+- ``career`` now clears first 2 messages on success (less spammy)
+
 ## Jul 5 2021
 
 ### Patches
