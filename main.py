@@ -484,12 +484,13 @@ async def val(ctx, *, arg: str):
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
-    
+
     except json.decoder.JSONDecodeError:
         await msg.edit(content="Error 504")
         await ctx.send(
             "The server responded badly. The API is down. This is not a problem with PepeBot, but rather with the API. Try again in a few minutes"
         )
+
 
 @val.error
 async def mine_error(ctx, error):
