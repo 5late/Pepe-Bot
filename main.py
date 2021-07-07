@@ -420,7 +420,7 @@ async def auth(ctx):
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def val(ctx, *, arg: str):
-    #try:
+    # try:
     if 1 == 1:
         newArg = arg.split("#")
 
@@ -462,7 +462,7 @@ async def val(ctx, *, arg: str):
             eloEnd = f"{rank} ({ctp})"
         else:
             eloEnd = f"{fElo}/100"
-        
+
         if not lgc.startswith('-'):
             lgc = f"+{lgc}"
         else:
@@ -474,11 +474,14 @@ async def val(ctx, *, arg: str):
         )
         embedR.set_thumbnail(url=f"attachment://icon.png")
         await asyncio.sleep(1)
-        embedR.add_field(name='Rank: ', value= jsonR['data']['currenttierpatched'])
+        embedR.add_field(
+            name='Rank: ',
+            value=jsonR['data']['currenttierpatched'])
         embedR.add_field(name="Elo: ", value=eloEnd)
         embedR.add_field(name='Account Level: ', value=level)
         embedR.add_field(name="Last Game Change: ", value=lgc)
-        embedR.set_footer(text='Bot maintained by Xurxx#7879. Level may be inaccurate due to server side bug.')
+        embedR.set_footer(
+            text='Bot maintained by Xurxx#7879. Level may be inaccurate due to server side bug.')
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
