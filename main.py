@@ -433,8 +433,8 @@ async def val(ctx, *, arg: str):
             f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
         )
         jsonFR = firstResponse.json()
-        puuid = jsonFR["puuid"]
-        level = jsonFR["account_level"]
+        puuid = jsonFR["data"]["puuid"]
+        level = jsonFR["data"]["account_level"]
 
         response = requests.get(
             f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
