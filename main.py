@@ -445,6 +445,7 @@ async def val(ctx, *, arg: str):
         print(jsonR)
 
         ctp = int(jsonR["data"]["elo"])
+        lgc = str(jsonR['data']['mmr_change_to_last_game'])
         rank = int(jsonR["data"]["currenttier"])
         iconFile2 = discord.File(
             f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png",
@@ -461,17 +462,22 @@ async def val(ctx, *, arg: str):
             eloEnd = f"{rank} ({ctp})"
         else:
             eloEnd = f"{fElo}/100"
+        
+        if not lgc.startswith('-'):
+            lgc = f"+{lgc}"
+        else:
+            lgc = lgc
 
         embedR = discord.Embed(
             title=name + "#" + tag,
-            description=jsonR["data"]["currenttierpatched"] + f" || Level **{level}**",
             color=0x32a852,
         )
         embedR.set_thumbnail(url=f"attachment://icon.png")
         await asyncio.sleep(1)
+        embedR.add_field(name='Rank: ', value= jsonR['data']['currenttierpatched'])
         embedR.add_field(name="Elo: ", value=eloEnd)
-        embedR.add_field(name="Last Game Change: ",
-                         value=jsonR["data"]["mmr_change_to_last_game"])
+        embedR.add_field(name='Account Level: ', value=level)
+        embedR.add_field(name="Last Game Change: ", value=lgc)
         embedR.set_footer(text='Bot maintained by Xurxx#7879. Level may be inaccurate due to server side bug.')
 
         await ctx.send(file=iconFile2, embed=embedR)
