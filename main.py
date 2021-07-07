@@ -516,8 +516,9 @@ async def valm_error(ctx, error):
 
 @bot.command()
 async def career(ctx, *, args):
-    await ctx.send("Checking for authorization....")
+    authMessage = await ctx.send("Checking for authorization....")
     await careerF.career(ctx, args)
+    await authMessage.delete()
 
 
 @bot.command()
