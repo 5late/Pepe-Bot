@@ -416,6 +416,16 @@ async def pog(ctx):
 async def auth(ctx):
     await ctx.send('This command is a work in progress. We hope to have a future where this command can begin to automatically authorize trusted users. Check back later. (Error 3 || Error 410)')
 
+def checkStatusCode(status: str, task: str):
+    f = open('./logs/API.txt', 'a')
+    now = datetime.now()
+    formatTime = now.strftime("%a, %B %d, %Y | %H:%M")
+    if status == "200":
+        f.write(f'\nSuccesful query on task {task} at {formatTime}.')
+    else:
+        f.write(f'\nTask {task} returned error code {status} at {formatTime}.')
+    f.close()
+    
 
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
@@ -433,6 +443,12 @@ async def val(ctx, *, arg: str):
             f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
         )
         jsonFR = firstResponse.json()
+        print(jsonFR['status'])
+        status = str(jsonFR['status'])
+        checkStatusCode(status, "GET-ACCOUNT-PUUID-AND-LEVEL")
+        if not status == "200":
+            await msg.delete()
+            return await ctx.send('API is down. Try again later.')
         puuid = jsonFR["data"]["puuid"]
         level = jsonFR["data"]["account_level"]
 
@@ -440,6 +456,7 @@ async def val(ctx, *, arg: str):
             f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
         )
         jsonR = response.json()
+        checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
         if not jsonR['status'] == '200':
             return await ctx.send("Error 404 || Error 2\nI couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
 
@@ -609,13 +626,15 @@ async def vala(ctx, *, arg):
 
         async with ctx.typing():
             firstResponse = requests.get(
-                f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
+                f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
             )
             jsonFR = firstResponse.json()
+            checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
             puuid = jsonFR["data"]["puuid"]
             response = requests.get(
                 f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
             jsonR = response.json()
+            checkStatusCode(jsonR['status'], "GET-ACCOUNT-MATCHES")
 
             if jsonR["status"] == "200" or jsonR['status'] == 200:
 
