@@ -536,7 +536,7 @@ async def checkapi(ctx):
     success_rate = round(
         (success_count / (error_count + success_count)) * 100, 2)
 
-    APIEmbed = discord.Embed(title = 'API Statistics')
+    APIEmbed = discord.Embed(title = 'API Statistics', color = 0x808080)
     APIEmbed.add_field(name='Request Success Rate', value=f"{success_rate}%", inline=False)
 
     APIEmbed.add_field(name='Total Responses', value=error_count + success_count, inline=False)
@@ -551,6 +551,7 @@ async def checkapi(ctx):
     first_line = f.readline().strip()
     start_date = first_line.split('at')
     APIEmbed.add_field(name="Start Date", value=start_date[1], inline=False)
+    APIEmbed.set_thumbnail(url="https://cdn.discordapp.com/avatars/844337037830258730/261eeb44b174e3eff886f1f79ae29dee.png?size=256")
 
     await ctx.send(embed=APIEmbed)
 
