@@ -521,7 +521,7 @@ async def checkapi(ctx):
     await ctx.send('Calibrating....')
     f = open('./logs/API.txt', 'r')
     lines = f.readlines()
-    
+
     error_count = 0
     success_count = 0
     errors = []
@@ -533,22 +533,29 @@ async def checkapi(ctx):
         else:
             success_count += 1
     errors_sorted = list(dict.fromkeys(errors))
-    success_rate = round((success_count / (error_count + success_count)) * 100, 2)
+    success_rate = round(
+        (success_count / (error_count + success_count)) * 100, 2)
 
-    APIEmbed = discord.Embed(title = 'API Statistics')
-    APIEmbed.add_field(name='Success Rate', value=f"{success_rate}%", inline=False)
+    APIEmbed = discord.Embed(title='API Statistics')
+    APIEmbed.add_field(
+        name='Success Rate',
+        value=f"{success_rate}%",
+        inline=False)
 
     for errors_found in errors_sorted:
-        APIEmbed.add_field(name=f"{errors_found} Responses", value=errors.count(errors_found))
-        
+        APIEmbed.add_field(
+            name=f"{errors_found} Responses",
+            value=errors.count(errors_found))
+
     APIEmbed.add_field(name='200 Responses', value=success_count)
-    
+
     f.seek(0)
     first_line = f.readline().strip()
     start_date = first_line.split('at')
     APIEmbed.add_field(name="Start Date", value=start_date[1], inline=False)
-    
-    await ctx.send(embed = APIEmbed)
+
+    await ctx.send(embed=APIEmbed)
+
 
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
