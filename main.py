@@ -416,6 +416,7 @@ async def pog(ctx):
 async def auth(ctx):
     await ctx.send('This command is a work in progress. We hope to have a future where this command can begin to automatically authorize trusted users. Check back later. (Error 3 || Error 410)')
 
+
 def checkStatusCode(status: str, task: str):
     f = open('./logs/API.txt', 'a')
     now = datetime.now()
@@ -425,7 +426,7 @@ def checkStatusCode(status: str, task: str):
     else:
         f.write(f'\nTask {task} returned error code {status} at {formatTime}.')
     f.close()
-    
+
 
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
