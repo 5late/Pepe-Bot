@@ -552,7 +552,9 @@ async def checkapi(ctx):
             name=f"{errors_found} Responses",
             value=f"[{errors.count(errors_found)}](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)")
 
-    APIEmbed.add_field(name='200 Responses', value=f"[{success_count}](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200)")
+    APIEmbed.add_field(
+        name='200 Responses',
+        value=f"[{success_count}](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200)")
 
     f.seek(0)
     first_line = f.readline().strip()
