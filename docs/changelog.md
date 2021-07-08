@@ -1,5 +1,13 @@
 # PepeBot Changelog
 
+## Jul 8 2021
+
+### New ``=checkapi`` command!
+
+- See how the api has been performing on PepeBot!
+- The command shows error counts, error codes, and success rates.
+- It also shows a start date from which caching began.
+
 ## Jul 7 2021
 
 ### New ``=val`` command!
@@ -11,6 +19,7 @@
     - Disclaimer in footer
 - ``career`` is much stricter access
 - ``career`` now clears first 2 messages on success (less spammy)
+- Reduced cooldown from 30 >> 16 seconds
 
 ## Jul 5 2021
 
