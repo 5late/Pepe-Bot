@@ -557,7 +557,7 @@ async def checkapi(ctx):
     f.seek(0)
     first_line = f.readline().strip()
     start_date = first_line.split('at')
-    APIEmbed.add_field(name="Start Date", value=start_date[1], inline=False)
+    APIEmbed.add_field(name="Start Date", value=f"{start_date[1]} EDT", inline=False)
     APIEmbed.set_thumbnail(
         url="https://cdn.discordapp.com/avatars/844337037830258730/261eeb44b174e3eff886f1f79ae29dee.png?size=256")
 
