@@ -4,7 +4,7 @@
 
 ### New ``=level`` command!
 
-- Check peoples VALORANT level from Discord!
+- Check people's VALORANT level from Discord!
 #### I'm well aware of a bug causing it to appear uncentered, I cannot do much for it unfortunately.
 
 ### New ``=checkapi`` command!
