@@ -503,7 +503,6 @@ async def val(ctx, *, arg: str):
     await msg.edit(content="Stats queryied.")
 
 
-
 @val.error
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
