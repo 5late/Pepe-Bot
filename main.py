@@ -458,7 +458,7 @@ async def val(ctx, *, arg: str):
     jsonR = response.json()
     checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
     if not jsonR['status'] == '200':
-        return await ctx.send("Error 404 || Error 2\nI couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
+        return await ctx.send(f"Error occured - status code {jsonR['status']}. Case recorded.")
 
     ctp = int(jsonR["data"]["elo"])
     lgc = str(jsonR['data']['mmr_change_to_last_game'])
@@ -678,11 +678,15 @@ async def vala(ctx, *, arg):
             )
             jsonFR = firstResponse.json()
             checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
+            if not jsonFR['status'] == "200":
+                return await ctx.send(f"Error occured - status code {jsonFR['status']}. Case recorded.")
             puuid = jsonFR["data"]["puuid"]
             response = requests.get(
                 f'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}')
             jsonR = response.json()
             checkStatusCode(jsonR['status'], "GET-ACCOUNT-MATCHES")
+            if not jsonR['status'] == "200":
+                return await ctx.send(f"Error occured - status code {jsonR['status']}. Case recorded.")
 
             if jsonR["status"] == "200" or jsonR['status'] == 200:
 
@@ -2286,7 +2290,7 @@ async def level(ctx, *, arg):
     jsonFR = firstResponse.json()
     checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
     if not jsonFR['status'] == "200":
-        await ctx.send('Error occured with API. Case logged.')
+        return await ctx.send(f"Error occured - status code {jsonFR['status']}. Case recorded.")
     await msg.edit(content='Fetched level!')
     await asyncio.sleep(0.5)
     puuid = jsonFR['data']['puuid']
@@ -2298,9 +2302,9 @@ async def level(ctx, *, arg):
         f"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}"
     )
     jsonSR = secondResponse.json()
-    checkStatusCode(jsonFR['status'], "GET-PLAYER-MATCHES")
-    if not jsonFR['status'] == "200":
-        await ctx.send('Error occured with API. Case logged.')
+    checkStatusCode(jsonSR['status'], "GET-PLAYER-MATCHES")
+    if not jsonSR['status'] == "200":
+        return await ctx.send(f"Error occured - status code {jsonSR['status']}. Case recorded.")
     players = jsonSR['data'][0]['players']['all_players']
 
     for player in players:
