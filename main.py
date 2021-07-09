@@ -2278,6 +2278,7 @@ async def shop(ctx):
 
     await ctx.send(embed=shop_embed)
 
+
 @bot.command()
 async def level(ctx, *, arg):
     newArg = arg.split("#")
@@ -2305,7 +2306,7 @@ async def level(ctx, *, arg):
 
     # save image
     background.save("./imgs/account-img/result.png")
-    await ctx.send(file = discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
+    await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
 
 
 if __name__ == "__main__":
