@@ -2276,6 +2276,36 @@ async def shop(ctx):
 
     await ctx.send(embed=shop_embed)
 
+@bot.command()
+async def level(ctx, *, arg):
+    newArg = arg.split("#")
+    name = newArg[0]
+    tag = newArg[1]
+
+    firstResponse = requests.get(
+        f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
+    )
+    jsonFR = firstResponse.json()
+    puuid = jsonFR["data"]["puuid"]
+    account_level = jsonFR["data"]["account_level"]
+    account_img = f"./imgs/account-img/{account_level // 20}.png"
+
+    background = Image.open(account_img)
+    font = ImageFont.truetype('./fonts/coolvetica rg.ttf', 25)
+
+    draw = ImageDraw.Draw(background)
+
+    text = f'{account_level}'
+
+    # load rectangle(progress bar)
+
+    draw.text((60, 93), text, (255, 255, 255), font=font)
+
+    # save image
+    background.save("./imgs/account-img/result.png")
+    await ctx.send(file = discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
+
+
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
