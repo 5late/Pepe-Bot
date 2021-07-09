@@ -2290,17 +2290,33 @@ async def level(ctx, *, arg):
     )
     jsonFR = firstResponse.json()
     checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
+    puuid = jsonFR['data']['puuid']
     account_level = jsonFR["data"]["account_level"]
     account_img = f"./imgs/account-img/{account_level // 20}.png"
 
+    secondResponse = requests.get(
+        f"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}"
+    )
+    jsonSR = secondResponse.json()
+    checkStatusCode(jsonFR['status'], "GET-PLAYER-MATCHES")
+    players = jsonSR['data'][0]['players']['all_players']
+
+    for player in players:
+        if player['puuid'] == puuid:
+            the_player_card = player['player_card']
+    
+    player_card = Image.open(f"./imgs/PlayerCards/{the_player_card}.tga.png")
+    player_card = player_card.resize((57, 57))
+
     background = Image.open(account_img)
+    background.paste(player_card, (35, 30))
     font = ImageFont.truetype('./fonts/coolvetica rg.ttf', 25)
 
     draw = ImageDraw.Draw(background)
 
     text = f'{account_level}'
 
-    draw.text((60, 93), text, (255, 255, 255), font=font)
+    draw.text((55, 85), text, (255, 255, 255), font=font)
 
     background.save("./imgs/account-img/result.png")
     await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
