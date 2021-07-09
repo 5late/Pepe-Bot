@@ -2288,7 +2288,7 @@ async def level(ctx, *, arg):
         f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
     )
     jsonFR = firstResponse.json()
-    puuid = jsonFR["data"]["puuid"]
+    checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
     account_level = jsonFR["data"]["account_level"]
     account_img = f"./imgs/account-img/{account_level // 20}.png"
 
