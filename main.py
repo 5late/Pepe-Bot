@@ -2305,7 +2305,6 @@ async def level(ctx, *, arg):
     background.save("./imgs/account-img/result.png")
     await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
 
-
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
