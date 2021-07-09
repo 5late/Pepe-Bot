@@ -2300,11 +2300,8 @@ async def level(ctx, *, arg):
 
     text = f'{account_level}'
 
-    # load rectangle(progress bar)
-
     draw.text((60, 93), text, (255, 255, 255), font=font)
 
-    # save image
     background.save("./imgs/account-img/result.png")
     await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
 

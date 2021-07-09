@@ -2,6 +2,11 @@
 
 ## Jul 8 2021
 
+### New ``=level`` command!
+
+- Check peoples VALORANT level from Discord!
+#### I'm well aware of a bug causing it to appear uncentered, I cannot do much for it unfortunately.
+
 ### New ``=checkapi`` command!
 
 - See how the api has been performing on PepeBot!
