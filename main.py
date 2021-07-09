@@ -2285,28 +2285,42 @@ async def level(ctx, *, arg):
     name = newArg[0]
     tag = newArg[1]
 
+    msg = await ctx.send(f'Got it! I\'m fetching the level for {name}#{tag}...')
     firstResponse = requests.get(
         f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
     )
     jsonFR = firstResponse.json()
     checkStatusCode(jsonFR['status'], "GET-ACCOUNT-PUUID-AND-LEVEL")
+    if not jsonFR['status'] == "200":
+        await ctx.send('Error occured with API. Case logged.')
+    await msg.edit(content='Fetched level!')
+    await asyncio.sleep(0.5)
     puuid = jsonFR['data']['puuid']
     account_level = jsonFR["data"]["account_level"]
     account_img = f"./imgs/account-img/{account_level // 20}.png"
 
+    await msg.edit(content='Fetching player card...')
     secondResponse = requests.get(
         f"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/{puuid}"
     )
     jsonSR = secondResponse.json()
     checkStatusCode(jsonFR['status'], "GET-PLAYER-MATCHES")
+    if not jsonFR['status'] == "200":
+        await ctx.send('Error occured with API. Case logged.')
     players = jsonSR['data'][0]['players']['all_players']
 
     for player in players:
         if player['puuid'] == puuid:
             the_player_card = player['player_card']
-    
+
+    await msg.edit(content='Fetched player card!')
+    await asyncio.sleep(0.5)
+
     player_card = Image.open(f"./imgs/PlayerCards/{the_player_card}.tga.png")
     player_card = player_card.resize((57, 57))
+
+    await msg.edit(content='Magically generating image...')
+    await asyncio.sleep(0.5)
 
     background = Image.open(account_img)
     background.paste(player_card, (35, 30))
@@ -2320,6 +2334,7 @@ async def level(ctx, *, arg):
 
     background.save("./imgs/account-img/result.png")
     await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
+    await msg.edit(content='All done! :smile:')
 
 if __name__ == "__main__":
     bot.loop.create_task(background_task())
