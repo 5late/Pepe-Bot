@@ -431,83 +431,77 @@ def checkStatusCode(status: str, task: str):
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def val(ctx, *, arg: str):
-    try:
-        newArg = arg.split("#")
+    newArg = arg.split("#")
 
-        name = newArg[0]
-        tag = newArg[1]
+    name = newArg[0]
+    tag = newArg[1]
 
-        msg = await ctx.send(
-            "This request is processing. Please allow up to 10 seconds. Thanks."
-        )
-        firstResponse = requests.get(
-            f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
-        )
-        jsonFR = firstResponse.json()
-        print(jsonFR['status'])
-        status = str(jsonFR['status'])
-        checkStatusCode(status, "GET-ACCOUNT-PUUID-AND-LEVEL")
-        if not status == "200":
-            await msg.delete()
-            return await ctx.send('API is down. Try again later.')
-        puuid = jsonFR["data"]["puuid"]
-        level = jsonFR["data"]["account_level"]
+    msg = await ctx.send(
+        "This request is processing. Please allow up to 10 seconds. Thanks."
+    )
+    firstResponse = requests.get(
+        f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
+    )
+    jsonFR = firstResponse.json()
+    print(jsonFR['status'])
+    status = str(jsonFR['status'])
+    checkStatusCode(status, "GET-ACCOUNT-PUUID-AND-LEVEL")
+    if not status == "200":
+        await msg.delete()
+        return await ctx.send(f'Error occured - status code {status}. Case recorded.')
+    puuid = jsonFR["data"]["puuid"]
+    level = jsonFR["data"]["account_level"]
 
-        response = requests.get(
-            f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
-        )
-        jsonR = response.json()
-        checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
-        if not jsonR['status'] == '200':
-            return await ctx.send("Error 404 || Error 2\nI couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
+    response = requests.get(
+        f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
+    )
+    jsonR = response.json()
+    checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
+    if not jsonR['status'] == '200':
+        return await ctx.send("Error 404 || Error 2\nI couldn't find a VALORANT profile with that name and/or tag. Try again. :(")
 
-        ctp = int(jsonR["data"]["elo"])
-        lgc = str(jsonR['data']['mmr_change_to_last_game'])
-        rank = int(jsonR["data"]["currenttier"])
-        iconFile2 = discord.File(
-            f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png",
-            filename="icon.png")
+    ctp = int(jsonR["data"]["elo"])
+    lgc = str(jsonR['data']['mmr_change_to_last_game'])
+    rank = int(jsonR["data"]["currenttier"])
+    iconFile2 = discord.File(
+        f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png",
+        filename="icon.png")
 
-        def last_2_digits_at_best(n):
-            return float(
-                str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
+    def last_2_digits_at_best(n):
+        return float(
+            str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
 
-        fElo = last_2_digits_at_best(jsonR["data"]["elo"])
-        rank = jsonR["data"]["currenttierpatched"]
+    fElo = last_2_digits_at_best(jsonR["data"]["elo"])
+    rank = jsonR["data"]["currenttierpatched"]
 
-        if ctp > 1800:
-            eloEnd = f"{rank} ({ctp})"
-        else:
-            eloEnd = f"{fElo}/100"
+    if ctp > 1800:
+        eloEnd = f"{rank} ({ctp})"
+    else:
+        eloEnd = f"{fElo}/100"
 
-        if not lgc.startswith('-'):
-            lgc = f"+{lgc}"
-        else:
-            lgc = lgc
+    if not lgc.startswith('-'):
+        lgc = f"+{lgc}"
+    else:
+        lgc = lgc
 
-        embedR = discord.Embed(
-            title=name + "#" + tag,
-            color=0x32a852,
-        )
-        embedR.set_thumbnail(url=f"attachment://icon.png")
-        await asyncio.sleep(1)
-        embedR.add_field(
-            name='Rank: ',
-            value=jsonR['data']['currenttierpatched'])
-        embedR.add_field(name="Elo: ", value=eloEnd)
-        embedR.add_field(name='Account Level: ', value=level)
-        embedR.add_field(name="Last Game Change: ", value=lgc)
-        embedR.set_footer(
-            text='Bot maintained by Xurxx#7879. Level may be inaccurate due to server side bug.')
+    embedR = discord.Embed(
+        title=name + "#" + tag,
+        color=0x32a852,
+    )
+    embedR.set_thumbnail(url=f"attachment://icon.png")
+    await asyncio.sleep(1)
+    embedR.add_field(
+        name='Rank: ',
+        value=jsonR['data']['currenttierpatched'])
+    embedR.add_field(name="Elo: ", value=eloEnd)
+    embedR.add_field(name='Account Level: ', value=level)
+    embedR.add_field(name="Last Game Change: ", value=lgc)
+    embedR.set_footer(
+        text='Bot maintained by Xurxx#7879. Level innacurate? Play a game and re-try.')
 
-        await ctx.send(file=iconFile2, embed=embedR)
-        await msg.edit(content="Stats queryied.")
+    await ctx.send(file=iconFile2, embed=embedR)
+    await msg.edit(content="Stats queryied.")
 
-    except json.decoder.JSONDecodeError:
-        await msg.edit(content="Error 504")
-        await ctx.send(
-            "The server responded badly. The API is down. This is not a problem with PepeBot, but rather with the API. Try again in a few minutes"
-        )
 
 
 @val.error
