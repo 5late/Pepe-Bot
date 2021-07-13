@@ -430,78 +430,91 @@ def checkStatusCode(status: str, task: str):
 
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
-async def val(ctx, *, arg: str):
-    newArg = arg.split("#")
+async def val(ctx, *, arg: str):    
+    async def mainValFetch(arg):
+        newArg = arg.split("#")
+        print(newArg)
 
-    name = newArg[0]
-    tag = newArg[1]
+        name = newArg[0].replace('\\','')
+        print(name)
+        tag = newArg[1]
 
-    msg = await ctx.send(
-        "This request is processing. Please allow up to 10 seconds. Thanks."
-    )
-    firstResponse = requests.get(
-        f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
-    )
-    jsonFR = firstResponse.json()
-    print(jsonFR['status'])
-    status = str(jsonFR['status'])
-    checkStatusCode(status, "GET-ACCOUNT-PUUID-AND-LEVEL")
-    if not status == "200":
-        await msg.delete()
-        return await ctx.send(f'Error occured - status code {status}. Case recorded.')
-    puuid = jsonFR["data"]["puuid"]
-    level = jsonFR["data"]["account_level"]
+        msg = await ctx.send(
+            "This request is processing. Please allow up to 10 seconds. Thanks."
+        )
+        firstResponse = requests.get(
+            f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
+        )
+        jsonFR = firstResponse.json()
+        print(jsonFR['status'])
+        status = str(jsonFR['status'])
+        checkStatusCode(status, "GET-ACCOUNT-PUUID-AND-LEVEL")
+        if not status == "200":
+            await msg.delete()
+            return await ctx.send(f'Error occured - status code {status}. Case recorded.')
+        puuid = jsonFR["data"]["puuid"]
+        level = jsonFR["data"]["account_level"]
 
-    response = requests.get(
-        f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
-    )
-    jsonR = response.json()
-    checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
-    if not jsonR['status'] == '200':
-        return await ctx.send(f"Error occured - status code {jsonR['status']}. Case recorded.")
+        response = requests.get(
+            f"https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/na/{puuid}"
+        )
+        jsonR = response.json()
+        checkStatusCode(jsonR['status'], "GET-ACCOUNT-MMR")
+        if not jsonR['status'] == '200':
+            return await ctx.send(f"Error occured - status code {jsonR['status']}. Case recorded.")
 
-    ctp = int(jsonR["data"]["elo"])
-    lgc = str(jsonR['data']['mmr_change_to_last_game'])
-    rank = int(jsonR["data"]["currenttier"])
-    iconFile2 = discord.File(
-        f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png",
-        filename="icon.png")
+        ctp = int(jsonR["data"]["elo"])
+        lgc = str(jsonR['data']['mmr_change_to_last_game'])
+        rank = int(jsonR["data"]["currenttier"])
+        iconFile2 = discord.File(
+            f"imgs/icons/TX_CompetitiveTier_Large_{rank}.png",
+            filename="icon.png")
 
-    def last_2_digits_at_best(n):
-        return float(
-            str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
+        def last_2_digits_at_best(n):
+            return float(
+                str(n)[-3:]) if "." in str(n)[-2:] else int(str(n)[-2:])
 
-    fElo = last_2_digits_at_best(jsonR["data"]["elo"])
-    rank = jsonR["data"]["currenttierpatched"]
+        fElo = last_2_digits_at_best(jsonR["data"]["elo"])
+        rank = jsonR["data"]["currenttierpatched"]
 
-    if ctp > 1800:
-        eloEnd = f"{rank} ({ctp})"
+        if ctp > 1800:
+            eloEnd = f"{rank} ({ctp})"
+        else:
+            eloEnd = f"{fElo}/100"
+
+        if not lgc.startswith('-'):
+            lgc = f"+{lgc}"
+        else:
+            lgc = lgc
+
+        embedR = discord.Embed(
+            title=name + "#" + tag,
+            color=0x32a852,
+        )
+        embedR.set_thumbnail(url=f"attachment://icon.png")
+        await asyncio.sleep(1)
+        embedR.add_field(
+            name='Rank: ',
+            value=jsonR['data']['currenttierpatched'])
+        embedR.add_field(name="Elo: ", value=eloEnd)
+        embedR.add_field(name='Account Level: ', value=level)
+        embedR.add_field(name="Last Game Change: ", value=lgc)
+        embedR.set_footer(
+            text='Bot maintained by Xurxx#7879. Level innacurate? Play a game and re-try.')
+
+        await ctx.send(file=iconFile2, embed=embedR)
+        await msg.edit(content="Stats queryied.")
+    
+    if not '\\' in arg and '||' in arg:
+        distinguish = arg.split('||')
+        if len(distinguish) > 5:
+            return await ctx.send('Max player request of 5 at a time.')
+        for player in distinguish:
+            player.lstrip()
+            player.rstrip()
+            await mainValFetch(player)
     else:
-        eloEnd = f"{fElo}/100"
-
-    if not lgc.startswith('-'):
-        lgc = f"+{lgc}"
-    else:
-        lgc = lgc
-
-    embedR = discord.Embed(
-        title=name + "#" + tag,
-        color=0x32a852,
-    )
-    embedR.set_thumbnail(url=f"attachment://icon.png")
-    await asyncio.sleep(1)
-    embedR.add_field(
-        name='Rank: ',
-        value=jsonR['data']['currenttierpatched'])
-    embedR.add_field(name="Elo: ", value=eloEnd)
-    embedR.add_field(name='Account Level: ', value=level)
-    embedR.add_field(name="Last Game Change: ", value=lgc)
-    embedR.set_footer(
-        text='Bot maintained by Xurxx#7879. Level innacurate? Play a game and re-try.')
-
-    await ctx.send(file=iconFile2, embed=embedR)
-    await msg.edit(content="Stats queryied.")
-
+        await mainValFetch(arg)
 
 
 @val.error
@@ -2335,5 +2348,5 @@ async def level(ctx, *, arg):
     await msg.edit(content='All done! :smile:')
 
 if __name__ == "__main__":
-    bot.loop.create_task(background_task())
+    #bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
