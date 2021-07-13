@@ -1,5 +1,21 @@
 # PepeBot Changelog
 
+## Jul 13 2021
+
+### Updated ``=val`` command!
+
+- Get up to 5 players ranks at once!
+- Split the players with ``\\`` between each player
+- Max of FIVE players
+- Circumvent the 16 second cooldown using this new way.
+
+# IF PLAYER HAS ``//`` IN NAME:
+
+- Use '\' key to "escape" the ``/``.
+- Ex:
+    ``=val thelegend\//27#1234``
+- (you cannot use multiple people if one of them has ``//`` in their name)
+
 ## Jul 8 2021
 
 ### New ``=level`` command!
