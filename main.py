@@ -433,10 +433,8 @@ def checkStatusCode(status: str, task: str):
 async def val(ctx, *, arg: str):
     async def mainValFetch(arg):
         newArg = arg.split("#")
-        print(newArg)
 
         name = newArg[0].replace('\\', '')
-        print(name)
         tag = newArg[1]
 
         msg = await ctx.send(
