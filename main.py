@@ -516,7 +516,6 @@ async def val(ctx, *, arg: str):
     else:
         await mainValFetch(arg)
 
-
 @val.error
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
