@@ -504,8 +504,8 @@ async def val(ctx, *, arg: str):
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
 
-    if '\\' not in arg and '||' in arg:
-        distinguish = arg.split('||')
+    if '\\' not in arg and '//' in arg:
+        distinguish = arg.split('//')
         if len(distinguish) > 5:
             return await ctx.send('Max player request of 5 at a time.')
         for player in distinguish:
