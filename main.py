@@ -430,12 +430,12 @@ def checkStatusCode(status: str, task: str):
 
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
-async def val(ctx, *, arg: str):    
+async def val(ctx, *, arg: str):
     async def mainValFetch(arg):
         newArg = arg.split("#")
         print(newArg)
 
-        name = newArg[0].replace('\\','')
+        name = newArg[0].replace('\\', '')
         print(name)
         tag = newArg[1]
 
@@ -504,8 +504,8 @@ async def val(ctx, *, arg: str):
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
-    
-    if not '\\' in arg and '||' in arg:
+
+    if '\\' not in arg and '||' in arg:
         distinguish = arg.split('||')
         if len(distinguish) > 5:
             return await ctx.send('Max player request of 5 at a time.')
@@ -515,6 +515,7 @@ async def val(ctx, *, arg: str):
             await mainValFetch(player)
     else:
         await mainValFetch(arg)
+
 
 @val.error
 async def mine_error(ctx, error):
@@ -2347,5 +2348,5 @@ async def level(ctx, *, arg):
     await msg.edit(content='All done! :smile:')
 
 if __name__ == "__main__":
-    #bot.loop.create_task(background_task())
+    # bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
