@@ -492,7 +492,6 @@ async def val(ctx, *, arg: str):
             color=0x32a852,
         )
         embedR.set_thumbnail(url=f"attachment://icon.png")
-        await asyncio.sleep(1)
         embedR.add_field(
             name='Rank: ',
             value=jsonR['data']['currenttierpatched'])
