@@ -576,7 +576,7 @@ async def checkapi(ctx):
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def valm(ctx, *, arg: str):
-   await lm.lm(ctx, arg)
+    await lm.lm(ctx, arg)
 
 
 @valm.error
@@ -617,11 +617,11 @@ async def dur(ctx, *, arg):
             value=f"{int((jsonR['data'][j]['metadata']['game_length'])/1000)//60} minutes",
             inline=False,
         )
-        
+
         embedD.add_field(
             name=f"Match {j+1} Date:",
             value=f"{jsonR['data'][j]['metadata']['game_start_patched']}",
-            inline= False
+            inline=False
         )
 
     await ctx.send(embed=embedD)
