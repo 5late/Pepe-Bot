@@ -573,7 +573,7 @@ async def checkapi(ctx):
     await ctx.send(embed=APIEmbed)
 
 
-@commands.cooldown(1, 30, commands.BucketType.user)
+@commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def valm(ctx, *, arg: str):
    await lm.lm(ctx, arg)
