@@ -1,5 +1,16 @@
 # PepeBot Changelog
 
+## Jul 14 2021
+
+### Updated ``=checkapi`` command!
+
+- Added check of latest request
+
+### Return of ``=valm`` command!
+
+- Use ``=valm USERNAME#TAG`` to get the last match stats of a player
+- Cooldown of 16 seconds
+
 ## Jul 13 2021
 
 ### Updated ``=val`` command!
