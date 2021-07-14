@@ -539,7 +539,7 @@ async def checkapi(ctx):
     errors_sorted = list(dict.fromkeys(errors))
     success_rate = round(
         (success_count / (error_count + success_count)) * 100, 2)
-    
+
     last_line = lines[-1]
 
     APIEmbed = discord.Embed(title='API Statistics', color=0x808080)
@@ -569,7 +569,10 @@ async def checkapi(ctx):
         name="Start Date",
         value=f"{start_date[1]} EDT",
         inline=False)
-    APIEmbed.add_field(name = 'Last Request Returned:', value = last_line, inline= False)
+    APIEmbed.add_field(
+        name='Last Request Returned:',
+        value=last_line,
+        inline=False)
     APIEmbed.set_thumbnail(
         url="https://cdn.discordapp.com/avatars/844337037830258730/261eeb44b174e3eff886f1f79ae29dee.png?size=256")
 
