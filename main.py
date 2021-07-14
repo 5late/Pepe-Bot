@@ -16,7 +16,7 @@ import leaderboard
 import careerF
 import re
 import checkshop
-#import lm
+import lm
 
 load_dotenv()
 
@@ -576,7 +576,7 @@ async def checkapi(ctx):
 @commands.cooldown(1, 30, commands.BucketType.user)
 @bot.command()
 async def valm(ctx, *, arg: str):
-    await ctx.send('Command currently unavailable.')
+   await lm.lm(ctx, arg)
 
 
 @valm.error
@@ -616,6 +616,12 @@ async def dur(ctx, *, arg):
             name=f"Match {j+1} Duration:",
             value=f"{int((jsonR['data'][j]['metadata']['game_length'])/1000)//60} minutes",
             inline=False,
+        )
+        
+        embedD.add_field(
+            name=f"Match {j+1} Date:",
+            value=f"{jsonR['data'][j]['metadata']['game_start_patched']}",
+            inline= False
         )
 
     await ctx.send(embed=embedD)
