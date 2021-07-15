@@ -2356,6 +2356,10 @@ async def level(ctx, *, arg):
     await ctx.send(file=discord.File(fp='./imgs/account-img/result.png', filename=f'{name}-account-level.png'))
     await msg.edit(content='All done! :smile:')
 
+@bot.command()
+async def gottem(ctx):
+    await ctx.send('https://www.youtube.com/watch?v=-15VC4Yxzys')
+
 if __name__ == "__main__":
     # bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
