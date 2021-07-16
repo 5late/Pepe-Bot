@@ -2360,6 +2360,13 @@ async def level(ctx, *, arg):
 async def gottem(ctx):
     await ctx.send('https://www.youtube.com/watch?v=-15VC4Yxzys')
 
+@bot.command()
+async def guides(ctx):
+    split_v1 = str(ctx.message.attachments).split("filename='")[1]
+    filename = str(split_v1).split("' ")[0]
+    if filename.endswith(".md"): 
+        await ctx.message.attachments[0].save(fp="guides/{}".format(filename)) # saves the file
+
 if __name__ == "__main__":
     # bot.loop.create_task(background_task())
     bot.run(DISCORD_TOKEN)
