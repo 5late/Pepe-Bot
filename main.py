@@ -2365,8 +2365,8 @@ async def gottem(ctx):
 async def guides(ctx):
     split_v1 = str(ctx.message.attachments).split("filename='")[1]
     filename = str(split_v1).split("' ")[0]
-    if filename.endswith(".md"): 
-        await ctx.message.attachments[0].save(fp="guides/{}".format(filename)) # saves the file
+    await ctx.message.attachments[0].save(fp="guides/{}".format(filename)) # saves the file
+    await ctx.send('Done!')
 
 if __name__ == "__main__":
     # bot.loop.create_task(background_task())
