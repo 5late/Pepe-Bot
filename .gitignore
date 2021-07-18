@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 token.txt
 clips.json
 .env
@@ -21,3 +22,27 @@ result.png
 *tga.png
 *.tga
 guides/
+=======
+token.txt
+clips.json
+.env
+Audio_Crime*
+sudoers.txt
+sudo.txt
+*.ttf
+!Hind-Regular.ttf
+*.jpg
+!imgs/*.jpg
+*.log
+__pycache__/
+.vscode/
+leaderboard.py
+careerF.py
+lm.py
+*.webm
+checkshop.py
+API.txt
+result.png
+*tga.png
+*.tga
+>>>>>>> Stashed changes
