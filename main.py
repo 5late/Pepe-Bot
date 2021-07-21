@@ -2363,25 +2363,29 @@ async def level(ctx, *, arg):
 async def gottem(ctx):
     await ctx.send('https://www.youtube.com/watch?v=-15VC4Yxzys')
 
+
 @bot.command()
 async def guides(ctx):
     split_v1 = str(ctx.message.attachments).split("filename='")[1]
     filename = str(split_v1).split("' ")[0]
-    await ctx.message.attachments[0].save(fp="guides/{}".format(filename)) # saves the file
+    # saves the file
+    await ctx.message.attachments[0].save(fp="guides/{}".format(filename))
     await ctx.send('Downloaded file successfully.')
     full_file = f'guides/{filename}'
     with open(full_file, 'rb') as f:
-        files = {'file':open(full_file, 'rb')}
+        files = {'file': open(full_file, 'rb')}
         r = requests.post(IP, files=files)
     await ctx.send(f'Successfully send {filename} to the VPS. Watch <#761409251348185088> for the update to https://5late.github.io/guides .')
+
 
 @bot.command()
 async def mmr(ctx, *, args):
     beta = [564466359107321856]
     msg = await ctx.send('This command is in BETA testing. To join beta testing ping bot owner.')
     if ctx.author.id in beta:
-        await msg.edit(content = 'Processing...')
+        await msg.edit(content='Processing...')
         await mmrhistory.mmrhistory(ctx, args)
+
 
 @bot.command()
 async def beta(ctx, arg):
