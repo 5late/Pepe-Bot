@@ -17,6 +17,7 @@ import careerF
 import re
 import checkshop
 import lm
+import mmrhistory
 
 load_dotenv()
 
@@ -2372,8 +2373,19 @@ async def guides(ctx):
     with open(full_file, 'rb') as f:
         files = {'file':open(full_file, 'rb')}
         r = requests.post(IP, files=files)
-        print(r.status_code)
     await ctx.send(f'Successfully send {filename} to the VPS. Watch <#761409251348185088> for the update to https://5late.github.io/guides .')
+
+@bot.command()
+async def mmr(ctx, *, args):
+    beta = [564466359107321856]
+    msg = await ctx.send('This command is in BETA testing. To join beta testing ping bot owner.')
+    if ctx.author.id in beta:
+        await msg.edit(content = 'Processing...')
+        await mmrhistory.mmrhistory(ctx, args)
+
+@bot.command()
+async def beta(ctx, arg):
+    await ctx.send(f'**Beta testing command** ``{arg}``\nA command that is in beta may become unstable/not respond at any time. It is a way for me to test a command/log stats/see if its useful. All *you* need to do is use the command now and then, and thats it!\nIf you choose to join, thanks! :punch:')
 
 if __name__ == "__main__":
     # bot.loop.create_task(background_task())
