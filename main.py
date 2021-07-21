@@ -2380,7 +2380,7 @@ async def guides(ctx):
 
 @bot.command()
 async def mmr(ctx, *, args):
-    beta = [564466359107321856]
+    beta = [564466359107321856, 349605838677082123, 433442400992493578]
     msg = await ctx.send('This command is in BETA testing. To join beta testing ping bot owner.')
     if ctx.author.id in beta:
         await msg.edit(content='Processing...')
@@ -2388,8 +2388,11 @@ async def mmr(ctx, *, args):
 
 
 @bot.command()
-async def beta(ctx, arg):
-    await ctx.send(f'**Beta testing command** ``{arg}``\nA command that is in beta may become unstable/not respond at any time. It is a way for me to test a command/log stats/see if its useful. All *you* need to do is use the command now and then, and thats it!\nIf you choose to join, thanks! :punch:')
+async def beta(ctx, arg=''):
+    if arg == '':
+        await ctx.send('**Beta testing**\nA command that is in beta may become unstable/not respond at any time. It is a way for me to test a command/log stats/see if its useful. All *you* need to do is use the command now and then, and thats it!\nIf you choose to join, thanks! :punch:')
+    else:
+        await ctx.send(f'**Beta testing command** ``{arg}``\nA command that is in beta may become unstable/not respond at any time. It is a way for me to test a command/log stats/see if its useful. All *you* need to do is use the command now and then, and thats it!\nIf you choose to join, thanks! :punch:')
 
 if __name__ == "__main__":
     # bot.loop.create_task(background_task())
