@@ -2380,12 +2380,9 @@ async def guides(ctx):
 
 @bot.command()
 async def mmr(ctx, *, args):
-    beta = [564466359107321856, 349605838677082123, 433442400992493578]
-    msg = await ctx.send('This command is in BETA testing. To join beta testing ping bot owner.')
-    if ctx.author.id in beta:
-        await msg.edit(content='Processing...')
-        await mmrhistory.mmrhistory(ctx, args)
-        await msg.delete()
+    msg = await ctx.send(content='Processing...')
+    await mmrhistory.mmrhistory(ctx, args)
+    await msg.delete()
 
 
 @bot.command()
