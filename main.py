@@ -2377,16 +2377,20 @@ async def guides(ctx):
         r = requests.post(IP, files=files)
     await ctx.send(f'Successfully send {filename} to the VPS. Watch <#761409251348185088> for the update to https://5late.github.io/guides .')
 
+
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def mmr(ctx, *, args):
     msg = await ctx.send(content='Processing...')
     await mmrhistory.mmrhistory(ctx, args)
     await msg.delete()
+
+
 @mmr.error
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
 
 @bot.command()
 async def beta(ctx, arg=''):
