@@ -1,5 +1,13 @@
 # PepeBot Changelog
 
+## Jul 22 2021
+
+### Beta command ``=mmr``
+
+- Calculate stats based on all comp games currently viewable in specified players career
+- Command is in beta and won't work most of the time
+- Will be moved out of beta shortly
+
 ## Jul 14 2021
 
 ### Updated ``=checkapi`` command!
