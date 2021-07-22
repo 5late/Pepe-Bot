@@ -2385,6 +2385,7 @@ async def mmr(ctx, *, args):
     if ctx.author.id in beta:
         await msg.edit(content='Processing...')
         await mmrhistory.mmrhistory(ctx, args)
+        await msg.delete()
 
 
 @bot.command()
