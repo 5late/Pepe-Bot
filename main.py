@@ -18,6 +18,7 @@ import re
 import checkshop
 import lm
 import mmrhistory
+import livematch
 
 load_dotenv()
 
@@ -2390,6 +2391,13 @@ async def mmr(ctx, *, args):
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
+
+@bot.command()
+async def track(ctx, *, args):
+    msg = await ctx.send(content='Processing...')
+    await livematch.livematch(ctx, args)
+    await msg.delete()
 
 
 @bot.command()
