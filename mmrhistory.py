@@ -4,6 +4,7 @@ from discord.ext import commands
 import asyncio
 from datetime import datetime
 
+
 def checkStatusCode(status: str, task: str):
     f = open('./logs/API.txt', 'a')
     now = datetime.now()
@@ -14,12 +15,14 @@ def checkStatusCode(status: str, task: str):
         f.write(f'\nTask {task} returned error code {status} at {formatTime}.')
     f.close()
 
+
 async def mmrhistory(ctx, arg):
     newArg = arg.split('#')
     name = newArg[0]
     tag = newArg[1]
 
-    response = requests.get(f'https://api.henrikdev.xyz/valorant/v1/mmr-history/na/{name}/{tag}')
+    response = requests.get(
+        f'https://api.henrikdev.xyz/valorant/v1/mmr-history/na/{name}/{tag}')
     jsonR = response.json()
 
     status = jsonR['status']
@@ -39,14 +42,14 @@ async def mmrhistory(ctx, arg):
         else:
             wins += 1
         elo += game['mmr_change_to_last_game']
-    
+
     if wins > losses:
         color = 0x1bfa5e
     elif wins < losses:
         color = 0xff2626
     else:
         color = 0x424744
-    
+
     if elo > 0:
         elo = f'+{elo}'
     else:
@@ -55,9 +58,14 @@ async def mmrhistory(ctx, arg):
     latest_game = games[0]['date']
 
     current_rank = games[0]['currenttier']
-    icon_file = discord.File(f'./imgs/icons/TX_CompetitiveTier_Large_{current_rank}.png', filename='icon.png')
+    icon_file = discord.File(
+        f'./imgs/icons/TX_CompetitiveTier_Large_{current_rank}.png',
+        filename='icon.png')
 
-    embed = discord.Embed(title = f'MMR History for {name}#{tag}', description = f'**{name}** has {number_of_games} competitive games in their career.', color=color)
+    embed = discord.Embed(
+        title=f'MMR History for {name}#{tag}',
+        description=f'**{name}** has {number_of_games} competitive games in their career.',
+        color=color)
     embed.add_field(name='Wins', value=f'``{wins}``')
     embed.add_field(name='Losses', value=f'``{losses}``')
     embed.add_field(name='Net RR Gained/Lost', value=f'``{elo}``')
