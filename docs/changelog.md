@@ -1,5 +1,12 @@
 # PepeBot Changelog
 
+## Jul 26 2021
+
+### ``=mmr`` moved to Public Access
+
+- The command is now open source under the ``mmrhistory.py`` file
+- Now can see net gain/loss RR from comp careers
+
 ## Jul 22 2021
 
 ### Beta command ``=mmr``
