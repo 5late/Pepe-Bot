@@ -608,7 +608,7 @@ async def dur(ctx, *, arg):
     tag = newArg[1]
 
     firstResponse = requests.get(
-        f"https://api.henrikdev.xyz/valorant/v1/puuid/{name}/{tag}"
+        f"https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}"
     )
     jsonFR = firstResponse.json()
     puuid = jsonFR["data"]["puuid"]
