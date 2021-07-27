@@ -961,6 +961,7 @@ async def lb(ctx, *, args):
     if ctx.author.id in auth:
         await msg.edit(content=f'Authorization as <@{ctx.author.id}> was successful. Please allow up to 15 seconds for this command to process.')
         await leaderboard.leaderBoard(ctx, args)
+        await msg.delete()
     else:
         await msg.edit(content='Error 4 || Error 401')
         await ctx.send('You are not authorized to use this command. \nUse command ``=error 4`` to see more information.')
