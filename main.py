@@ -532,25 +532,30 @@ async def checkapi(ctx):
     error_count = 0
     success_count = 0
     errors = []
+    non_api_error_count = 0
     for line in lines:
         if "error" in line.strip():
-            error_code = line.split('error code ')[1]
-            errors.append(error_code[:3])
-            error_count += 1
+            get_error_code = line.split('error code ')[1]
+            error_code = get_error_code[:3]
+            errors.append(error_code)
+            if error_code == '404' or error_code == '409':
+                error_count += 1
+            else:
+                error_count += 1
+                non_api_error_count += 1
         else:
             success_count += 1
     errors_sorted = list(dict.fromkeys(errors))
     success_rate = round(
         (success_count / (error_count + success_count)) * 100, 2)
-
+    return_rate = round((success_count / (non_api_error_count + success_count)) * 100, 2)
     last_line = lines[-1]
 
     APIEmbed = discord.Embed(title='API Statistics', color=0x808080)
     APIEmbed.add_field(
         name='Request Success Rate',
-        value=f"{success_rate}%",
-        inline=False)
-
+        value=f"{success_rate}%")
+    APIEmbed.add_field(name = 'API Return Rate', value=f"{return_rate}%")
     APIEmbed.add_field(
         name='Total Responses',
         value=error_count +
