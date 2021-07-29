@@ -548,14 +548,15 @@ async def checkapi(ctx):
     errors_sorted = list(dict.fromkeys(errors))
     success_rate = round(
         (success_count / (error_count + success_count)) * 100, 2)
-    return_rate = round((success_count / (non_api_error_count + success_count)) * 100, 2)
+    return_rate = round(
+        (success_count / (non_api_error_count + success_count)) * 100, 2)
     last_line = lines[-1]
 
     APIEmbed = discord.Embed(title='API Statistics', color=0x808080)
     APIEmbed.add_field(
         name='Request Success Rate',
         value=f"{success_rate}%")
-    APIEmbed.add_field(name = 'API Return Rate', value=f"{return_rate}%")
+    APIEmbed.add_field(name='API Return Rate', value=f"{return_rate}%")
     APIEmbed.add_field(
         name='Total Responses',
         value=error_count +
