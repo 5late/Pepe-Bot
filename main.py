@@ -504,7 +504,7 @@ async def val(ctx, *, arg: str):
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
-
+    
     if '\\' not in arg and '//' in arg:
         distinguish = arg.split('//')
         if len(distinguish) > 5:
@@ -515,7 +515,6 @@ async def val(ctx, *, arg: str):
             await mainValFetch(player)
     else:
         await mainValFetch(arg)
-
 
 @val.error
 async def mine_error(ctx, error):
@@ -2389,9 +2388,12 @@ async def guides(ctx):
 @commands.cooldown(1, 16, commands.BucketType.user)
 @bot.command()
 async def mmr(ctx, *, args):
-    msg = await ctx.send(content='Processing...')
-    await mmrhistory.mmrhistory(ctx, args)
-    await msg.delete()
+    try:
+        msg = await ctx.send(content='Processing...')
+        await mmrhistory.mmrhistory(ctx, args)
+        await msg.delete()
+    except:
+        print(file='./error_output.txt')
 
 
 @mmr.error
