@@ -19,6 +19,7 @@ import checkshop
 import lm
 import mmrhistory
 import livematch
+import peakrank
 
 load_dotenv()
 
@@ -2400,6 +2401,11 @@ async def mmr(ctx, *, args):
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
+@bot.command()
+async def peak(ctx, *, args):
+    await ctx.send('Processing...')
+    await peakrank.peak(ctx, args)
 
 
 @bot.command()

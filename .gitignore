@@ -22,3 +22,4 @@ result.png
 *.tga
 guides/
 livematch.py
+peakrank.py
