@@ -2425,35 +2425,41 @@ async def beta(ctx, arg=''):
     else:
         await ctx.send(f'**Beta testing command** ``{arg}``\nA command that is in beta may become unstable/not respond at any time. It is a way for me to test a command/log stats/see if its useful. All *you* need to do is use the command now and then, and thats it!\nIf you choose to join, thanks! :punch:')
 
+
 @bot.command()
 async def checkapi(ctx):
     msg = await ctx.send('I\'m checking each main endpoint...')
     account_response_check = '❌ - Returned Error'
     match_response_check = '❌ - Returned Error'
     mmr_response_check = '❌ - Returned Error'
-    
-    account_response = requests.get('https://api.henrikdev.xyz/valorant/account/Raj/1337')
+
+    account_response = requests.get(
+        'https://api.henrikdev.xyz/valorant/account/Raj/1337')
     account_response = account_response.json()
-    
+
     if account_response:
         account_response_check = '✅ - Returned 200'
         await msg.edit(content='Account Endpoint returned 200.')
-    
-    match_response = requests.get('https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/01066651-f9b0-55c0-8d3d-674c65351821')
+
+    match_response = requests.get(
+        'https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/01066651-f9b0-55c0-8d3d-674c65351821')
     match_response = match_response.json()
-    
+
     if match_response:
         match_response_check = '✅ - Returned 200'
         await msg.edit(content='Match Endpoint returned 200.')
 
-    mmr_response = requests.get('https://api.henrikdev.xyz/valorant/v2/mmr/na/raj/1337')
+    mmr_response = requests.get(
+        'https://api.henrikdev.xyz/valorant/v2/mmr/na/raj/1337')
     mmr_response = mmr_response.json()
-    
+
     if mmr_response:
         mmr_response_check = '✅ - Returned 200'
         await msg.edit(content='MMR Endpoint returned 200.')
 
-    embed = discord.Embed(title='Check API Endpoints', description='Tested mmr, match and account endpoints.')
+    embed = discord.Embed(
+        title='Check API Endpoints',
+        description='Tested mmr, match and account endpoints.')
     embed.add_field(name='Account Endpoint', value=account_response_check)
     embed.add_field(name='Match Endpoint', value=match_response_check)
     embed.add_field(name='MMR Endpoint', value=mmr_response_check)
