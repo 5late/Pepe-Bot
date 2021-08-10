@@ -505,7 +505,7 @@ async def val(ctx, *, arg: str):
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
-    
+
     if '\\' not in arg and '//' in arg:
         distinguish = arg.split('//')
         if len(distinguish) > 5:
@@ -516,6 +516,7 @@ async def val(ctx, *, arg: str):
             await mainValFetch(player)
     else:
         await mainValFetch(arg)
+
 
 @val.error
 async def mine_error(ctx, error):
@@ -2393,7 +2394,7 @@ async def mmr(ctx, *, args):
         msg = await ctx.send(content='Processing...')
         await mmrhistory.mmrhistory(ctx, args)
         await msg.delete()
-    except:
+    except BaseException:
         print(file='./error_output.txt')
 
 
@@ -2401,6 +2402,7 @@ async def mmr(ctx, *, args):
 async def mine_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'You are on cooldown! Retry in ``{error.retry_after:.1f}s``, please.')
+
 
 @bot.command()
 async def peak(ctx, *, args):
