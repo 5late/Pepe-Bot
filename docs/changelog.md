@@ -1,5 +1,11 @@
 # PepeBot Changelog
 
+## Aug 10 2021
+
+### Testing new commands
+
+- Will be released to beta soon.
+
 ## Jul 26 2021
 
 ### ``=mmr`` moved to Public Access
