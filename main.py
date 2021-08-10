@@ -526,7 +526,7 @@ async def mine_error(ctx, error):
 
 
 @bot.command()
-async def apistat(ctx):
+async def apistats(ctx):
     await ctx.send('Calibrating....')
     f = open('./logs/API.txt', 'r')
     lines = f.readlines()
@@ -2427,6 +2427,7 @@ async def beta(ctx, arg=''):
 
 @bot.command()
 async def checkapi(ctx):
+    msg = await ctx.send('I\'m checking each main endpoint...')
     account_response_check = '❌ - Returned Error'
     match_response_check = '❌ - Returned Error'
     mmr_response_check = '❌ - Returned Error'
@@ -2436,24 +2437,29 @@ async def checkapi(ctx):
     
     if account_response:
         account_response_check = '✅ - Returned 200'
+        await msg.edit(content='Account Endpoint returned 200.')
     
     match_response = requests.get('https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/na/01066651-f9b0-55c0-8d3d-674c65351821')
     match_response = match_response.json()
     
     if match_response:
         match_response_check = '✅ - Returned 200'
+        await msg.edit(content='Match Endpoint returned 200.')
 
     mmr_response = requests.get('https://api.henrikdev.xyz/valorant/v2/mmr/na/raj/1337')
     mmr_response = mmr_response.json()
     
     if mmr_response:
         mmr_response_check = '✅ - Returned 200'
+        await msg.edit(content='MMR Endpoint returned 200.')
 
-    embed = discord.Embed(title='Check API Endpoints', description='Testing mmr, match and account endpoints...')
+    embed = discord.Embed(title='Check API Endpoints', description='Tested mmr, match and account endpoints.')
     embed.add_field(name='Account Endpoint', value=account_response_check)
     embed.add_field(name='Match Endpoint', value=match_response_check)
     embed.add_field(name='MMR Endpoint', value=mmr_response_check)
+    embed.set_footer(text='API stats have moved to =apistats')
 
+    await msg.delete()
     await ctx.send(embed=embed)
 
 
