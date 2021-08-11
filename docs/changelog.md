@@ -1,6 +1,25 @@
 # PepeBot Changelog
 
+## Aug 11 2021
+
+### New ``=checkapi`` command
+
+- Check the endpoints for responses!
+    - See if the API is down, as well as which endpoints are affected!
+
+### ``=checkapi`` moved to ``=apistats``
+
+- The API stats have moved to ``=apistats``
+- New ``=checkapi`` command
+
 ## Aug 10 2021
+
+### ``=peak`` command!
+
+- Check someones peak rank!
+    - Shows the act they peaked
+    - Shows how long they peaked for
+    - Shows their current rank
 
 ### Testing new commands
 
