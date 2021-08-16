@@ -438,6 +438,7 @@ def checkStatusCode(status: str, task: str):
 async def val(ctx, *, arg: str):
     if ctx.author.id == 323269361232248832:
         return
+
     async def mainValFetch(arg):
         newArg = arg.split("#")
 
