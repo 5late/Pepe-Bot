@@ -502,7 +502,7 @@ async def val(ctx, *, arg: str):
         embedR.add_field(name='Account Level: ', value=level)
         embedR.add_field(name="Last Game Change: ", value=lgc)
         embedR.set_footer(
-            text='Bot maintained by Xurxx#7879. Level innacurate? Play a game and re-try.')
+            text='Bot maintained by Slate#7879. Level innacurate? Play a game and re-try.')
 
         await ctx.send(file=iconFile2, embed=embedR)
         await msg.edit(content="Stats queryied.")
@@ -1985,7 +1985,7 @@ async def error(ctx, command=""):
         )
         embedvalm.add_field(
             name="How to help",
-            value="If you know the reason for one of these errors, contact my owner ``Xurxx#7879``.",
+            value="If you know the reason for one of these errors, contact my owner ``Slate#7879``.",
         )
         embedvalm.set_footer(text="Thanks for your patience with me! :)")
         await ctx.send(embed=embedvalm)
@@ -2005,7 +2005,7 @@ async def error(ctx, command=""):
         )
         embedvalm2.add_field(
             name="How to help",
-            value="If you can help, contact ``Xurxx#7879``.",
+            value="If you can help, contact ``Slate#7879``.",
             inline=False,
         )
         embedvalm2.set_footer(text="Thanks for your patience with me! :)")
@@ -2202,7 +2202,7 @@ async def rr(ctx):
         name='Rules',
         value=f'[Click Here!](https://tinyurl.com/rustyrickrules)')
     rickRollEmbed.set_footer(
-        text='Bot created and maintained by Xurxx#7879',
+        text='Bot created and maintained by Slate#7879',
         icon_url='https://www.streamscheme.com/wp-content/uploads/2020/04/poggers.png')
 
     await ctx.send(embed=rickRollEmbed)
