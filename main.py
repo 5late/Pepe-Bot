@@ -268,7 +268,7 @@ async def uptime(ctx):
         else:
             fmt = "``{m}`` minutes and ``{s}`` seconds."
 
-        return fmt.format(d=days, h=hours, m=minutes, s=seconds)
+        return f'{fmt.format(d=days, h=hours, m=minutes, s=seconds)} or <t:{int(botUptime.timestamp())}:R>'
 
     await ctx.send(f'Bot has been online for {getBotUptime()}')
 
