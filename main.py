@@ -210,7 +210,7 @@ async def pwd(ctx):
         else:
             fmt = "``{m}`` minutes and ``{s}`` seconds."
 
-        return fmt.format(d=days, h=hours, m=minutes, s=seconds)
+        return f'{fmt.format(d=days, h=hours, m=minutes, s=seconds)} or <t:{int(botUptime.timestamp())}:R>'
 
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
